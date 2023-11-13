@@ -1,0 +1,9 @@
+[L]# 09:48:07-910  ThreadID:1 >>> 你好，兄弟 
+StackTrace:
+  D:\ProjectRoot\Self\moba\Moba\Assets\Scripts\Launcher.cs::Void Awake() line:33
+[W]# 09:48:07-911  ThreadID:1 >>> 警告信息 
+StackTrace:
+  D:\ProjectRoot\Self\moba\Moba\Assets\Scripts\Launcher.cs::Void Awake() line:34
+[E]# 09:48:07-912  ThreadID:1 >>> 报错信息 
+StackTrace:
+  D:\ProjectRoot\Self\moba\Moba\Assets\Scripts\Launcher.cs::Void Awake() line:35

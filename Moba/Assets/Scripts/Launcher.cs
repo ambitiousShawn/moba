@@ -1,5 +1,6 @@
 // Demo启动类
 using ShawnFramework.CommonModule;
+using ShawnFramework.ShawLog;
 using UnityEngine;
 using XLua;
 
@@ -16,6 +17,17 @@ public class Launcher : MonoBehaviour
     void Awake()
     {
         Instance = this;
+
+        // 初始化日志
+        LogConfig config = new LogConfig()
+        {
+            EnableLog = true,
+            EnableSaveToFile = true,
+            Type = EShawLogType.Unity,
+        };
+        LogCore.InitSettings(config);
+
+        // 初始化Lua模块
         LuaManager.CreateSingletonInstance();
     }
 
