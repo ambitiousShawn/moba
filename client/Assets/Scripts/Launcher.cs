@@ -29,27 +29,16 @@ public class Launcher : MonoBehaviour
 
         // 初始化Lua模块
         LuaManager.CreateSingletonInstance();
-
-        LogCore.ColorLog("启动成功！", ELogColor.Cyan);
+        LuaManager.Instance.GlobalLuaEnv.DoString("require 'lua_enter'");
     }
 
     private void Start()
     {
-        InitUIRoot();
         InitService();
         InitSystem();
 
-        GameStart();
-    }
-
-    void InitUIRoot()
-    {
-        // for (int i = 0; i < UIRoot.childCount; i++)
-        // {
-        //     Transform child = UIRoot.GetChild(i);
-        //     child.gameObject.SetActive(false); 
-        // }
-        // TipPanel.SetActive(true);
+        //_loginSys.EnterLogin(); // 进入登录系统
+        LuaManager.Instance.GlobalLuaEnv.DoString("require 'ui.lobby.ugui_lobbypanel' \n local window_manager = require 'system.window_manager' \n window_manager:open('ugui_lobbypanel', nil)");
     }
 
     private AssetsSvc _assetsSvc;
@@ -57,9 +46,9 @@ public class Launcher : MonoBehaviour
     private NetSvc _netSvc;
     void InitService()
     {
-        _assetsSvc = this.GetComponent<AssetsSvc>();
-        _audioSvc = this.GetComponent<AudioSvc>();
-        _netSvc = this.GetComponent<NetSvc>();
+        _assetsSvc = GetComponent<AssetsSvc>();
+        _audioSvc = GetComponent<AudioSvc>();
+        _netSvc = GetComponent<NetSvc>();
 
         _assetsSvc.InitService();
         _audioSvc.InitService();
@@ -71,18 +60,13 @@ public class Launcher : MonoBehaviour
     private BattleSys _battleSys;
     void InitSystem()
     {
-        _loginSys = this.GetComponent<LoginSys>();
-        _lobbySys = this.GetComponent<LobbySys>();
-        _battleSys = this.GetComponent<BattleSys>();
+        _loginSys = GetComponent<LoginSys>();
+        _lobbySys = GetComponent<LobbySys>();
+        _battleSys = GetComponent<BattleSys>();
 
-       // _loginSys.InitSystem();
+        _loginSys.InitSystem();
         _lobbySys.InitSystem();
         _battleSys.InitSystem();
-    }
-
-    void GameStart()
-    {
-        // _loginSys.EnterLogin();
     }
 
     /// <summary>

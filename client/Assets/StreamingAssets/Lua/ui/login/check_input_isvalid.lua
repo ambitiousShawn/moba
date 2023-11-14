@@ -35,9 +35,8 @@ function CheckNameAllLettersOrAlpha(account)
     end
 
     -- 检查是否全为字母或字母+数字
-    local all_letters_or_alphanumeric = false
+    local all_letters_or_alphanumeric = true
     if not all_digits then
-        all_letters_or_alphanumeric = true
         for i = 1, #account do
             local char = string.sub(account, i, i)
             if not (char:match("%a") or tonumber(char)) then
@@ -46,7 +45,6 @@ function CheckNameAllLettersOrAlpha(account)
             end
         end
     end
-    
     return all_letters_or_alphanumeric
 end
 

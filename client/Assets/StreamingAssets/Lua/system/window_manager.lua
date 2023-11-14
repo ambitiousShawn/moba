@@ -54,7 +54,7 @@ function mgr:open(window_name, callback)
 		-- 实例化物体，并加入缓存容器
 		window_obj = GameObject.Instantiate(prefab, self:get_ui_root_transform())
 		self.name_obj_dic[window_name] = window_obj
-		window_obj.name = 'UGUI_LoginPanel'
+		window_obj.name = window_name
 		window_obj:SetActive(true)
 	end
 

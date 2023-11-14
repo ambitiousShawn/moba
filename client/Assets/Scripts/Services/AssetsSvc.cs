@@ -3,6 +3,9 @@ using UnityEngine;
 
 namespace ShawnFramework.CommonModule
 {
+    /// <summary>
+    /// 资产管理
+    /// </summary>
     public class AssetsSvc : MonoBehaviour
     {
         public static AssetsSvc Instance;
@@ -20,6 +23,7 @@ namespace ShawnFramework.CommonModule
             if (_cacheDic.TryGetValue(path, out audio))
                 return audio;
 
+            // TODO:资源加载
             switch (type)
             {
                 case EAssetsType.Resources:

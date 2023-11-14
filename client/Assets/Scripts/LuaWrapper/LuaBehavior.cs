@@ -50,7 +50,7 @@ public class LuaBehavior : MonoBehaviour
             return;
         }
 #endif
-        LuaEnv luaEnv = LuaManager.Instance.LuaEnv;
+        LuaEnv luaEnv = LuaManager.Instance.GlobalLuaEnv;
 
         luaEnv.DoString($"require '{LuaPath}'");
         object[] list = luaEnv.DoString(@$"

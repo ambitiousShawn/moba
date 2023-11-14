@@ -11,7 +11,7 @@ public class LuaManager : Singleton<LuaManager>
 {
     private LuaEnv _luaEnv = null;
 
-    public LuaEnv LuaEnv { get => _luaEnv; }
+    public LuaEnv GlobalLuaEnv { get => _luaEnv; }
 
     // GC相关
     internal static float lastGCTime = 0;
@@ -23,7 +23,6 @@ public class LuaManager : Singleton<LuaManager>
 
         _luaEnv.AddLoader(LuaFileLoader);
 
-        // Lua入口
         _luaEnv.DoString("require 'lua_enter'");
     }
 
@@ -79,17 +78,12 @@ public class LuaManager : Singleton<LuaManager>
         {
             return filepath.Substring(0, index);
         }
-        else
-        {
-            return string.Empty;
-        }
+        return string.Empty;
     }
 
     protected override void Dispose()
     {
         _luaEnv.Dispose();
     }
-
-    
 }
 

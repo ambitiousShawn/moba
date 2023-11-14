@@ -28,6 +28,9 @@ function window:awake()
             account = account,
             password = pwd
         }
+
+        popup_tip:popup_tip_panel('免账号登录成功')
+        window:close_self(true) 
    end)  
 
    LuaHelper.BindClick(self.btn_register, function ()

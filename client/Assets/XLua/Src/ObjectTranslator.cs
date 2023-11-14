@@ -382,7 +382,7 @@ namespace XLua
                 }
                 if (genericDelegateCreator == null)
                 {
-                    var typeArgs = parameters.Select(pinfo => pinfo.ParameterType);
+                    var tyShawArgs = parameters.Select(pinfo => pinfo.ParameterType);
                     MethodInfo genericMethodInfo = null;
                     if (delegateMethod.ReturnType == typeof(void))
                     {
@@ -391,11 +391,11 @@ namespace XLua
                     else
                     {
                         genericMethodInfo = genericFunc[parameters.Length];
-                        typeArgs = typeArgs.Concat(new Type[] { delegateMethod.ReturnType });
+                        tyShawArgs = tyShawArgs.Concat(new Type[] { delegateMethod.ReturnType });
                     }
                     if (genericMethodInfo.IsGenericMethodDefinition)
                     {
-                        var methodInfo = genericMethodInfo.MakeGenericMethod(typeArgs.ToArray());
+                        var methodInfo = genericMethodInfo.MakeGenericMethod(tyShawArgs.ToArray());
                         genericDelegateCreator = (o) =>
 #if !UNITY_WSA || UNITY_EDITOR
                             Delegate.CreateDelegate(delegateType, o, methodInfo);

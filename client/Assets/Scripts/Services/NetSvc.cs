@@ -9,5 +9,7 @@ namespace ShawnFramework.CommonModule
         {
             Instance = this;
         }
+
+
     }
 }
