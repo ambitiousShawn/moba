@@ -14,6 +14,7 @@ namespace ShawnFramework.ShawLog
         Cyan,
         Magenta,
         Yellow,
+        Orange,
     }
     public enum EShawLogType
     {

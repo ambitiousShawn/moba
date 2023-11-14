@@ -55,6 +55,10 @@ namespace ShawnFramework.ShawLog
                     case ELogColor.Yellow:
                         msg = string.Format("<color=#FFFF00>{0}</color>", msg);
                         break;
+                    case ELogColor.Orange:
+                        msg = string.Format("<color=#FFA500>{0}</color>", msg); 
+                        break;
+
                 }
                 return msg;
             }
