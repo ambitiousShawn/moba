@@ -21,6 +21,7 @@ UserSettings/Layouts/default-2021.dwlt
 *.pidb
 *.booproj
 *.svd
+*.mlog
 /.idea
 /Library
 /ProjectSettings

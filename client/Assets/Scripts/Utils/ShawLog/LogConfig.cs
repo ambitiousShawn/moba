@@ -23,7 +23,8 @@ namespace ShawnFramework.ShawLog
     public class LogConfig : MonoBehaviour
     {
         public bool EnableLog = true;
-        public bool EnableSaveToFile = true;
+        public bool EnableSaveToFile = false;
+        public bool EnableTrace = false;
 # if UNITY_EDITOR
         public string SavePath = string.Format("{0}Logs\\", Application.dataPath + "/");
 #else

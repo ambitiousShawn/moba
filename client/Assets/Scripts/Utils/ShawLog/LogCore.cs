@@ -179,7 +179,7 @@ namespace ShawnFramework.ShawLog
                 return;
             }
 
-            msg = DecorateLog(string.Format(msg, args), true);
+            msg = DecorateLog(string.Format(msg, args), config.EnableTrace);
             platform.Log(msg);
             
             if (config.EnableSaveToFile)
@@ -239,7 +239,7 @@ namespace ShawnFramework.ShawLog
                 return;
             }
 
-            msg = DecorateLog(string.Format(msg, args), true);
+            msg = DecorateLog(string.Format(msg, args), config.EnableTrace);
             platform.Log(msg, color);
 
             if (config.EnableSaveToFile)
@@ -330,7 +330,7 @@ namespace ShawnFramework.ShawLog
                 return;
             }
 
-            msg = DecorateLog(string.Format(msg, args), true);
+            msg = DecorateLog(string.Format(msg, args), config.EnableTrace);
             platform.Error(msg);
             if (config.EnableSaveToFile)
             {

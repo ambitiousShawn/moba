@@ -22,13 +22,15 @@ public class Launcher : MonoBehaviour
         LogConfig config = new LogConfig()
         {
             EnableLog = true,
-            EnableSaveToFile = true,
+            EnableSaveToFile = false,
             Type = EShawLogType.Unity,
         };
         LogCore.InitSettings(config);
 
         // 初始化Lua模块
         LuaManager.CreateSingletonInstance();
+
+        LogCore.ColorLog("启动成功！", ELogColor.Cyan);
     }
 
     private void Start()
