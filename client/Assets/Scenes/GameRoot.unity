@@ -338,7 +338,6 @@ GameObject:
   - component: {fileID: 986831287}
   - component: {fileID: 986831286}
   - component: {fileID: 986831285}
-  - component: {fileID: 986831288}
   - component: {fileID: 986831284}
   - component: {fileID: 986831283}
   m_Layer: 0
@@ -380,6 +379,15 @@ MonoBehaviour:
   UIRoot: {fileID: 1971447529}
   TipPanel: {fileID: 363009048}
   SkipLogin: 1
+  UserData:
+    id: 0
+    name: 
+    level: 0
+    exp: 0
+    coin: 0
+    diamond: 0
+    ticket: 0
+    heroDatas: []
 --- !u!114 &986831283
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -443,18 +451,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   type: 0
---- !u!114 &986831288
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 986831279}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1556f941e116b0e48a6167f1e98bd00b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1392686879
 GameObject:
   m_ObjectHideFlags: 0

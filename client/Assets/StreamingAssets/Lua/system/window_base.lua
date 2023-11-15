@@ -1,7 +1,3 @@
-
-local window_manager = require "system.window_manager"
-
-
 local window = {}
 window.__index = window
 
@@ -19,7 +15,7 @@ end
 
 function window:register( window_name, path, kind )
 	self.window_name = window_name
-	window_manager:register(window_name, path, kind)
+	WindowManager:register(window_name, path, kind)
 end
 
 function window:set_window_id(window_id)
@@ -35,7 +31,7 @@ function window:set_parent_window(parent_window)
 end
 
 function window:close_self(is_destroy)
-	window_manager:close(self.window_name, is_destroy)
+	WindowManager:close(self.window_name, is_destroy)
 end
 
 return window

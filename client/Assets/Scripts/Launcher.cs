@@ -1,9 +1,11 @@
 // Demo启动类
+using GameProtocol;
 using ShawnFramework.CommonModule;
 using ShawnFramework.ShawLog;
 using UnityEngine;
 using XLua;
 
+[LuaCallCSharp]
 public class Launcher : MonoBehaviour
 {
     public static Launcher Instance;
@@ -13,6 +15,21 @@ public class Launcher : MonoBehaviour
 
     [Header("免登录测试")]
     public bool SkipLogin;
+
+    // 数据区域
+    UserData userData;
+    public UserData UserData
+    {
+        set { userData = value; }
+        get { return userData; }
+    }
+
+    private uint roomID;
+    public uint RoomID
+    {
+        set { roomID = value; }
+        get { return roomID; }
+    }
 
     void Awake()
     {
@@ -36,9 +53,6 @@ public class Launcher : MonoBehaviour
     {
         InitService();
         InitSystem();
-
-        //_loginSys.EnterLogin(); // 进入登录系统
-        LuaManager.Instance.GlobalLuaEnv.DoString("require 'ui.lobby.ugui_lobbypanel' \n local window_manager = require 'system.window_manager' \n window_manager:open('ugui_lobbypanel', nil)");
     }
 
     private AssetsSvc _assetsSvc;
@@ -55,16 +69,13 @@ public class Launcher : MonoBehaviour
         _netSvc.InitService();
     }
 
-    private LoginSys _loginSys;
     private LobbySys _lobbySys;
     private BattleSys _battleSys;
     void InitSystem()
     {
-        _loginSys = GetComponent<LoginSys>();
         _lobbySys = GetComponent<LobbySys>();
         _battleSys = GetComponent<BattleSys>();
 
-        _loginSys.InitSystem();
         _lobbySys.InitSystem();
         _battleSys.InitSystem();
     }

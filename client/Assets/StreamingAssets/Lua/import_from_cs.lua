@@ -3,6 +3,7 @@ CS = CS
 UnityEngine = CS.UnityEngine
 GameObject = CS.UnityEngine.GameObject
 Resources = CS.UnityEngine.Resources
+Time = CS.UnityEngine.Time
 Launcher = CS.Launcher.Instance
 
 -- tools
@@ -12,8 +13,7 @@ LuaHelper = CS.LuaHelper
 PathDefine = {
     -- 存档目录
     FolderSave = CS.UnityEngine.Application.persistentDataPath .. '/Save',
-    -- GameSettings 路径
-    PathGameSettings = CS.UnityEngine.Application.persistentDataPath .. '/game_settings',
+    -- 音频文件缓存目录
     PathAudioCache = CS.UnityEngine.Application.persistentDataPath .. '/audio_cache',
 }
 

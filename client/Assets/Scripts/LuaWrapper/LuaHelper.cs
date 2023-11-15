@@ -4,7 +4,9 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
 using System.IO;
+using XLua;
 
+[LuaCallCSharp]
 public class LuaHelper
 {
     
