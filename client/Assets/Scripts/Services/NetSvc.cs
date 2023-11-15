@@ -154,7 +154,6 @@ namespace ShawnFramework.CommonModule
                     rsp_match?.Invoke(msg);
                     break;
                 case CMD.NtfConfirm:
-                    LogCore.ColorLog("匹配成功", ELogColor.Red);
                     Action<GameMsg> ntf_confirm = LuaManager.Instance.GlobalLuaEnv.Global.Get<Action<GameMsg>>("NtfConfirmCallBack"); // 调用lua的全局响应函数
                     ntf_confirm?.Invoke(msg);
                     break;

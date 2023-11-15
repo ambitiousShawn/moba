@@ -11,7 +11,10 @@ function window:awake()
     time_count = CS.GameProtocol.ServerConfig.ConfirmCountDown -- 确认倒计时
 
     LuaHelper.BindClick(self.btn_confirm, function ()
-        local msg = game_message:new_msg('sndConfirm', Launcher.RoomID)
+        local data = {
+            roomID = Launcher.RoomID
+        }
+        local msg = game_message:new_msg('sndConfirm', data)
         network_manager:SendMsg(msg)
         -- 发送确认信息后 遮挡按钮
         self.img_shadow:SetActive(true)

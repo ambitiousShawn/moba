@@ -69,14 +69,11 @@ public class Launcher : MonoBehaviour
         _netSvc.InitService();
     }
 
-    private LobbySys _lobbySys;
     private BattleSys _battleSys;
     void InitSystem()
     {
-        _lobbySys = GetComponent<LobbySys>();
         _battleSys = GetComponent<BattleSys>();
 
-        _lobbySys.InitSystem();
         _battleSys.InitSystem();
     }
 

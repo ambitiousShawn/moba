@@ -24,11 +24,6 @@ function msg:new_msg(command, data)
         sndConfirm = {
             roomID = nil
         },
-        ntfConfirm = {
-            roomID = nil,
-            dissmiss = false,
-            confirmArr = {}
-        }
     }
 
     if command == 'reqLogin' then
@@ -38,22 +33,19 @@ function msg:new_msg(command, data)
     end
     if command == 'rspLogin' then
         instance.cmd = MsgType.RspLogin
-        instance.userData = data.userData
+        instance.rspLogin.userData = data.userData
     end
     if command == 'reqMatch' then
         instance.cmd = MsgType.ReqMatch
-        instance.pvpType = data
+        instance.reqMatch.pvpType = data.pvpType
     end
     if command == 'rspMatch' then
         instance.cmd = MsgType.RspMatch
-        instance.predictTime = data.predictTime
+        instance.rspMatch.predictTime = data.predictTime
     end
     if command == 'sndConfirm' then
         instance.cmd = MsgType.SndConfirm
-        instance.roomID = data
-    end
-    if command == 'ntfConfirm' then
-        instance.cmd = MsgType.NtfConfirm
+        instance.sndConfirm.roomID = data.roomID
     end
     
     setmetatable(instance, self)

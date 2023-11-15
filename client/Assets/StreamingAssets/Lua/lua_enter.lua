@@ -19,7 +19,7 @@ local lobby_system = require 'ui.lobby.lobby_system'
 lobby_system:init()
 
 -- 流程进入
--- login_system:enter_login()
+login_system:enter_login()
 
 -- 启动测试1:直接进入匹配成功
-WindowManager:open('ugui_matchconfirmpanel')
+-- WindowManager:open('ugui_matchconfirmpanel')

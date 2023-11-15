@@ -13,11 +13,10 @@ end
 
 function RspMatchCallBack(msg)
     local predict_time = msg.rspMatch.predictTime
-    RefreshView(predict_time)
+    RefreshPredictTimeView(predict_time)
 end
 
 function NtfConfirmCallBack(msg)
-    print('匹配成功')
     local ntf = msg.ntfConfirm
     if ntf.dissmiss then
         -- 房间解散
@@ -28,6 +27,7 @@ function NtfConfirmCallBack(msg)
         local table = WindowManager:find_window_in_stack('ugui_matchconfirmpanel')
         if table[0] == nil then
             -- 匹配界面还没开启
+            WindowManager:close('ugui_lobbypanel', true)
             WindowManager:open('ugui_matchconfirmpanel')
         end
     end
