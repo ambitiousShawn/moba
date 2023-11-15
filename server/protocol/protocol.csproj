@@ -1,0 +1,19 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <BaseOutputPath>D:\UnityWorkSpace\moba\client\Assets\Scripts\Libs</BaseOutputPath>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Reference Include="Kcp">
+      <HintPath>..\..\..\..\文档\但我真的是自来卷呀\2101HOK_但我真的是自来卷呀\_3Note\_3Note\Libs\KCPNetLibs\Kcp.dll</HintPath>
+    </Reference>
+    <Reference Include="KCPNet">
+      <HintPath>..\..\..\..\文档\但我真的是自来卷呀\2101HOK_但我真的是自来卷呀\_3Note\_3Note\Libs\KCPNetLibs\KCPNet.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+</Project>

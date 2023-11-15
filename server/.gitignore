@@ -11,9 +11,7 @@ UserSettings/Layouts/default-2021.dwlt
 .vs/
 .vscode/
 .DS_Store
-*.csproj
 *.unityproj
-*.sln
 *.suo
 *.tmp
 *.user
