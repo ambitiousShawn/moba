@@ -8,9 +8,9 @@ NetworkManager = require 'system.network_manager'
 NetworkManager:init()
 
 -- 初始化各阶段ui面板
-require 'ui.login.ugui_loginpanel'
-require 'ui.lobby.ugui_lobbypanel'
-require 'ui.lobby.ugui_matchconfirmpanel'
+--require 'ui.login.ugui_loginpanel'
+--require 'ui.lobby.ugui_lobbypanel'
+--require 'ui.lobby.ugui_matchconfirmpanel'
 
 -- 初始化各个系统
 local login_system = require 'ui.login.login_system'

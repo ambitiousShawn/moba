@@ -157,9 +157,10 @@ namespace ShawnFramework.CommonModule
                     Action<GameMsg> ntf_confirm = LuaManager.Instance.GlobalLuaEnv.Global.Get<Action<GameMsg>>("NtfConfirmCallBack"); // 调用lua的全局响应函数
                     ntf_confirm?.Invoke(msg);
                     break;
-                // case CMD.NtfSelect:
-                //     LobbySys.Instance.NtfSelect(msg);
-                //     break;
+                case CMD.NtfSelect:
+                    Action<GameMsg> ntf_select = LuaManager.Instance.GlobalLuaEnv.Global.Get<Action<GameMsg>>("NtfSelectCallBack"); // 调用lua的全局响应函数
+                    ntf_select?.Invoke(msg);
+                    break;
                 // case CMD.NtfLoadRes:
                 //     LobbySys.Instance.NtfLoadRes(msg);
                 //     break;

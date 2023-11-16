@@ -1,6 +1,6 @@
-local ugui_loginpanel = require 'ui.login.ugui_loginpanel'
 local popup_tip = require 'ui.common.popup_tip'
 local lobby_system = require 'ui.lobby.lobby_system'
+local ugui_loginpanel = require 'ui.login.ugui_loginpanel'
 
 local system = {}
 

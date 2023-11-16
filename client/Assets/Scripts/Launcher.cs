@@ -46,13 +46,14 @@ public class Launcher : MonoBehaviour
 
         // ³õÊ¼»¯LuaÄ£¿é
         LuaManager.CreateSingletonInstance();
-        LuaManager.Instance.GlobalLuaEnv.DoString("require 'lua_enter'");
     }
 
     private void Start()
     {
         InitService();
         InitSystem();
+
+        LuaManager.Instance.GlobalLuaEnv.DoString("require 'lua_enter'");
     }
 
     private AssetsSvc _assetsSvc;

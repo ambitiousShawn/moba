@@ -38,18 +38,18 @@ public class LuaManager : Singleton<LuaManager>
     private byte[] LuaFileLoader(ref string filepath)
     {
         byte[] fileContent;
-#if (UNITY_ANDROID || UNITY_IOS) && !UNITY_EDITOR
-        string realPath = Application.persistentDataPath + "/Lua/" + filepath.Replace(".", "/");
-        if (File.Exists($"{realPath}.lua")) 
-        {
-            fileContent = File.ReadAllBytes($"{realPath}.lua");
-        }
-        else
-        {
-            return null;
-        }
-#endif
-#if UNITY_EDITOR || UNITY_STANDALONE_WIN
+// #if (UNITY_ANDROID || UNITY_IOS) && !UNITY_EDITOR
+//         string realPath = Application.persistentDataPath + "/Lua/" + filepath.Replace(".", "/");
+//         if (File.Exists($"{realPath}.lua")) 
+//         {
+//             fileContent = File.ReadAllBytes($"{realPath}.lua");
+//         }
+//         else
+//         {
+//             return null;
+//         }
+// #endif
+// #if UNITY_EDITOR || UNITY_STANDALONE_WIN
         string realPath = Application.streamingAssetsPath + "/Lua/" + filepath.Replace(".", "/");
         if (File.Exists($"{realPath}.lua"))
         {
@@ -59,9 +59,9 @@ public class LuaManager : Singleton<LuaManager>
         {
             return Encoding.UTF8.GetBytes($"error('file path[{filepath}] not found!')\n");
         }
-#else
-        throw new NotImplementedException();
-#endif
+// #else
+//         throw new NotImplementedException();
+// #endif
         // 相对路径导入
         byte[] fileModuleNameBuffer = Encoding.UTF8.GetBytes($"local __file_module = '{filepath}';local __folder_module = '{ToFolderModuleName(filepath)}';");
         byte[] buffer = new byte[fileModuleNameBuffer.Length + fileContent.Length];

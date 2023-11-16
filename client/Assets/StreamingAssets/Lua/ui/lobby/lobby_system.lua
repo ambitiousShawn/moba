@@ -1,3 +1,7 @@
+local ugui_lobbypanel = require 'ui.lobby.ugui_lobbypanel'
+local ugui_matchconfirmpanel = require 'ui.lobby.ugui_matchconfirmpanel'
+local popup_tip = require 'ui.common.popup_tip'
+require 'ui.lobby.ugui_selectpanel'
 
 local system = {}
 
@@ -11,26 +15,35 @@ function system:enter_lobby()
     WindowManager:open('ugui_lobbypanel')
 end
 
+-- 玩家点击 "开始匹配后" ，传回根据排队人数计算的预测时间信息
 function RspMatchCallBack(msg)
     local predict_time = msg.rspMatch.predictTime
     RefreshPredictTimeView(predict_time)
 end
 
+-- 各个玩家点击 "确认后"， 传回的通知信息
 function NtfConfirmCallBack(msg)
     local ntf = msg.ntfConfirm
     if ntf.dissmiss then
         -- 房间解散
-        WindowManager:close('ugui_matchconfirmpanel', true)
+        ugui_matchconfirmpanel:close_self(true)
         WindowManager:open('ugui_lobbypanel')
+        popup_tip:popup_tip_panel('队伍已解散')
     else
         Launcher.RoomID = ntf.roomID
         local table = WindowManager:find_window_in_stack('ugui_matchconfirmpanel')
-        if table[0] == nil then
+        if table[2] == nil then
             -- 匹配界面还没开启
-            WindowManager:close('ugui_lobbypanel', true)
+            ugui_lobbypanel:close_self(true)
             WindowManager:open('ugui_matchconfirmpanel')
         end
     end
+end
+
+-- 所有玩家确认后，传回的进入 "选择英雄阶段" 的消息
+function NtfSelectCallBack(msg)
+    ugui_matchconfirmpanel:close_self(true)
+    WindowManager:open('ugui_selectpanel')
 end
 
 

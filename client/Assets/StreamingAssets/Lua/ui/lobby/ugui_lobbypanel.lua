@@ -55,7 +55,8 @@ function window:update()
 end
 
 -- 转换格式为 00:00
-local function time_convert_to_standard(cnt)
+-- TODO:迁移到数学库
+function TimeConvertToStandard(cnt)
     local min = math.floor(cnt / 60)
     local sec = math.floor(cnt % 60)
     local minStr, secStr
@@ -75,13 +76,13 @@ end
 
 -- 刷新UI显示(刷新时间间隔:收到匹配响应时)
 function RefreshPredictTimeView(predict_time)
-    text_predict_time.text = '预计匹配时长: ' .. time_convert_to_standard(predict_time)
+    text_predict_time.text = '预计匹配时长: ' .. TimeConvertToStandard(predict_time)
     text_count_time.text = '00:00'                     -- 计时开始
 end
 
 -- 刷新倒计时计数UI组件显示(刷新时间间隔:1s)
 function window:RefreshMatchCountView ()
-    text_count_time.text = time_convert_to_standard(timeCount)
+    text_count_time.text = TimeConvertToStandard(timeCount)
 end
 
 return window
