@@ -32,7 +32,7 @@ public class Launcher : MonoBehaviour
         get { return roomID; }
     }
 
-    private int mapID;
+    public int mapID = 101;
     public int MapID
     {
         set { mapID = value; }

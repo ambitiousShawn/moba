@@ -8,24 +8,11 @@ msg.__index = msg
 function msg:new_msg(command, data)
     local instance = {
         cmd = nil,
-        reqLogin = {
-            account = nil,
-            password = nil,
-        },
-        reqMatch = {
-            pvpType = PVPType.None
-        },
-        sndConfirm = {
-            roomID = nil
-        },
-        sndSelect = {
-            roomID = nil,
-            heroID = nil,
-        },
-        sndLoadPrg = {
-            roomID = 0,
-            percent = 0,
-        }
+        reqLogin = {},
+        reqMatch = {},
+        sndConfirm = {},
+        sndSelect = {},
+        sndLoadPrg = {}
     }
 
     if command == 'reqLogin' then

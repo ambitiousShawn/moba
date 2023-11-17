@@ -11,6 +11,7 @@
 		<type fullname="Tutorial.DerivedClass" preserve="all"/>
 		<type fullname="Tutorial.ICalc" preserve="all"/>
 		<type fullname="Tutorial.DerivedClassExtensions" preserve="all"/>
+		<type fullname="ShawnFramework.CommonModule.AssetsSvc" preserve="all"/>
 		<type fullname="Tutorial.DerivedClass+TestEnumInner" preserve="all"/>
 		
 	</assembly>

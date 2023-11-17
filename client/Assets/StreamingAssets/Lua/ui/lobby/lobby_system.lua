@@ -44,9 +44,10 @@ end
 
 -- 选择英雄完成，进入资源加载阶段
 function NtfLoadResCallBack (msg)
-    Launcher.MapID = msg.ntfLoadRes.mapID
-    Launcher.BattleHeroDatas = msg.ntfLoadRes.battleHeroDatas
-    Launcher.SelfIndex = msg.ntfLoadRes.posIndex
+    local ntf = msg.ntfLoadRes
+    Launcher.MapID = ntf.mapID
+    Launcher.BattleHeroDatas = ntf.battleHeroDatas
+    Launcher.SelfIndex = ntf.posIndex
 
     ugui_selectpanel:close_self()
     -- 进入战斗阶段

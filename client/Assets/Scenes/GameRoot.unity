@@ -456,6 +456,7 @@ MonoBehaviour:
   UIRoot: {fileID: 1971447529}
   TipPanel: {fileID: 363009048}
   SkipLogin: 1
+  mapID: 101
 --- !u!114 &986831284
 MonoBehaviour:
   m_ObjectHideFlags: 0

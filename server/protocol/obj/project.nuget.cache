@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "xyf+QxJmLvMj6lRaB46dp6thnFteRr6M9NY+K7jm9A0wOa/vPh8H9xEpTybhzHWJvrtIofFW58OLmSOBnwQHAg==",
+  "dgSpecHash": "iTNFAq1+pxZhmQNVs/nwkIsUx3vo0Wq2WGVngWZ8OSSP+p4upzKmLxvQm4mLm9PfPmktdt6qNWsDBXAyB7W4qg==",
   "success": true,
-  "projectFilePath": "D:\\ProjectRoot\\Self\\moba\\server\\protocol\\protocol.csproj",
+  "projectFilePath": "D:\\UnityWorkSpace\\moba\\server\\protocol\\protocol.csproj",
   "expectedPackageFiles": [],
   "logs": []
 }

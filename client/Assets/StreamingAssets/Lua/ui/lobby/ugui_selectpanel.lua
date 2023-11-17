@@ -21,16 +21,6 @@ local function refresh_self_hero_icon(image)
     end
 end
 
-function window:on_enable()
-    -- 注册点击选择英雄图标时，更新侧边的事件
-    EventSystem:AddListener('RefreshSelfHeroIcon', refresh_self_hero_icon)
-end
-
-function window:on_disable()
-    -- 取消注册事件！！！
-    EventSystem:RemoveListener('RefreshSelfHeroIcon', refresh_self_hero_icon)
-end
-
 function window:awake()
     -- 绑定确认按钮
     LuaHelper.BindClick(self.btn_sure, function ()
@@ -79,17 +69,21 @@ function window:awake()
     -- List类型无法通过 # 取长度
     for i = 0, hero_data_list.Count - 1 do
         local heroID = hero_data_list[i].heroId
-        local go = GameObject.Instantiate(self.Item_Hero_Prefab)
+        local go = GameObject.Instantiate(self.Item_Hero_Prefab, self.content)
         go.name = tostring(heroID)
-        local tran = go:GetComponent('Transform')
-        tran:SetParent(self.content)
 
         -- 获取到组件，刷新item数据与表现
         local module = go:GetComponent('LuaBehavior').Module
         -- 获取英雄配置数据
         local cfg = AssetsSvc:GetHeroConfigByID(heroID)
-        -- TODO:UI赋值
-        module:set_icon_and_name(nil, cfg.heroName)
+        -- UI表现刷新赋值
+        -- module.img_icon.sprite = cfg.
+        module.text_name.text = cfg.heroName
+        -- 绑定按钮事件
+        LuaHelper.BindClick(go, function ()
+            print('点击了英雄： ' .. cfg.heroName)
+            select_hero_id = heroID -- 保存当前选中
+        end)
     end
     self.Item_Hero_Prefab:SetActive(false) -- 创建完成后隐藏预制体
 end

@@ -21,7 +21,5 @@ BattleSystem = require 'ui.battle.battle_system'
 
 -- 流程进入
 LoginSystem:enter_login()
-print(CS.Launcher.Instance.RoomID)
-print(CS.Launcher.Instance.MapID)
 -- 启动测试1:直接进入匹配成功
 -- WindowManager:open('ugui_matchconfirmpanel')
