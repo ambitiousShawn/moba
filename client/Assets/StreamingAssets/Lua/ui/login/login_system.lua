@@ -1,12 +1,7 @@
 local popup_tip = require 'ui.common.popup_tip'
-local lobby_system = require 'ui.lobby.lobby_system'
 local ugui_loginpanel = require 'ui.login.ugui_loginpanel'
 
 local system = {}
-
-function system:init()
-    
-end
 
 -- 进入登录系统
 function system:enter_login()
@@ -19,7 +14,7 @@ function RspLoginCallBack(msg)
     popup_tip:popup_tip_panel('登录成功')
     Launcher.UserData = msg.rspLogin.userData -- TODO
     ugui_loginpanel:close_self(true)
-    lobby_system:enter_lobby()
+    LobbySystem:enter_lobby()
 end
 
 return system;

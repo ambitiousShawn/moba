@@ -1319,7 +1319,7 @@ MonoBehaviour:
   - name: Item_RedPlayer_Prefab
     value: {fileID: 6663344554197765092}
     type: GameObject
-  - name: hero_list_parent
+  - name: content
     value: {fileID: 6453618324461440232}
     type: Transform
   - name: Item_Hero_Prefab
@@ -1333,6 +1333,9 @@ MonoBehaviour:
     type: GameObject
   - name: img_shadow
     value: {fileID: 8101895898846259637}
+    type: GameObject
+  - name: hero_list_parent
+    value: {fileID: 7146909909342764072}
     type: GameObject
 --- !u!1 &7146909909342764072
 GameObject:

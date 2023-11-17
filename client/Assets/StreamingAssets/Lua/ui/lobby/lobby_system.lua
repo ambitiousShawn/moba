@@ -1,13 +1,9 @@
 local ugui_lobbypanel = require 'ui.lobby.ugui_lobbypanel'
 local ugui_matchconfirmpanel = require 'ui.lobby.ugui_matchconfirmpanel'
 local popup_tip = require 'ui.common.popup_tip'
-require 'ui.lobby.ugui_selectpanel'
+local ugui_selectpanel = require 'ui.lobby.ugui_selectpanel'
 
 local system = {}
-
-function system:init()
-    
-end
 
 -- 进入大厅系统
 function system:enter_lobby()
@@ -44,6 +40,17 @@ end
 function NtfSelectCallBack(msg)
     ugui_matchconfirmpanel:close_self(true)
     WindowManager:open('ugui_selectpanel')
+end
+
+-- 选择英雄完成，进入资源加载阶段
+function NtfLoadResCallBack (msg)
+    Launcher.MapID = msg.ntfLoadRes.mapID
+    Launcher.BattleHeroDatas = msg.ntfLoadRes.battleHeroDatas
+    Launcher.SelfIndex = msg.ntfLoadRes.posIndex
+
+    ugui_selectpanel:close_self()
+    -- 进入战斗阶段
+    BattleSystem:enter_battle()
 end
 
 

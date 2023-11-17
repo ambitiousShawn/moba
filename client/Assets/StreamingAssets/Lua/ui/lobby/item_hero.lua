@@ -3,6 +3,7 @@ local item = {}
 function item:awake()
     LuaHelper.BindClick(self.btn_click_self, function ()
         print('点击了英雄:' .. self.text_name.text)
+        EventSystem:Dispatch('RefreshSelfHeroIcon', self.img_icon)
     end)
 end
 

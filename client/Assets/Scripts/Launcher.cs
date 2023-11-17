@@ -2,6 +2,7 @@
 using GameProtocol;
 using ShawnFramework.CommonModule;
 using ShawnFramework.ShawLog;
+using System.Collections.Generic;
 using UnityEngine;
 using XLua;
 
@@ -16,7 +17,7 @@ public class Launcher : MonoBehaviour
     [Header("免登录测试")]
     public bool SkipLogin;
 
-    // 数据区域
+    #region 数据区域
     UserData userData;
     public UserData UserData
     {
@@ -30,6 +31,28 @@ public class Launcher : MonoBehaviour
         set { roomID = value; }
         get { return roomID; }
     }
+
+    private int mapID;
+    public int MapID
+    {
+        set { mapID = value; }
+        get { return mapID; }
+    }
+
+    private List<BattleHeroData> battleHeroDatas;
+    public List<BattleHeroData> BattleHeroDatas
+    {
+        set { battleHeroDatas = value; }
+        get { return battleHeroDatas; }
+    }
+
+    private int selfIndex;
+    public int SelfIndex
+    {
+        set { selfIndex = value; }
+        get { return selfIndex; }
+    }
+    #endregion
 
     void Awake()
     {
@@ -57,6 +80,8 @@ public class Launcher : MonoBehaviour
     }
 
     private AssetsSvc _assetsSvc;
+    public AssetsSvc AssetsSvc { get => _assetsSvc; }
+
     private AudioSvc _audioSvc;
     private NetSvc _netSvc;
     void InitService()

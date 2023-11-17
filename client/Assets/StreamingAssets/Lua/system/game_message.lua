@@ -21,6 +21,10 @@ function msg:new_msg(command, data)
         sndSelect = {
             roomID = nil,
             heroID = nil,
+        },
+        sndLoadPrg = {
+            roomID = 0,
+            percent = 0,
         }
     }
 
@@ -41,6 +45,11 @@ function msg:new_msg(command, data)
         instance.cmd = MsgType.SndSelect
         instance.sndSelect.roomID = data.roomID
         instance.sndSelect.heroID = data.heroID
+    end
+    if command == 'sndLoadPrg' then
+        instance.cmd = MsgType.sndLoadPrg
+        instance.sndLoadPrg.roomID = data.roomID
+        instance.sndLoadPrg.percent = data.percent
     end
     
     setmetatable(instance, self)

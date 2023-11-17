@@ -1,7 +1,9 @@
 using ShawnFramework.ShawMath;
 using ShawnFramework.ShawnPhysics;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using XLua;
 
@@ -22,6 +24,30 @@ namespace ShawnFramework.CommonModule
         {
             Instance = this;
         }
+
+        private Action prgCB = null;
+        /// <summary>
+        /// “Ï≤Ωº”‘ÿ≥°æ∞
+        /// </summary>
+        /// <param name="sceneName"></param>
+        /// <param name="loadRate"></param>
+        /// <param name="loaded"></param>
+        public void LoadSceneAsync(string sceneName, Action<float> loadRate, Action loaded)
+        {
+            AsyncOperation sceneAsync = SceneManager.LoadSceneAsync(sceneName);
+            prgCB = () =>
+            {
+                float progress = sceneAsync.progress;
+                loadRate?.Invoke(progress);
+                if (progress == 1)
+                {
+                    loaded?.Invoke();
+                    prgCB = null;
+                    sceneAsync = null;
+                }
+            };
+        }
+
 
         private Dictionary<string, AudioClip> _cacheDic = new Dictionary<string, AudioClip>();
         /// <summary>

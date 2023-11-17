@@ -59,26 +59,6 @@ function Settings:set(key, value, options)
     end
 end
 
-function Settings:_save()
-    LuaHelper.WriteToFile(PathDefine.PathGameSettings, 'return ' .. dump(self._data))
-end
-
-function Settings:_load()
-    self._data = nil -- TODO:可设置默认值
-
-    local data_saved = load_from_file(PathDefine.PathGameSettings)
-    if data_saved ~= nil then
-        data_saved.core = nil
-        table.override(self._data, data_saved)
-    else
-        self:_save()
-    end
-end
-
-function Settings:reload(data)
-    table.override(self._data, data)
-end
-
 local game_settings = Settings.new()
 
 return game_settings

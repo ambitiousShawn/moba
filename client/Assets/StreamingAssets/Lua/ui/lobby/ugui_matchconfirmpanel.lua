@@ -8,7 +8,7 @@ window:register("ugui_matchconfirmpanel", "UIPrefab/UGUI_MatchConfirmPanel.prefa
 
 local time_count = 15
 function window:awake()
-    time_count = CS.GameProtocol.ServerConfig.ConfirmCountDown -- 确认倒计时
+    time_count = ServerConfig.ConfirmCountDown -- 确认倒计时
 
     LuaHelper.BindClick(self.btn_confirm, function ()
         local data = {

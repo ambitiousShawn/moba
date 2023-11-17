@@ -11,7 +11,28 @@ local time_count = 90  -- 当前倒计时
 local hero_data_list = {}  -- 玩家所对应的英雄数据
 local select_hero_id = -1   -- 当前选择的英雄ID
 
+
+local self_player       -- 保存侧边栏自身客户端对应哪个玩家
+
+-- 刷新侧边栏英雄图标
+local function refresh_self_hero_icon(image)
+    if self_player ~= nil then
+        self_player:set_member_icon(image.sprite) 
+    end
+end
+
+function window:on_enable()
+    -- 注册点击选择英雄图标时，更新侧边的事件
+    EventSystem:AddListener('RefreshSelfHeroIcon', refresh_self_hero_icon)
+end
+
+function window:on_disable()
+    -- 取消注册事件！！！
+    EventSystem:RemoveListener('RefreshSelfHeroIcon', refresh_self_hero_icon)
+end
+
 function window:awake()
+    -- 绑定确认按钮
     LuaHelper.BindClick(self.btn_sure, function ()
         self:ClickSureBtnEvent()
     end)
@@ -21,22 +42,38 @@ function window:awake()
     self.img_shadow:SetActive(false) -- 防止确认按钮被遮挡
     hero_data_list = Launcher.UserData.heroDatas
 
-    -- 初始化蓝方英雄选择
     local i
-    -- 先清除原本预制体
-    for i = 0, self.blue_team_parent.childCount - 1 do
+    -- ===== 初始化两边队伍信息 =====
+    -- 先清除原本预制体(跳过销毁第一个预制体)
+    for i = 1, self.blue_team_parent.childCount - 1 do
         local go = self.blue_team_parent:GetChild(i).gameObject
         Object.DestroyImmediate(go)
     end
-    for i = 0, self.red_team_parent.childCount - 1 do
+    for i = 1, self.red_team_parent.childCount - 1 do
         local go = self.red_team_parent:GetChild(i).gameObject
         Object.DestroyImmediate(go)
     end
-    -- TODO 实例化两边队伍的成员信息
+    -- TODO 实例化两边队伍的成员信息(暂定1v1)
+    for i = 1, 1 do
+        local go = GameObject.Instantiate(self.Item_BluePlayer_Prefab)
+        go.name = 'BluePlayer_1'
+        local tran = go:GetComponent('Transform')
+        tran:SetParent(self.blue_team_parent)
+        self_player = go:GetComponent('LuaBehavior').Module -- 默认自身是蓝色方第一个玩家
+    end
+    self.Item_BluePlayer_Prefab:SetActive(false) -- 创建完后隐藏预制体
+    for i = 1, 1 do
+        local go = GameObject.Instantiate(self.Item_RedPlayer_Prefab)
+        go.name = 'RedPlayer_1'
+        local tran = go:GetComponent('Transform')
+        tran:SetParent(self.red_team_parent)
+    end
+    self.Item_RedPlayer_Prefab:SetActive(false) -- 创建完后隐藏预制体
 
-    -- 初始化英雄信息(跳过销毁第一个预制体)
-    for i = 1, self.hero_list_parent.childCount - 1 do
-        local go = self.hero_list_parent:GetChild(i).gameObject
+    -- ===== 初始化选择英雄列表信息 =====
+    -- (跳过销毁第一个预制体)
+    for i = 1, self.content.childCount - 1 do
+        local go = self.content:GetChild(i).gameObject
         Object.DestroyImmediate(go)
     end
     -- List类型无法通过 # 取长度
@@ -45,15 +82,14 @@ function window:awake()
         local go = GameObject.Instantiate(self.Item_Hero_Prefab)
         go.name = tostring(heroID)
         local tran = go:GetComponent('Transform')
-        tran:SetParent(self.hero_list_parent)
+        tran:SetParent(self.content)
 
         -- 获取到组件，刷新item数据与表现
         local module = go:GetComponent('LuaBehavior').Module
-        module:set_icon_and_name(nil, '暗夜猎手')
         -- 获取英雄配置数据
-        -- TODO:AssetsSvc调用为空？？？
-        -- local cfg = AssetsSvc:GetHeroConfigByID(heroID)
+        local cfg = AssetsSvc:GetHeroConfigByID(heroID)
         -- TODO:UI赋值
+        module:set_icon_and_name(nil, cfg.heroName)
     end
     self.Item_Hero_Prefab:SetActive(false) -- 创建完成后隐藏预制体
 end
@@ -90,6 +126,11 @@ function window:ClickSureBtnEvent()
 
     self.img_shadow:SetActive(true) -- 遮挡按钮
     is_selected = true
+    
+    -- 更改侧边栏状态信息
+    self_player:set_stage_finish()
+    -- 关闭选择英雄界面
+    self.hero_list_parent:SetActive(false)
 end
 
 return window
