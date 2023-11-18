@@ -11,6 +11,7 @@ using XLua;
 public class GUI_Command : MonoBehaviour
 {
     public Button btn_quick_select;
+    public Button btn_quick_sndSelect;
     private LuaEnv luaEnv;
 
     void Start()
@@ -30,6 +31,20 @@ public class GUI_Command : MonoBehaviour
 
             Launcher.Instance.RoomID = (uint)Random.Range(10000, 99999);
             luaEnv.DoString("WindowManager:close_all() \n WindowManager:open('ugui_selectpanel')");
-        });  
+        });
+
+        btn_quick_sndSelect.onClick.AddListener(() =>
+        {
+            GameMsg msg = new GameMsg()
+            {
+                cmd = CMD.SndSelect,
+                sndSelect = new SndSelect
+                {
+                    roomID = 999,
+                    heroID = 101,
+                }
+            };
+            NetSvc.Instance.SendMsg(msg);
+        });
     }
 }

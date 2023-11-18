@@ -25,6 +25,11 @@ namespace ShawnFramework.CommonModule
             Instance = this;
         }
 
+        private void Update()
+        {
+            prgCB?.Invoke();
+        }
+
         private Action prgCB = null;
         /// <summary>
         /// “Ï≤Ωº”‘ÿ≥°æ∞

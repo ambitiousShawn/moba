@@ -74,8 +74,6 @@ public class Launcher : MonoBehaviour
     private void Start()
     {
         InitService();
-        InitSystem();
-
         LuaManager.Instance.GlobalLuaEnv.DoString("require 'lua_enter'");
     }
 
@@ -93,14 +91,6 @@ public class Launcher : MonoBehaviour
         _assetsSvc.InitService();
         _audioSvc.InitService();
         _netSvc.InitService();
-    }
-
-    private BattleSys _battleSys;
-    void InitSystem()
-    {
-        _battleSys = GetComponent<BattleSys>();
-
-        _battleSys.InitSystem();
     }
 
     /// <summary>
