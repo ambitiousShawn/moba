@@ -34,6 +34,8 @@ namespace XLua
 				translator.RegisterPushAndGetAndUpdate<UnityEngine.Ray>(translator.PushUnityEngineRay, translator.Get, translator.UpdateUnityEngineRay);
 				translator.RegisterPushAndGetAndUpdate<UnityEngine.Bounds>(translator.PushUnityEngineBounds, translator.Get, translator.UpdateUnityEngineBounds);
 				translator.RegisterPushAndGetAndUpdate<UnityEngine.Ray2D>(translator.PushUnityEngineRay2D, translator.Get, translator.UpdateUnityEngineRay2D);
+				translator.RegisterPushAndGetAndUpdate<ETeamType>(translator.PushETeamType, translator.Get, translator.UpdateETeamType);
+				translator.RegisterPushAndGetAndUpdate<EUnitType>(translator.PushEUnitType, translator.Get, translator.UpdateEUnitType);
 				translator.RegisterPushAndGetAndUpdate<Tutorial.TestEnum>(translator.PushTutorialTestEnum, translator.Get, translator.UpdateTutorialTestEnum);
 				translator.RegisterPushAndGetAndUpdate<Tutorial.DerivedClass.TestEnumInner>(translator.PushTutorialDerivedClassTestEnumInner, translator.Get, translator.UpdateTutorialDerivedClassTestEnumInner);
 			
@@ -572,6 +574,174 @@ namespace XLua
             }
         }
         
+        int ETeamType_TypeID = -1;
+		int ETeamType_EnumRef = -1;
+        
+        public void PushETeamType(RealStatePtr L, ETeamType val)
+        {
+            if (ETeamType_TypeID == -1)
+            {
+			    bool is_first;
+                ETeamType_TypeID = getTypeId(L, typeof(ETeamType), out is_first);
+				
+				if (ETeamType_EnumRef == -1)
+				{
+				    Utils.LoadCSTable(L, typeof(ETeamType));
+				    ETeamType_EnumRef = LuaAPI.luaL_ref(L, LuaIndexes.LUA_REGISTRYINDEX);
+				}
+				
+            }
+			
+			if (LuaAPI.xlua_tryget_cachedud(L, (int)val, ETeamType_EnumRef) == 1)
+            {
+			    return;
+			}
+			
+            IntPtr buff = LuaAPI.xlua_pushstruct(L, 4, ETeamType_TypeID);
+            if (!CopyByValue.Pack(buff, 0, (int)val))
+            {
+                throw new Exception("pack fail fail for ETeamType ,value="+val);
+            }
+			
+			LuaAPI.lua_getref(L, ETeamType_EnumRef);
+			LuaAPI.lua_pushvalue(L, -2);
+			LuaAPI.xlua_rawseti(L, -2, (int)val);
+			LuaAPI.lua_pop(L, 1);
+			
+        }
+		
+        public void Get(RealStatePtr L, int index, out ETeamType val)
+        {
+		    LuaTypes type = LuaAPI.lua_type(L, index);
+            if (type == LuaTypes.LUA_TUSERDATA )
+            {
+			    if (LuaAPI.xlua_gettypeid(L, index) != ETeamType_TypeID)
+				{
+				    throw new Exception("invalid userdata for ETeamType");
+				}
+				
+                IntPtr buff = LuaAPI.lua_touserdata(L, index);
+				int e;
+                if (!CopyByValue.UnPack(buff, 0, out e))
+                {
+                    throw new Exception("unpack fail for ETeamType");
+                }
+				val = (ETeamType)e;
+                
+            }
+            else
+            {
+                val = (ETeamType)objectCasters.GetCaster(typeof(ETeamType))(L, index, null);
+            }
+        }
+		
+        public void UpdateETeamType(RealStatePtr L, int index, ETeamType val)
+        {
+		    
+            if (LuaAPI.lua_type(L, index) == LuaTypes.LUA_TUSERDATA)
+            {
+			    if (LuaAPI.xlua_gettypeid(L, index) != ETeamType_TypeID)
+				{
+				    throw new Exception("invalid userdata for ETeamType");
+				}
+				
+                IntPtr buff = LuaAPI.lua_touserdata(L, index);
+                if (!CopyByValue.Pack(buff, 0,  (int)val))
+                {
+                    throw new Exception("pack fail for ETeamType ,value="+val);
+                }
+            }
+			
+            else
+            {
+                throw new Exception("try to update a data with lua type:" + LuaAPI.lua_type(L, index));
+            }
+        }
+        
+        int EUnitType_TypeID = -1;
+		int EUnitType_EnumRef = -1;
+        
+        public void PushEUnitType(RealStatePtr L, EUnitType val)
+        {
+            if (EUnitType_TypeID == -1)
+            {
+			    bool is_first;
+                EUnitType_TypeID = getTypeId(L, typeof(EUnitType), out is_first);
+				
+				if (EUnitType_EnumRef == -1)
+				{
+				    Utils.LoadCSTable(L, typeof(EUnitType));
+				    EUnitType_EnumRef = LuaAPI.luaL_ref(L, LuaIndexes.LUA_REGISTRYINDEX);
+				}
+				
+            }
+			
+			if (LuaAPI.xlua_tryget_cachedud(L, (int)val, EUnitType_EnumRef) == 1)
+            {
+			    return;
+			}
+			
+            IntPtr buff = LuaAPI.xlua_pushstruct(L, 4, EUnitType_TypeID);
+            if (!CopyByValue.Pack(buff, 0, (int)val))
+            {
+                throw new Exception("pack fail fail for EUnitType ,value="+val);
+            }
+			
+			LuaAPI.lua_getref(L, EUnitType_EnumRef);
+			LuaAPI.lua_pushvalue(L, -2);
+			LuaAPI.xlua_rawseti(L, -2, (int)val);
+			LuaAPI.lua_pop(L, 1);
+			
+        }
+		
+        public void Get(RealStatePtr L, int index, out EUnitType val)
+        {
+		    LuaTypes type = LuaAPI.lua_type(L, index);
+            if (type == LuaTypes.LUA_TUSERDATA )
+            {
+			    if (LuaAPI.xlua_gettypeid(L, index) != EUnitType_TypeID)
+				{
+				    throw new Exception("invalid userdata for EUnitType");
+				}
+				
+                IntPtr buff = LuaAPI.lua_touserdata(L, index);
+				int e;
+                if (!CopyByValue.UnPack(buff, 0, out e))
+                {
+                    throw new Exception("unpack fail for EUnitType");
+                }
+				val = (EUnitType)e;
+                
+            }
+            else
+            {
+                val = (EUnitType)objectCasters.GetCaster(typeof(EUnitType))(L, index, null);
+            }
+        }
+		
+        public void UpdateEUnitType(RealStatePtr L, int index, EUnitType val)
+        {
+		    
+            if (LuaAPI.lua_type(L, index) == LuaTypes.LUA_TUSERDATA)
+            {
+			    if (LuaAPI.xlua_gettypeid(L, index) != EUnitType_TypeID)
+				{
+				    throw new Exception("invalid userdata for EUnitType");
+				}
+				
+                IntPtr buff = LuaAPI.lua_touserdata(L, index);
+                if (!CopyByValue.Pack(buff, 0,  (int)val))
+                {
+                    throw new Exception("pack fail for EUnitType ,value="+val);
+                }
+            }
+			
+            else
+            {
+                throw new Exception("try to update a data with lua type:" + LuaAPI.lua_type(L, index));
+            }
+        }
+        
         int TutorialTestEnum_TypeID = -1;
 		int TutorialTestEnum_EnumRef = -1;
         
@@ -799,6 +969,18 @@ namespace XLua
 				translator.PushUnityEngineRay2D(L, array[index]);
 				return true;
 			}
+			else if (type == typeof(ETeamType[]))
+			{
+			    ETeamType[] array = obj as ETeamType[];
+				translator.PushETeamType(L, array[index]);
+				return true;
+			}
+			else if (type == typeof(EUnitType[]))
+			{
+			    EUnitType[] array = obj as EUnitType[];
+				translator.PushEUnitType(L, array[index]);
+				return true;
+			}
 			else if (type == typeof(Tutorial.TestEnum[]))
 			{
 			    Tutorial.TestEnum[] array = obj as Tutorial.TestEnum[];
@@ -862,6 +1044,18 @@ namespace XLua
 			else if (type == typeof(UnityEngine.Ray2D[]))
 			{
 			    UnityEngine.Ray2D[] array = obj as UnityEngine.Ray2D[];
+				translator.Get(L, obj_idx, out array[array_idx]);
+				return true;
+			}
+			else if (type == typeof(ETeamType[]))
+			{
+			    ETeamType[] array = obj as ETeamType[];
+				translator.Get(L, obj_idx, out array[array_idx]);
+				return true;
+			}
+			else if (type == typeof(EUnitType[]))
+			{
+			    EUnitType[] array = obj as EUnitType[];
 				translator.Get(L, obj_idx, out array[array_idx]);
 				return true;
 			}

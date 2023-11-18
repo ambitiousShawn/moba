@@ -5,7 +5,10 @@
 	<assembly fullname="Assembly-CSharp">
 	    <type fullname="Launcher" preserve="all"/>
 		<type fullname="LuaBehavior" preserve="all"/>
+		<type fullname="LuaCallFunc" preserve="all"/>
 		<type fullname="LuaHelper" preserve="all"/>
+		<type fullname="ETeamType" preserve="all"/>
+		<type fullname="EUnitType" preserve="all"/>
 		<type fullname="Tutorial.BaseClass" preserve="all"/>
 		<type fullname="Tutorial.TestEnum" preserve="all"/>
 		<type fullname="Tutorial.DerivedClass" preserve="all"/>

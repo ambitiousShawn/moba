@@ -388,7 +388,7 @@ namespace XLua.CSObjectWrap
                 ObjectTranslator translator = ObjectTranslatorPool.Instance.Find(L);
 			
                 Launcher gen_to_be_invoked = (Launcher)translator.FastGetCSObj(L, 1);
-                gen_to_be_invoked.TipPanel = (UGUI_Tip)translator.GetObject(L, 2, typeof(UGUI_Tip));
+                gen_to_be_invoked.TipPanel = (Popup_Tip)translator.GetObject(L, 2, typeof(Popup_Tip));
             
             } catch(System.Exception gen_e) {
                 return LuaAPI.luaL_error(L, "c# exception:" + gen_e);

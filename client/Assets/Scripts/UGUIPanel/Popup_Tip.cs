@@ -1,9 +1,8 @@
-using ShawnFramework.UGUI;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class UGUI_Tip : PanelRoot
+public class Popup_Tip : MonoBehaviour
 {
     public Image img_bg;
     public Text text_info;
@@ -11,10 +10,9 @@ public class UGUI_Tip : PanelRoot
 
     private bool isPlaying = false;
     private Queue<string> _tipsQue = new Queue<string>();
-    protected override void InitPanel()
+    private void Awake()
     {
-        base.InitPanel();
-        SetActive(img_bg, false);
+        img_bg.gameObject.SetActive(false);
         _tipsQue.Clear();
     }
 
@@ -25,13 +23,12 @@ public class UGUI_Tip : PanelRoot
 
     void Update()
     {
-        // print("ha");
         if (_tipsQue.Count > 0 && !isPlaying)
         {
             string info = _tipsQue.Dequeue();
             isPlaying = true;
             text_info.text = info;
-            SetActive(img_bg, true);
+            img_bg.gameObject.SetActive(true);
             transform.SetAsLastSibling();
             anim.Play("TipsShow", 0, 0) ;
         }
@@ -39,7 +36,7 @@ public class UGUI_Tip : PanelRoot
 
     public void AnimPlayDone()
     {
-        SetActive(img_bg, false);
+        img_bg.gameObject.SetActive(false);
         isPlaying = false;
     }
 }

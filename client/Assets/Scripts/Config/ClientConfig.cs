@@ -1,3 +1,4 @@
+using ShawnFramework.ShawMath;
 using ShawnFramework.ShawnPhysics;
 
 public class HeroConfig
@@ -18,4 +19,17 @@ public class HeroConfig
 
     // 技能ID数组
     public int[] skillArr;
+}
+
+public class MapConfig
+{
+    public int mapID;
+
+    public ShawVector3 blueBornPos;
+    public ShawVector3 redBornPos;
+
+    // 小兵相关配置
+    public int soldierBornDelay;
+    public int soldierBornInterval;
+    public int soldierWaveInterval;
 }

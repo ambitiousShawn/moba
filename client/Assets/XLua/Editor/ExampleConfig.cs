@@ -11,6 +11,7 @@ using System;
 using XLua;
 using System.Reflection;
 using System.Linq;
+using UnityEngine;
 
 //配置的详细介绍请看Doc下《XLua的配置.doc》
 public static class ExampleConfig
@@ -24,6 +25,7 @@ public static class ExampleConfig
             typeof(Action<bool>),
             typeof(Action<float>),
             typeof(UnityEngine.Events.UnityAction),
+            typeof(Transform),
         };
 
     /***************如果你全lua编程，可以参考这份自动化配置***************/

@@ -16,6 +16,140 @@ namespace XLua.CSObjectWrap
 {
     using Utils = XLua.Utils;
     
+    public class ETeamTypeWrap
+    {
+		public static void __Register(RealStatePtr L)
+        {
+		    ObjectTranslator translator = ObjectTranslatorPool.Instance.Find(L);
+		    Utils.BeginObjectRegister(typeof(ETeamType), L, translator, 0, 0, 0, 0);
+			Utils.EndObjectRegister(typeof(ETeamType), L, translator, null, null, null, null, null);
+			
+			Utils.BeginClassRegister(typeof(ETeamType), L, null, 5, 0, 0);
+
+            
+            Utils.RegisterObject(L, translator, Utils.CLS_IDX, "None", ETeamType.None);
+            
+            Utils.RegisterObject(L, translator, Utils.CLS_IDX, "Blue", ETeamType.Blue);
+            
+            Utils.RegisterObject(L, translator, Utils.CLS_IDX, "Red", ETeamType.Red);
+            
+            Utils.RegisterObject(L, translator, Utils.CLS_IDX, "Neutral", ETeamType.Neutral);
+            
+
+			Utils.RegisterFunc(L, Utils.CLS_IDX, "__CastFrom", __CastFrom);
+            
+            Utils.EndClassRegister(typeof(ETeamType), L, translator);
+        }
+		
+		[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
+        static int __CastFrom(RealStatePtr L)
+		{
+			ObjectTranslator translator = ObjectTranslatorPool.Instance.Find(L);
+			LuaTypes lua_type = LuaAPI.lua_type(L, 1);
+            if (lua_type == LuaTypes.LUA_TNUMBER)
+            {
+                translator.PushETeamType(L, (ETeamType)LuaAPI.xlua_tointeger(L, 1));
+            }
+			
+            else if(lua_type == LuaTypes.LUA_TSTRING)
+            {
+
+			    if (LuaAPI.xlua_is_eq_str(L, 1, "None"))
+                {
+                    translator.PushETeamType(L, ETeamType.None);
+                }
+				else if (LuaAPI.xlua_is_eq_str(L, 1, "Blue"))
+                {
+                    translator.PushETeamType(L, ETeamType.Blue);
+                }
+				else if (LuaAPI.xlua_is_eq_str(L, 1, "Red"))
+                {
+                    translator.PushETeamType(L, ETeamType.Red);
+                }
+				else if (LuaAPI.xlua_is_eq_str(L, 1, "Neutral"))
+                {
+                    translator.PushETeamType(L, ETeamType.Neutral);
+                }
+				else
+                {
+                    return LuaAPI.luaL_error(L, "invalid string for ETeamType!");
+                }
+
+            }
+			
+            else
+            {
+                return LuaAPI.luaL_error(L, "invalid lua type for ETeamType! Expect number or string, got + " + lua_type);
+            }
+
+            return 1;
+		}
+	}
+    
+    public class EUnitTypeWrap
+    {
+		public static void __Register(RealStatePtr L)
+        {
+		    ObjectTranslator translator = ObjectTranslatorPool.Instance.Find(L);
+		    Utils.BeginObjectRegister(typeof(EUnitType), L, translator, 0, 0, 0, 0);
+			Utils.EndObjectRegister(typeof(EUnitType), L, translator, null, null, null, null, null);
+			
+			Utils.BeginClassRegister(typeof(EUnitType), L, null, 4, 0, 0);
+
+            
+            Utils.RegisterObject(L, translator, Utils.CLS_IDX, "Hero", EUnitType.Hero);
+            
+            Utils.RegisterObject(L, translator, Utils.CLS_IDX, "Soldier", EUnitType.Soldier);
+            
+            Utils.RegisterObject(L, translator, Utils.CLS_IDX, "Tower", EUnitType.Tower);
+            
+
+			Utils.RegisterFunc(L, Utils.CLS_IDX, "__CastFrom", __CastFrom);
+            
+            Utils.EndClassRegister(typeof(EUnitType), L, translator);
+        }
+		
+		[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
+        static int __CastFrom(RealStatePtr L)
+		{
+			ObjectTranslator translator = ObjectTranslatorPool.Instance.Find(L);
+			LuaTypes lua_type = LuaAPI.lua_type(L, 1);
+            if (lua_type == LuaTypes.LUA_TNUMBER)
+            {
+                translator.PushEUnitType(L, (EUnitType)LuaAPI.xlua_tointeger(L, 1));
+            }
+			
+            else if(lua_type == LuaTypes.LUA_TSTRING)
+            {
+
+			    if (LuaAPI.xlua_is_eq_str(L, 1, "Hero"))
+                {
+                    translator.PushEUnitType(L, EUnitType.Hero);
+                }
+				else if (LuaAPI.xlua_is_eq_str(L, 1, "Soldier"))
+                {
+                    translator.PushEUnitType(L, EUnitType.Soldier);
+                }
+				else if (LuaAPI.xlua_is_eq_str(L, 1, "Tower"))
+                {
+                    translator.PushEUnitType(L, EUnitType.Tower);
+                }
+				else
+                {
+                    return LuaAPI.luaL_error(L, "invalid string for EUnitType!");
+                }
+
+            }
+			
+            else
+            {
+                return LuaAPI.luaL_error(L, "invalid lua type for EUnitType! Expect number or string, got + " + lua_type);
+            }
+
+            return 1;
+		}
+	}
+    
     public class TutorialTestEnumWrap
     {
 		public static void __Register(RealStatePtr L)

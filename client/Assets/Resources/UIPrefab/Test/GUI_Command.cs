@@ -22,10 +22,10 @@ public class GUI_Command : MonoBehaviour
             UserData userData = new UserData();
             userData.id = (uint)Random.Range(100000, 999999);
             userData.name = "Test_" + userData.id;
-            userData.heroDatas = new List<HeroData>
+            userData.heroDatas = new List<GameProtocol.HeroData>
             {
-                new HeroData(){ heroId = 101 },
-                new HeroData(){ heroId = 102 },
+                new GameProtocol.HeroData(){ heroId = 101 },
+                new GameProtocol.HeroData(){ heroId = 102 },
             };
             Launcher.Instance.UserData = userData;
 

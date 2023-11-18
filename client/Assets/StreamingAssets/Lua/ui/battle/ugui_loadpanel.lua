@@ -40,13 +40,8 @@ function window:awake()
     self.text_progress.text = '0%'
 end
 
-function window:refresh_progress(percentList)
-    local sum = 0
-    local cnt = percentList.Count
-    for i = 0, cnt - 1 do
-        sum = sum + percentList[i]
-    end
-    self.text_progress.text = tostring(math.floor(sum / cnt)) .. '%' 
+function window:refresh_progress(percent)
+    self.text_progress.text = tostring(percent) .. '%' 
 end
 
 return window

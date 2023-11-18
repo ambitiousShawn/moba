@@ -2,6 +2,7 @@ using ShawnFramework.ShawMath;
 using ShawnFramework.ShawnPhysics;
 using System;
 using System.Collections.Generic;
+using System.Numerics;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -51,6 +52,30 @@ namespace ShawnFramework.CommonModule
                     sceneAsync = null;
                 }
             };
+        }
+
+        /// <summary>
+        /// 根据mapID获取地图配置信息
+        /// </summary>
+        /// <param name="mapID"></param>
+        /// <returns></returns>
+        public MapConfig GetMapConfigByID(int mapID)
+        {
+            switch (mapID)
+            {
+                case 101:
+                    return new MapConfig
+                    {
+                        mapID = 101,
+                        blueBornPos = new ShawVector3(-27, 0, 0),
+                        redBornPos = new ShawVector3(-27, 0, 0),
+                        soldierBornDelay = 15000,
+                        soldierBornInterval = 2000,
+                        soldierWaveInterval = 50000,
+                    };
+                default:
+                    return null;
+            }
         }
 
 

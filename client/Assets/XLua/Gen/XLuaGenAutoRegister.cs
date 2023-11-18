@@ -28,7 +28,16 @@ namespace XLua.CSObjectWrap
             translator.DelayWrapLoader(typeof(LuaBehavior), LuaBehaviorWrap.__Register);
         
         
+            translator.DelayWrapLoader(typeof(LuaCallFunc), LuaCallFuncWrap.__Register);
+        
+        
             translator.DelayWrapLoader(typeof(LuaHelper), LuaHelperWrap.__Register);
+        
+        
+            translator.DelayWrapLoader(typeof(ETeamType), ETeamTypeWrap.__Register);
+        
+        
+            translator.DelayWrapLoader(typeof(EUnitType), EUnitTypeWrap.__Register);
         
         
             translator.DelayWrapLoader(typeof(Tutorial.BaseClass), TutorialBaseClassWrap.__Register);

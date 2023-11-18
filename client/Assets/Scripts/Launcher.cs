@@ -12,7 +12,7 @@ public class Launcher : MonoBehaviour
     public static Launcher Instance;
 
     public Transform UIRoot;
-    public UGUI_Tip TipPanel;
+    public Popup_Tip TipPanel;
 
     [Header("ÃâµÇÂ¼²âÊÔ")]
     public bool SkipLogin;
@@ -66,6 +66,7 @@ public class Launcher : MonoBehaviour
             Type = EShawLogType.Unity,
         };
         LogCore.InitSettings(config);
+        DontDestroyOnLoad(this);
 
         // ³õÊ¼»¯LuaÄ£¿é
         LuaManager.CreateSingletonInstance();
