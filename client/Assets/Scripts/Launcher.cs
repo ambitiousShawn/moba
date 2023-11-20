@@ -62,7 +62,8 @@ public class Launcher : MonoBehaviour
         LogConfig config = new LogConfig()
         {
             EnableLog = true,
-            EnableSaveToFile = false,
+            EnableThread = false,   
+            EnableSaveToFile = true,
             Type = EShawLogType.Unity,
         };
         LogCore.InitSettings(config);

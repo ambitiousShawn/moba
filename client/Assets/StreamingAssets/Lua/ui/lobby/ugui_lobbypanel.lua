@@ -27,7 +27,7 @@ function window:awake()
         		pvpType = CS.GameProtocol.PVPType._1v1
         	}
         	local msg = game_message:new_msg('reqMatch', data)
-        	network_manager:SendMsg(msg)
+        	NetworkManager:SendMsg(msg)
         end
     end)
 end  

@@ -12,6 +12,13 @@ namespace ShawnFramework.ShawMath
             this.z = z;
         }
 
+        public ShawVector3(UnityEngine.Vector3 v)
+        {
+            x = (ShawInt)v.x;
+            y = (ShawInt)v.y;
+            z = (ShawInt)v.z;
+        }
+
         public ShawInt this[int index]
         {
             get
@@ -260,6 +267,11 @@ namespace ShawnFramework.ShawMath
             ShawInt value = dot / mod;
             //∑¥”‡œ“∫Ø ˝º∆À„
             return ShawMathLibrary.Acos(value);
+        }
+
+        public UnityEngine.Vector3 ConvertViewVector3()
+        {
+            return new UnityEngine.Vector3(x.RawFloat, y.RawFloat, z.RawFloat);
         }
 
         public long[] CovertLongArray()

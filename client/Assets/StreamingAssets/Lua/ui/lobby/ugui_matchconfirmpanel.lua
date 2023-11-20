@@ -15,7 +15,7 @@ function window:awake()
             roomID = Launcher.RoomID
         }
         local msg = game_message:new_msg('sndConfirm', data)
-        network_manager:SendMsg(msg)
+        NetworkManager:SendMsg(msg)
         -- 发送确认信息后 遮挡按钮
         self.img_shadow:SetActive(true)
     end)

@@ -22,22 +22,22 @@ namespace XLua.CSObjectWrap
         static void wrapInit0(LuaEnv luaenv, ObjectTranslator translator)
         {
         
+            translator.DelayWrapLoader(typeof(ETeamType), ETeamTypeWrap.__Register);
+        
+        
+            translator.DelayWrapLoader(typeof(EUnitType), EUnitTypeWrap.__Register);
+        
+        
+            translator.DelayWrapLoader(typeof(EUnitStateType), EUnitStateTypeWrap.__Register);
+        
+        
             translator.DelayWrapLoader(typeof(Launcher), LauncherWrap.__Register);
         
         
             translator.DelayWrapLoader(typeof(LuaBehavior), LuaBehaviorWrap.__Register);
         
         
-            translator.DelayWrapLoader(typeof(LuaCallFunc), LuaCallFuncWrap.__Register);
-        
-        
             translator.DelayWrapLoader(typeof(LuaHelper), LuaHelperWrap.__Register);
-        
-        
-            translator.DelayWrapLoader(typeof(ETeamType), ETeamTypeWrap.__Register);
-        
-        
-            translator.DelayWrapLoader(typeof(EUnitType), EUnitTypeWrap.__Register);
         
         
             translator.DelayWrapLoader(typeof(Tutorial.BaseClass), TutorialBaseClassWrap.__Register);

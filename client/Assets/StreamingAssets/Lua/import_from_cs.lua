@@ -6,10 +6,10 @@ GameObject = CS.UnityEngine.GameObject
 Resources = CS.UnityEngine.Resources
 Time = CS.UnityEngine.Time
 Launcher = CS.Launcher.Instance
+PrimitiveType = CS.UnityEngine.PrimitiveType
 
 -- tools
 LuaHelper = CS.LuaHelper
-LuaCallFunc = CS.LuaCallFunc.Instance
 
 -- Service
 AssetsSvc = Launcher:GetComponent('AssetsSvc')
@@ -22,3 +22,4 @@ ServerConfig = CS.GameProtocol.ServerConfig
 -- enum
 ETeamType = CS.ETeamType
 EUnitType = CS.EUnitType
+

@@ -1,16 +1,180 @@
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 using System.Text;
 using System.Threading;
+using System.Threading.Tasks;
 using UnityEngine;
 
 namespace ShawnFramework.ShawLog
 {
 
-    public class LogCore : MonoBehaviour
+    public class LogCore 
     {
+        // 日志配置
+        public static LogConfig config;
+        // 适用平台
+        public static ILogger platform;
+
+        // 文件相关变量
+        private static StreamWriter streamWriter = null;
+        // 保存路径文件夹
+        private static DirectoryInfo logDirectory = null;
+        private static int maxLogFileCount = 50;
+        private static object logsLocker = new object(); // 写入流锁
+        private static string targetPath = ""; 
+        private static List<string> logs = new List<string>(); // 待写入的信息流
+
+        /// 日志初始化接口
+        public static void InitSettings(LogConfig config = null)
+        {
+            if (config == null)
+            {
+                config = new LogConfig();
+            }
+            LogCore.config = config;
+
+            if (config.Type == EShawLogType.Console)
+            {
+                platform = new ConsoleLogger();
+            }
+            else
+            {
+                platform = new UnityLogger();
+            }
+
+            if (config.EnableSaveToFile)
+            {
+                maxLogFileCount = config.MaxLogFileCount;
+                // 开启文件存储系统
+                if (!Directory.Exists(config.SavePathFolder))
+                {
+                    logDirectory = Directory.CreateDirectory(config.SavePathFolder);
+                }
+                else
+                {
+                    logDirectory = new DirectoryInfo(config.SavePathFolder);
+                }
+
+                string time = DateTime.Now.ToString("yyyyMMdd@HH-mm-ss");
+                targetPath = config.SavePathFolder + time + ".log";
+                AutoClearEarlyLogFile();
+                Application.logMessageReceivedThreaded += (content, stacktrace, type) =>
+                {
+                    lock (logsLocker)
+                    {
+                        string msg = $"[{time:s}][{type}] {content}";
+                        if (type != LogType.Log)
+                        {
+                            msg += $"[Stack:{stacktrace}]";
+                        }
+                        logs.Add(msg);
+                    }
+                };
+                // 单独开个线程刷新IO流
+                Task.Factory.StartNew(() =>
+                {
+                    while (true)
+                    {
+                        Thread.Sleep(TimeSpan.FromSeconds(10));
+                        FlushLog();
+                    }
+                });
+            }
+        }
+
+        #region 对外调用的API
+        /// <summary>
+        /// 打印日志通用接口
+        /// </summary>
+        /// <param name="msg">日志信息</param>
+        /// <param name="args">通用参数</param>
+        public static void Log(string msg, params object[] args)
+        {
+            if (!config.EnableLog)
+            {
+                return;
+            }
+
+            msg = DecorateLog(string.Format(msg, args));
+            platform.Log(msg);
+        }
+
+        public static void Log(object obj)
+        {
+            if (!config.EnableLog)
+            {
+                return;
+            }
+
+            string msg = DecorateLog(string.Format(obj.ToString()));
+            platform.Log(msg);
+        }
+
+        /// <summary>
+        /// 打印彩色日志通用接口
+        /// </summary>
+        /// <param name="color">打印颜色</param>
+        /// <param name="msg">日志信息</param>
+        /// <param name="args">通用参数</param>
+        public static void ColorLog(string msg, ELogColor color, params object[] args)
+        {
+            if (!config.EnableLog)
+            {
+                return;
+            }
+
+            msg = DecorateLog(string.Format(msg, args));
+            platform.Log(msg, color);
+        }
+
+        /// <summary>
+        /// 打印警告信息
+        /// </summary>
+        /// <param name="msg">日志信息</param>
+        /// <param name="args">通用参数</param>
+        public static void Warn(string msg, params object[] args)
+        {
+            if (!config.EnableLog)
+            {
+                return;
+            }
+
+            msg = DecorateLog(string.Format(msg, args));
+            platform.Warn(msg);
+        }
+
+        /// <summary>
+        /// 打印报错信息
+        /// </summary>
+        /// <param name="msg">日志信息</param>
+        /// <param name="args">通用参数</param>
+        public static void Error(string msg, params object[] args)
+        {
+            if (!config.EnableLog)
+            {
+                return;
+            }
+
+            msg = DecorateLog(string.Format(msg, args));
+            platform.Error(msg);
+        }
+
+        private static string DecorateLog(string msg)
+        {
+            StringBuilder sb = new StringBuilder(config.StartChar, 100);
+            // 线程
+            if (config.EnableThread)
+            {
+                sb.AppendFormat(" {0}", string.Format(" ThreadID:{0}", Thread.CurrentThread.ManagedThreadId));
+            }
+            // 分隔符 + 日志信息
+            sb.Append(msg);
+            return sb.ToString();
+        }
+        #endregion
+
+        #region 不同平台的日志打印
         public class UnityLogger : ILogger
         {
             Type type = Type.GetType("UnityEngine.Debug, UnityEngine");
@@ -20,7 +184,7 @@ namespace ShawnFramework.ShawLog
                 {
                     msg = WriteUnityLog(msg, color);
                 }
-                type.GetMethod("Log", new Type[] {typeof(object)}).Invoke(null, new object[] { msg });
+                type.GetMethod("Log", new Type[] { typeof(object) }).Invoke(null, new object[] { msg });
             }
             public void Warn(string msg)
             {
@@ -41,7 +205,7 @@ namespace ShawnFramework.ShawLog
                         msg = string.Format("<color=#FF0000>{0}</color>", msg);
                         break;
                     case ELogColor.Green:
-                        msg = string.Format("<color=#00FF00>{0}</color>", msg); 
+                        msg = string.Format("<color=#00FF00>{0}</color>", msg);
                         break;
                     case ELogColor.Blue:
                         msg = string.Format("<color=#0000FF>{0}</color>", msg);
@@ -56,7 +220,7 @@ namespace ShawnFramework.ShawLog
                         msg = string.Format("<color=#FFFF00>{0}</color>", msg);
                         break;
                     case ELogColor.Orange:
-                        msg = string.Format("<color=#FFA500>{0}</color>", msg); 
+                        msg = string.Format("<color=#FFA500>{0}</color>", msg);
                         break;
 
                 }
@@ -77,7 +241,7 @@ namespace ShawnFramework.ShawLog
             public void Error(string msg)
             {
                 WriteConsoleLog(msg, ELogColor.Red);
-            }  
+            }
             private void WriteConsoleLog(string msg, ELogColor color)
             {
                 switch (color)
@@ -121,268 +285,52 @@ namespace ShawnFramework.ShawLog
             }
         }
 
-        // 日志配置
-        public static LogConfig config;
-        // 适用平台
-        public static ILogger platform;
-        // 日志输入流
-        private static StreamWriter streamWriter = null;
+        #endregion
 
-        /// <summary>
-        /// 日志初始化接口
-        /// </summary>
-        /// <param name="config">日志的个性化配置信息</param>
-        public static void InitSettings(LogConfig config = null)
+        #region 日志的生命周期管理
+        // 自动清除过早的日志文件
+        static void AutoClearEarlyLogFile()
         {
-            if (config == null)
+            List<DateTime> createTimeLst = new List<DateTime>();
+            foreach (FileInfo file in logDirectory.GetFiles())
             {
-                config = new LogConfig();
-            }
-            LogCore.config = config;
-
-            if (config.Type == EShawLogType.Console)
-            {
-                platform = new ConsoleLogger();
-            }
-            else
-            {
-                platform = new UnityLogger();
-            }
-
-            if (config.EnableSaveToFile)
-            {
-                // 开启文件存储系统
-                if (!Directory.Exists(config.SavePath))
+                if (file.Extension == ".log")
                 {
-                    Directory.CreateDirectory(config.SavePath);
+                    createTimeLst.Add(file.CreationTime);
                 }
-                string time = DateTime.Now.ToString("yyyyMMdd@HH-mm-ss");
-                string path = config.SavePath + time;
-                try
-                {
-                    streamWriter = File.AppendText(path);
-                    streamWriter.AutoFlush = true;
-                }
-                catch
-                {
-                    streamWriter = null;
-                }
-                
-            }
-        }
-
-        /// <summary>
-        /// 打印日志通用接口
-        /// </summary>
-        /// <param name="msg">日志信息</param>
-        /// <param name="args">通用参数</param>
-        public static void Log(string msg, params object[] args)
-        {
-            if (!config.EnableLog)
-            {
-                return;
             }
 
-            msg = DecorateLog(string.Format(msg, args), config.EnableTrace);
-            platform.Log(msg);
-            
-            if (config.EnableSaveToFile)
+            // 删除较早的日志文件
+            if (createTimeLst.Count >= maxLogFileCount)
             {
-                msg = string.Format("[Log]{0}", msg);
-                if (streamWriter != null)
+                createTimeLst.Sort();
+                DateTime oldestTime = createTimeLst[createTimeLst.Count - maxLogFileCount];
+                foreach (FileInfo file in logDirectory.GetFiles())
                 {
-                    try
+                    if (file.Extension == ".log" && file.CreationTime <= oldestTime)
                     {
-                        streamWriter.WriteLine(msg);
-                    }
-                    catch
-                    {
-                        streamWriter = null;
+                        file.Delete();
                     }
                 }
             }
         }
 
-        public static void Log(object obj)
+        // 刷新日志写入文件
+        static void FlushLog()
         {
-            if (!config.EnableLog)
+            lock (logsLocker)
             {
-                return;
-            }
-
-            string msg = DecorateLog(string.Format(obj.ToString()));
-            platform.Log(msg);
-
-            if (config.EnableSaveToFile)
-            {
-                msg = string.Format("[Log]{0}", msg);
-                if (streamWriter != null)
+                StreamWriter stream = new StreamWriter(targetPath, true);
+                List<string> temp = logs;
+                logs = new List<string>();
+                foreach (string line in temp)
                 {
-                    try
-                    {
-                        streamWriter.WriteLine(msg);
-                    }
-                    catch
-                    {
-                        streamWriter = null;
-                    }
+                    stream.WriteLine(line);
+                    stream.Flush();
                 }
+                stream.Close();
             }
         }
-
-        /// <summary>
-        /// 打印彩色日志通用接口
-        /// </summary>
-        /// <param name="color">打印颜色</param>
-        /// <param name="msg">日志信息</param>
-        /// <param name="args">通用参数</param>
-        public static void ColorLog(string msg, ELogColor color, params object[] args)
-        {
-            if (!config.EnableLog)
-            {
-                return;
-            }
-
-            msg = DecorateLog(string.Format(msg, args), config.EnableTrace);
-            platform.Log(msg, color);
-
-            if (config.EnableSaveToFile)
-            {
-                msg = string.Format("[Log]{0}", msg);
-                if (streamWriter != null)
-                {
-                    try
-                    {
-                        streamWriter.WriteLine(msg);
-                    }
-                    catch
-                    {
-                        streamWriter = null;
-                    }
-                }
-            }
-        }
-
-        public static void ColorLog(object obj, ELogColor color)
-        {
-            if (!config.EnableLog)
-            {
-                return;
-            }
-
-            string msg = DecorateLog(string.Format(obj.ToString()));
-            platform.Log(msg, color);
-
-            if (config.EnableSaveToFile)
-            {
-                msg = string.Format("[Log]{0}", msg);
-                if (streamWriter != null)
-                {
-                    try
-                    {
-                        streamWriter.WriteLine(msg);
-                    }
-                    catch
-                    {
-                        streamWriter = null;
-                    }
-                }
-            }
-        }
-
-        /// <summary>
-        /// 打印警告信息
-        /// </summary>
-        /// <param name="msg">日志信息</param>
-        /// <param name="args">通用参数</param>
-        public static void Warn(string msg, params object[] args)
-        {
-            if (!config.EnableLog)
-            {
-                return;
-            }
-
-            msg = DecorateLog(string.Format(msg, args), true);
-            platform.Warn(msg);
-
-            if (config.EnableSaveToFile)
-            {
-                msg = string.Format("[Warn]{0}", msg);
-                if (streamWriter != null)
-                {
-                    try
-                    {
-                        streamWriter.WriteLine(msg);
-                    }
-                    catch
-                    {
-                        streamWriter = null;
-                    }
-                }
-            }
-        }
-
-        /// <summary>
-        /// 打印报错信息
-        /// </summary>
-        /// <param name="msg">日志信息</param>
-        /// <param name="args">通用参数</param>
-        public static void Error(string msg, params object[] args)
-        {
-            if (!config.EnableLog)
-            {
-                return;
-            }
-
-            msg = DecorateLog(string.Format(msg, args), config.EnableTrace);
-            platform.Error(msg);
-            if (config.EnableSaveToFile)
-            {
-                msg = string.Format("[Error]{0}", msg);
-                if (streamWriter != null)
-                {
-                    try
-                    {
-                        streamWriter.WriteLine(msg);
-                    }
-                    catch
-                    {
-                        streamWriter = null;
-                    }
-                }
-            }
-        }
-
-        private static string DecorateLog(string msg, bool trace =  false)
-        {
-            StringBuilder sb = new StringBuilder("#", 100);
-            // 时间
-            sb.AppendFormat(" {0}", DateTime.Now.ToString("hh:mm:ss-fff"));
-            // 线程
-            sb.AppendFormat(" {0}", string.Format(" ThreadID:{0}", Thread.CurrentThread.ManagedThreadId));
-            // 分隔符 + 日志信息
-            sb.AppendFormat(" {0} {1}", ">>>", msg);
-            // 栈帧追踪
-            if (trace)
-            {
-                sb.AppendFormat(" \nStackTrace:{0}", GetLogTrace());
-            }
-            
-            return sb.ToString();
-        }
-
-        private static string GetLogTrace()
-        {
-            StackTrace st = new StackTrace(3, true);
-
-            string traceInfo = "";
-            for (int i = 0; i < st.FrameCount; i++)
-            {
-                StackFrame sf = st.GetFrame(i);
-                traceInfo += string.Format("\n  {0}::{1} line:{2}", sf.GetFileName(), sf.GetMethod(), sf.GetFileLineNumber());
-            }
-            return traceInfo;
-        }
+        #endregion
     }
-
 }

@@ -7,11 +7,11 @@ public class LogicUnitData
 {
     public ETeamType teamType;
     public ShawVector3 bornPos;
-    public HeroConfig heroCfg;
+    public UnitConfig unitCfg;
 }
 
 /// <summary>
-/// 英雄逻辑单位的数据
+/// 英雄与玩家绑定数据
 /// </summary>
 public class HeroData : LogicUnitData
 {
@@ -34,7 +34,14 @@ public enum ETeamType
 [LuaCallCSharp]
 public enum EUnitType
 {
-    Hero,
-    Soldier,
-    Tower,
+    Hero,    // 英雄
+    Soldier, // 小兵
+    Tower,   // 防御塔
+}
+
+[LuaCallCSharp]
+public enum EUnitStateType
+{
+    Alive,  // 活跃
+    Dead,   // 阵亡
 }

@@ -36,6 +36,7 @@ namespace XLua
 				translator.RegisterPushAndGetAndUpdate<UnityEngine.Ray2D>(translator.PushUnityEngineRay2D, translator.Get, translator.UpdateUnityEngineRay2D);
 				translator.RegisterPushAndGetAndUpdate<ETeamType>(translator.PushETeamType, translator.Get, translator.UpdateETeamType);
 				translator.RegisterPushAndGetAndUpdate<EUnitType>(translator.PushEUnitType, translator.Get, translator.UpdateEUnitType);
+				translator.RegisterPushAndGetAndUpdate<EUnitStateType>(translator.PushEUnitStateType, translator.Get, translator.UpdateEUnitStateType);
 				translator.RegisterPushAndGetAndUpdate<Tutorial.TestEnum>(translator.PushTutorialTestEnum, translator.Get, translator.UpdateTutorialTestEnum);
 				translator.RegisterPushAndGetAndUpdate<Tutorial.DerivedClass.TestEnumInner>(translator.PushTutorialDerivedClassTestEnumInner, translator.Get, translator.UpdateTutorialDerivedClassTestEnumInner);
 			
@@ -742,6 +743,90 @@ namespace XLua
             }
         }
         
+        int EUnitStateType_TypeID = -1;
+		int EUnitStateType_EnumRef = -1;
+        
+        public void PushEUnitStateType(RealStatePtr L, EUnitStateType val)
+        {
+            if (EUnitStateType_TypeID == -1)
+            {
+			    bool is_first;
+                EUnitStateType_TypeID = getTypeId(L, typeof(EUnitStateType), out is_first);
+				
+				if (EUnitStateType_EnumRef == -1)
+				{
+				    Utils.LoadCSTable(L, typeof(EUnitStateType));
+				    EUnitStateType_EnumRef = LuaAPI.luaL_ref(L, LuaIndexes.LUA_REGISTRYINDEX);
+				}
+				
+            }
+			
+			if (LuaAPI.xlua_tryget_cachedud(L, (int)val, EUnitStateType_EnumRef) == 1)
+            {
+			    return;
+			}
+			
+            IntPtr buff = LuaAPI.xlua_pushstruct(L, 4, EUnitStateType_TypeID);
+            if (!CopyByValue.Pack(buff, 0, (int)val))
+            {
+                throw new Exception("pack fail fail for EUnitStateType ,value="+val);
+            }
+			
+			LuaAPI.lua_getref(L, EUnitStateType_EnumRef);
+			LuaAPI.lua_pushvalue(L, -2);
+			LuaAPI.xlua_rawseti(L, -2, (int)val);
+			LuaAPI.lua_pop(L, 1);
+			
+        }
+		
+        public void Get(RealStatePtr L, int index, out EUnitStateType val)
+        {
+		    LuaTypes type = LuaAPI.lua_type(L, index);
+            if (type == LuaTypes.LUA_TUSERDATA )
+            {
+			    if (LuaAPI.xlua_gettypeid(L, index) != EUnitStateType_TypeID)
+				{
+				    throw new Exception("invalid userdata for EUnitStateType");
+				}
+				
+                IntPtr buff = LuaAPI.lua_touserdata(L, index);
+				int e;
+                if (!CopyByValue.UnPack(buff, 0, out e))
+                {
+                    throw new Exception("unpack fail for EUnitStateType");
+                }
+				val = (EUnitStateType)e;
+                
+            }
+            else
+            {
+                val = (EUnitStateType)objectCasters.GetCaster(typeof(EUnitStateType))(L, index, null);
+            }
+        }
+		
+        public void UpdateEUnitStateType(RealStatePtr L, int index, EUnitStateType val)
+        {
+		    
+            if (LuaAPI.lua_type(L, index) == LuaTypes.LUA_TUSERDATA)
+            {
+			    if (LuaAPI.xlua_gettypeid(L, index) != EUnitStateType_TypeID)
+				{
+				    throw new Exception("invalid userdata for EUnitStateType");
+				}
+				
+                IntPtr buff = LuaAPI.lua_touserdata(L, index);
+                if (!CopyByValue.Pack(buff, 0,  (int)val))
+                {
+                    throw new Exception("pack fail for EUnitStateType ,value="+val);
+                }
+            }
+			
+            else
+            {
+                throw new Exception("try to update a data with lua type:" + LuaAPI.lua_type(L, index));
+            }
+        }
+        
         int TutorialTestEnum_TypeID = -1;
 		int TutorialTestEnum_EnumRef = -1;
         
@@ -981,6 +1066,12 @@ namespace XLua
 				translator.PushEUnitType(L, array[index]);
 				return true;
 			}
+			else if (type == typeof(EUnitStateType[]))
+			{
+			    EUnitStateType[] array = obj as EUnitStateType[];
+				translator.PushEUnitStateType(L, array[index]);
+				return true;
+			}
 			else if (type == typeof(Tutorial.TestEnum[]))
 			{
 			    Tutorial.TestEnum[] array = obj as Tutorial.TestEnum[];
@@ -1056,6 +1147,12 @@ namespace XLua
 			else if (type == typeof(EUnitType[]))
 			{
 			    EUnitType[] array = obj as EUnitType[];
+				translator.Get(L, obj_idx, out array[array_idx]);
+				return true;
+			}
+			else if (type == typeof(EUnitStateType[]))
+			{
+			    EUnitStateType[] array = obj as EUnitStateType[];
 				translator.Get(L, obj_idx, out array[array_idx]);
 				return true;
 			}

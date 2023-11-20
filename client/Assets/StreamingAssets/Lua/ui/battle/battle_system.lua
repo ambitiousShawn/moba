@@ -1,9 +1,8 @@
 local ugui_loadpanel = require 'ui.battle.ugui_loadpanel'
 local game_message   = require 'system.game_message'
-local network_manager= require 'system.network_manager'
-local fight_system = require 'ui.battle.fight_system'
 
 local system = {}
+local fight_manager = nil
 
 local mapID 
 local battleHeroDatas
@@ -24,7 +23,7 @@ function system:enter_battle()
                 percent = percent
             }
             local msg = game_message:new_msg('sndLoadPrg', data)
-            network_manager:SendMsg(msg)
+            NetworkManager:SendMsg(msg)
             lastPercent = percent
         end
     end, function ()
@@ -35,8 +34,17 @@ function system:enter_battle()
         -- 拿到地图配置
         local mapCfg = AssetsSvc:GetMapConfigByID(mapID)
         -- 初始化场景和英雄
-        fight_system:init_env_collision()
-        fight_system:init_hero(battleHeroDatas, mapCfg)
+        -- local fight_manager_go = GameObject.CreatePrimitive(PrimitiveType.Quad)
+        -- fight_manager = fight_manager_go:AddComponent('FightManager')
+        -- fight_manager:InitCollisionEnv()
+        -- fight_manager:InitHero(battleHeroDatas, mapCfg)
+
+        -- 加载完成后发送请求开始游戏
+        local data = {
+            roomID = Launcher.RoomID,
+        }
+        local msg = game_message:new_msg('reqBattleStart', data)
+        -- NetworkManager:SendMsg(msg)
     end)
 end
 

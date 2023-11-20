@@ -5,11 +5,6 @@ using UnityEngine.Events;
 using UnityEngine.UI;
 using System.IO;
 using XLua;
-using ShawnFramework.ShawnPhysics;
-using System.Collections.Generic;
-using System.Numerics;
-using ShawnFramework.ShawMath;
-using static UnityEditor.PlayerSettings;
 
 [LuaCallCSharp]
 public class LuaHelper

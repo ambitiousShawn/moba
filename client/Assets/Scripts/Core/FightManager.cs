@@ -1,32 +1,33 @@
-ï»¿using ShawnFramework.ShawLog;
+using GameProtocol;
+using ShawnFramework.ShawLog;
 using ShawnFramework.ShawMath;
 using ShawnFramework.ShawnPhysics;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using XLua;
 
-[LuaCallCSharp]
-public class LuaCallFunc : MonoBehaviour
+public class FightManager : MonoBehaviour
 {
-    public static LuaCallFunc Instance;
+    public static FightManager Instance;
 
-    private void Awake()
+    void Awake()
     {
         Instance = this;
     }
 
-    #region æˆ˜æ–—æ¨¡å—é€šç”¨API
+    List<ShawColliderBase> colliderLst; // ´æ´¢»·¾³ÖĞËùÓĞÅö×²Ìå
+
     /// <summary>
-    /// åˆå§‹åŒ–åœºæ™¯ç¢°æ’ç¯å¢ƒ
+    /// ³õÊ¼»¯³¡¾°Åö×²»·¾³
     /// </summary>
-    /// <returns>å­˜å‚¨æ‰€æœ‰åœºæ™¯ç¢°æ’ä½“çš„å®¹å™¨</returns>
-    public List<ShawColliderBase> InitCollisionEnv()
+    /// <returns>´æ´¢ËùÓĞ³¡¾°Åö×²ÌåµÄÈİÆ÷</returns>
+    public void InitCollisionEnv()
     {
-        // ç”Ÿæˆç¢°æ’é…ç½®
+        // Éú³ÉÅö×²ÅäÖÃ
         Transform transEnvRoot = GameObject.Find("MapRoot/EnvCollider").transform;
-        if (transEnvRoot == null ) 
+        if (transEnvRoot == null)
         {
-            LogCore.Error($"æœªåœ¨åœºæ™¯ä¸­æ‰¾åˆ° {0}", "MapRoot/EnvCollider");
+            LogCore.Error($"Î´ÔÚ³¡¾°ÖĞÕÒµ½ {0}", "MapRoot/EnvCollider");
         }
 
         List<ColliderConfig> envColliCfgLst = new List<ColliderConfig>();
@@ -41,15 +42,15 @@ public class LuaCallFunc : MonoBehaviour
             UnityEngine.Vector3 forward = trans.forward;
             ColliderConfig cfg = new ColliderConfig
             {
-                mPos = new ShawVector3((ShawInt)pos.x, (ShawInt)pos.y, (ShawInt)pos.z)
+                mPos = new ShawVector3(pos),
             };
             cfg.mName = trans.name;
-            cfg.mSize = new ShawVector3((ShawInt)scale.x, (ShawInt)scale.y, (ShawInt)scale.z);
+            cfg.mSize = new ShawVector3(scale);
             cfg.mType = ColliderType.Box;
             cfg.mAxis = new ShawVector3[3];
-            cfg.mAxis[0] = new ShawVector3((ShawInt)right.x, (ShawInt)right.y, (ShawInt)right.z);
-            cfg.mAxis[1] = new ShawVector3((ShawInt)up.x, (ShawInt)up.y, (ShawInt)up.z);
-            cfg.mAxis[2] = new ShawVector3((ShawInt)forward.x, (ShawInt)forward.y, (ShawInt)forward.z);
+            cfg.mAxis[0] = new ShawVector3(right);
+            cfg.mAxis[1] = new ShawVector3(up);
+            cfg.mAxis[2] = new ShawVector3(forward);
 
             envColliCfgLst.Add(cfg);
         }
@@ -61,7 +62,7 @@ public class LuaCallFunc : MonoBehaviour
             UnityEngine.Vector3 pos = trans.position;
             ColliderConfig cfg = new ColliderConfig
             {
-                mPos = new ShawVector3((ShawInt)pos.x, (ShawInt)pos.y, (ShawInt)pos.z)
+                mPos = new ShawVector3(pos)
             };
             cfg.mName = trans.name;
             cfg.mType = ColliderType.Box;
@@ -77,7 +78,20 @@ public class LuaCallFunc : MonoBehaviour
 
         logicEnv.Init();
 
-        return logicEnv.GetAllEnvColliders();
+        colliderLst = logicEnv.GetAllEnvColliders();
     }
-    #endregion
+
+
+    public void InitHero(List<BattleHeroData> battleHeroDatas, MapConfig mapCfg)
+    {
+
+    }
+    /// <summary>
+    /// Íâ²¿»ñÈ¡ËùÓĞ»·¾³Åö×²
+    /// </summary>
+    /// <returns></returns>
+    public List<ShawColliderBase> GetAllEnvColliders()
+    {
+        return colliderLst;
+    }
 }

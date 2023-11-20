@@ -12,7 +12,8 @@ function msg:new_msg(command, data)
         reqMatch = {},
         sndConfirm = {},
         sndSelect = {},
-        sndLoadPrg = {}
+        sndLoadPrg = {},
+        reqBattleStart = {},
     }
 
     if command == 'reqLogin' then
@@ -37,6 +38,10 @@ function msg:new_msg(command, data)
         instance.cmd = MsgType.sndLoadPrg
         instance.sndLoadPrg.roomID = data.roomID
         instance.sndLoadPrg.percent = data.percent
+    end
+    if command == 'reqBattleStart' then
+        instance.cmd = MsgType.reqBattleStart
+        instance.reqBattleStart.roomID = data.roomID
     end
     
     setmetatable(instance, self)

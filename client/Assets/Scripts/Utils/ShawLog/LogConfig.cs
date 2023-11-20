@@ -1,6 +1,3 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace ShawnFramework.ShawLog
@@ -21,16 +18,18 @@ namespace ShawnFramework.ShawLog
         Unity,
         Console,
     }
-    public class LogConfig : MonoBehaviour
+    public class LogConfig 
     {
         public bool EnableLog = true;
         public bool EnableSaveToFile = false;
-        public bool EnableTrace = false;
-# if UNITY_EDITOR
-        public string SavePath = string.Format("{0}Logs\\", Application.dataPath + "/");
-#else
-        public string SavePath = string.Format("{0}Logs\\", AppDomain.CurrentDomain.BaseDirectory);
-#endif
+        public bool EnableThread = false;
+        public string StartChar = "# ";
+        public string SplitChar = ">>>";
+        public int MaxLogFileCount = 50;
+
+        // 日志保存路径
+        public string SavePathFolder = string.Format("{0}\\", Application.persistentDataPath);
+        
         public EShawLogType Type = EShawLogType.Unity;
     }
 

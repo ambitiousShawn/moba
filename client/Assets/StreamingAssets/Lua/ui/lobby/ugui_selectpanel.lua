@@ -78,10 +78,10 @@ function window:awake()
         local cfg = AssetsSvc:GetHeroConfigByID(heroID)
         -- UI表现刷新赋值
         -- module.img_icon.sprite = cfg.
-        module.text_name.text = cfg.heroName
+        module.text_name.text = cfg.unitName
         -- 绑定按钮事件
         LuaHelper.BindClick(go, function ()
-            print('点击了英雄： ' .. cfg.heroName)
+            print('点击了英雄： ' .. cfg.unitName)
             select_hero_id = heroID -- 保存当前选中
         end)
     end
@@ -116,7 +116,7 @@ function window:ClickSureBtnEvent()
         heroID = select_hero_id,
     }
     local msg = game_message:new_msg('sndSelect', data)
-    network_manager:SendMsg(msg)
+    NetworkManager:SendMsg(msg)
 
     self.img_shadow:SetActive(true) -- 遮挡按钮
     is_selected = true

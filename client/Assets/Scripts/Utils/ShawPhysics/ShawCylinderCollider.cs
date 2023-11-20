@@ -96,7 +96,7 @@ namespace ShawnFramework.ShawnPhysics
                 CollisionInfo info = collisionInfoLst[0];
                 velocity = CorrectVelocity(velocity, info.normal);
                 borderAdjust = info.borderAdjust;
-                LogCore.ColorLog("发生碰撞，速度矫正:" + velocity.ToString(), ELogColor.Orange);
+                LogCore.ColorLog("发生碰撞，速度矫正:" + velocity.ConvertViewVector3().ToString(), ELogColor.Orange);
             }
             else
             {
@@ -108,7 +108,7 @@ namespace ShawnFramework.ShawnPhysics
                 if (angle > borderNormalAngle)
                 {
                     velocity = CorrectVelocity(velocity, info.normal);
-                    LogCore.ColorLog("多个碰撞体，校正速度：" + velocity, ELogColor.Orange);
+                    LogCore.ColorLog("多个碰撞体，校正速度：" + velocity.ConvertViewVector3(), ELogColor.Orange);
                     ShawVector3 adjSum = ShawVector3.zero;
                     for (int i = 0; i < collisionInfoLst.Count; i++)
                     {

@@ -16,7 +16,7 @@ function window:awake()
         if i < count then
             local cfg = AssetsSvc:GetHeroConfigByID(battleHeroDatas[i].heroID)
             local module = tran.gameObject:GetComponent('LuaBehavior').Module
-            module:set_hero_icon_and_name(nil, cfg.heroName)
+            module:set_hero_icon_and_name(nil, cfg.unitName)
             module:set_player_name(battleHeroDatas[i].userName)
         else
             tran.gameObject:SetActive(false)
@@ -29,7 +29,7 @@ function window:awake()
         if i < count then
             local cfg = AssetsSvc:GetHeroConfigByID(battleHeroDatas[i + count].heroID)
             local module = tran.gameObject:GetComponent('LuaBehavior').Module
-            module:set_hero_icon_and_name(nil, cfg.heroName)
+            module:set_hero_icon_and_name(nil, cfg.unitName)
             module:set_player_name(battleHeroDatas[i + count].userName)
         else
             tran.gameObject:SetActive(false)
