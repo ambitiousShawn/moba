@@ -2,6 +2,18 @@ using ShawnFramework.ShawMath;
 using ShawnFramework.ShawnPhysics;
 
 /// <summary>
+/// 客户端通用配置
+/// </summary>
+public static class ClientConfig
+{
+    public const int ScreenStandardWidth = 1920;
+    public const int ScreenStandardHeight = 1080;
+    public const int ScreenOPDis = 135;
+    public const int SkillOPDis = 125;
+    public const int SkillCancelDis = 500;
+}
+
+/// <summary>
 /// 游戏中物体的配置类
 /// </summary>
 public class UnitConfig

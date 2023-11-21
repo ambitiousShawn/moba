@@ -15,6 +15,7 @@ LuaHelper = CS.LuaHelper
 AssetsSvc = Launcher:GetComponent('AssetsSvc')
 NetSvc = Launcher:GetComponent('NetSvc')
 BattleSvc = Launcher:GetComponent('BattleSvc')
+FightManager = CS.FightManager.Instance
 
 -- config
 ServerConfig = CS.GameProtocol.ServerConfig

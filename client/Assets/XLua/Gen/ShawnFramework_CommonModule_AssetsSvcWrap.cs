@@ -21,9 +21,10 @@ namespace XLua.CSObjectWrap
         {
 			ObjectTranslator translator = ObjectTranslatorPool.Instance.Find(L);
 			System.Type type = typeof(ShawnFramework.CommonModule.AssetsSvc);
-			Utils.BeginObjectRegister(type, L, translator, 0, 7, 2, 2);
+			Utils.BeginObjectRegister(type, L, translator, 0, 8, 2, 2);
 			
 			Utils.RegisterFunc(L, Utils.METHOD_IDX, "InitService", _m_InitService);
+			Utils.RegisterFunc(L, Utils.METHOD_IDX, "LoadSprite", _m_LoadSprite);
 			Utils.RegisterFunc(L, Utils.METHOD_IDX, "LoadSceneAsync", _m_LoadSceneAsync);
 			Utils.RegisterFunc(L, Utils.METHOD_IDX, "LoadPrefab", _m_LoadPrefab);
 			Utils.RegisterFunc(L, Utils.METHOD_IDX, "GetMapConfigByID", _m_GetMapConfigByID);
@@ -108,6 +109,51 @@ namespace XLua.CSObjectWrap
             } catch(System.Exception gen_e) {
                 return LuaAPI.luaL_error(L, "c# exception:" + gen_e);
             }
+            
+        }
+        
+        [MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
+        static int _m_LoadSprite(RealStatePtr L)
+        {
+		    try {
+            
+                ObjectTranslator translator = ObjectTranslatorPool.Instance.Find(L);
+            
+            
+                ShawnFramework.CommonModule.AssetsSvc gen_to_be_invoked = (ShawnFramework.CommonModule.AssetsSvc)translator.FastGetCSObj(L, 1);
+            
+            
+			    int gen_param_count = LuaAPI.lua_gettop(L);
+            
+                if(gen_param_count == 3&& (LuaAPI.lua_isnil(L, 2) || LuaAPI.lua_type(L, 2) == LuaTypes.LUA_TSTRING)&& LuaTypes.LUA_TBOOLEAN == LuaAPI.lua_type(L, 3)) 
+                {
+                    string _path = LuaAPI.lua_tostring(L, 2);
+                    bool _cache = LuaAPI.lua_toboolean(L, 3);
+                    
+                        var gen_ret = gen_to_be_invoked.LoadSprite( _path, _cache );
+                        translator.Push(L, gen_ret);
+                    
+                    
+                    
+                    return 1;
+                }
+                if(gen_param_count == 2&& (LuaAPI.lua_isnil(L, 2) || LuaAPI.lua_type(L, 2) == LuaTypes.LUA_TSTRING)) 
+                {
+                    string _path = LuaAPI.lua_tostring(L, 2);
+                    
+                        var gen_ret = gen_to_be_invoked.LoadSprite( _path );
+                        translator.Push(L, gen_ret);
+                    
+                    
+                    
+                    return 1;
+                }
+                
+            } catch(System.Exception gen_e) {
+                return LuaAPI.luaL_error(L, "c# exception:" + gen_e);
+            }
+            
+            return LuaAPI.luaL_error(L, "invalid arguments to ShawnFramework.CommonModule.AssetsSvc.LoadSprite!");
             
         }
         
@@ -257,7 +303,7 @@ namespace XLua.CSObjectWrap
             
                 
                 {
-                    uint _heroID = LuaAPI.xlua_touint(L, 2);
+                    int _heroID = LuaAPI.xlua_tointeger(L, 2);
                     
                         var gen_ret = gen_to_be_invoked.GetHeroConfigByID( _heroID );
                         translator.Push(L, gen_ret);

@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -16,8 +17,6 @@ namespace ShawnFramework.ShawLog
         // 适用平台
         public static ILogger platform;
 
-        // 文件相关变量
-        private static StreamWriter streamWriter = null;
         // 保存路径文件夹
         private static DirectoryInfo logDirectory = null;
         private static int maxLogFileCount = 50;
@@ -330,6 +329,15 @@ namespace ShawnFramework.ShawLog
                 }
                 stream.Close();
             }
+        }
+
+        // 拿到所有日志文件(按时间顺序排列)
+        public List<FileInfo> GetAllLogFilesOrderByTime()
+        {
+            return logDirectory.GetFiles()
+                .Where(file => file.Extension == ".log")
+                .OrderBy(f => f.CreationTime.Ticks)
+                .ToList();
         }
         #endregion
     }

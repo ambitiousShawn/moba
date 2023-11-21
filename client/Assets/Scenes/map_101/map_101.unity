@@ -908,7 +908,7 @@ GameObject:
   - component: {fileID: 1055225270}
   - component: {fileID: 1055225271}
   m_Layer: 0
-  m_Name: FightManager
+  m_Name: '[FightManager]'
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

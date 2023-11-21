@@ -5,7 +5,7 @@ using UnityEngine;
 namespace ShawnFramework.ShawnPhysics
 {
 
-    public abstract class ShawColliderBase : MonoBehaviour
+    public abstract class ShawColliderBase
     {
         public string name;
         public ShawVector3 mPos;

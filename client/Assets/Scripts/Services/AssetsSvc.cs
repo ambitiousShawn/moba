@@ -31,6 +31,27 @@ namespace ShawnFramework.CommonModule
             prgCB?.Invoke();
         }
 
+        private Dictionary<string, Sprite> m_SpriteCache = new Dictionary<string, Sprite>();
+        /// <summary>
+        /// 加载精灵图像
+        /// </summary>
+        /// <param name="path"></param>
+        /// <param name="cache"></param>
+        /// <returns></returns>
+        public Sprite LoadSprite(string path, bool cache = false)
+        {
+            Sprite sprite = null;
+            if (!m_SpriteCache.TryGetValue(path, out sprite))
+            {
+                sprite = Resources.Load<Sprite>(path);
+                if (cache)
+                {
+                    m_SpriteCache.Add(path, sprite);
+                }
+            }
+            return sprite;
+        }
+
         private Action prgCB = null;
         /// <summary>
         /// 异步加载场景
@@ -138,7 +159,7 @@ namespace ShawnFramework.CommonModule
         /// </summary>
         /// <param name="heroID"></param>
         /// <returns></returns>
-        public UnitConfig GetHeroConfigByID(uint heroID)
+        public UnitConfig GetHeroConfigByID(int heroID)
         {
             switch (heroID)
             {

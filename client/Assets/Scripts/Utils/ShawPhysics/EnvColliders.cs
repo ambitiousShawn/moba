@@ -10,7 +10,7 @@ namespace ShawnFramework.ShawnPhysics
     ///     初始化时调用Init()方法
     ///     随后在FixedUpdate下调用 CalcColliderInteraction() 即可做 碰撞检测 + 速度矫正
     /// </summary>
-    public class EnvColliders : MonoBehaviour
+    public class EnvColliders
     {
         
         public List<ColliderConfig> colliderConfigLst;

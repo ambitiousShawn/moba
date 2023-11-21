@@ -1,14 +1,20 @@
 using GameProtocol;
+using ShawnFramework.CommonModule;
 using ShawnFramework.ShawLog;
 using ShawnFramework.ShawMath;
 using ShawnFramework.ShawnPhysics;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using XLua;
 
+[LuaCallCSharp]
 public class FightManager : MonoBehaviour
 {
     public static FightManager Instance;
+
+    Transform cameraFollowTarget = null; // 相机跟随目标
+    public bool IsFightTick = false;    // 是否开始战斗打点
 
     void Awake()
     {
@@ -16,6 +22,16 @@ public class FightManager : MonoBehaviour
     }
 
     List<ShawColliderBase> colliderLst; // 存储环境中所有碰撞体
+    List<HeroLogic> heroList = new List<HeroLogic>();
+    
+    /// <summary>
+    /// 外部获取所有环境碰撞
+    /// </summary>
+    /// <returns></returns>
+    public List<ShawColliderBase> GetAllEnvColliders()
+    {
+        return colliderLst;
+    }
 
     /// <summary>
     /// 初始化场景碰撞环境
@@ -81,17 +97,46 @@ public class FightManager : MonoBehaviour
         colliderLst = logicEnv.GetAllEnvColliders();
     }
 
-
+    /// <summary>
+    /// 初始化英雄单位
+    /// </summary>
+    /// <param name="battleHeroDatas"></param>
+    /// <param name="mapCfg"></param>
     public void InitHero(List<BattleHeroData> battleHeroDatas, MapConfig mapCfg)
     {
-
+        int cnt = battleHeroDatas.Count / 2;
+        for (int i = 0; i < cnt; i++)
+        {
+            HeroData hd = new HeroData
+            {
+                heroID = battleHeroDatas[i].heroID,
+                posIndex = i,
+                userName = battleHeroDatas[i].userName,
+                unitCfg = AssetsSvc.Instance.GetHeroConfigByID(battleHeroDatas[i].heroID),
+            };
+            HeroLogic hero;
+            if (i < cnt)
+            {
+                hd.teamType = ETeamType.Blue;
+                hd.bornPos = mapCfg.blueBornPos;
+                hero = new HeroLogic(hd);
+            }
+            else
+            {
+                hd.teamType = ETeamType.Red;
+                hd.bornPos = mapCfg.redBornPos;
+                hero = new HeroLogic(hd);
+            }
+            hero.LogicInit();
+            heroList.Add(hero);
+        }
     }
+    
     /// <summary>
-    /// 外部获取所有环境碰撞
+    /// 初始化相机
     /// </summary>
-    /// <returns></returns>
-    public List<ShawColliderBase> GetAllEnvColliders()
+    public void InitCamera(int posIndex)
     {
-        return colliderLst;
+        cameraFollowTarget = heroList[posIndex].mainViewUnit.transform;
     }
 }

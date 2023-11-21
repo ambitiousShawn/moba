@@ -1,8 +1,8 @@
 local ugui_loadpanel = require 'ui.battle.ugui_loadpanel'
+local ugui_playpanel = require 'ui.battle.ugui_playpanel' 
 local game_message   = require 'system.game_message'
 
 local system = {}
-local fight_manager = nil
 
 local mapID 
 local battleHeroDatas
@@ -34,10 +34,12 @@ function system:enter_battle()
         -- 拿到地图配置
         local mapCfg = AssetsSvc:GetMapConfigByID(mapID)
         -- 初始化场景和英雄
-        -- local fight_manager_go = GameObject.CreatePrimitive(PrimitiveType.Quad)
-        -- fight_manager = fight_manager_go:AddComponent('FightManager')
-        -- fight_manager:InitCollisionEnv()
-        -- fight_manager:InitHero(battleHeroDatas, mapCfg)
+        if FightManager == nil then
+            FightManager = CS.FightManager.Instance    
+        end
+        
+        FightManager:InitCollisionEnv()
+        FightManager:InitHero(battleHeroDatas, mapCfg)
 
         -- 加载完成后发送请求开始游戏
         local data = {
@@ -57,6 +59,16 @@ function NtfLoadPrgCallBack (msg)
         sum = sum + percentList[i] * 100
     end
     ugui_loadpanel:refresh_progress(sum / cnt)
+end
+
+-- 战斗开始的响应回调
+function RspBattleStart (msg)
+    -- 相机跟随初始化
+    FightManager:InitCamera(Launcher.SelfIndex)
+    -- UI管理(创建游戏UI)
+    WindowManager:open('ugui_playpanel')
+    ugui_loadpanel:close_self(true)
+    FightManager.IsFightTick = true -- 战斗开始
 end
 
 return system
