@@ -43,7 +43,7 @@ public class FightManager : MonoBehaviour
         Transform transEnvRoot = GameObject.Find("MapRoot/EnvCollider").transform;
         if (transEnvRoot == null)
         {
-            LogCore.Error($"未在场景中找到 {0}", "MapRoot/EnvCollider");
+            LogCore.Error($"未在场景中找到\"MapRoot/EnvCollider\" ");
         }
 
         List<ColliderConfig> envColliCfgLst = new List<ColliderConfig>();

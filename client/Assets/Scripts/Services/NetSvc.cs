@@ -27,8 +27,8 @@ namespace ShawnFramework.CommonModule
             msgPackQueue = new Queue<GameMsg>();
 
             KCPTool.LogFunc = LogCore.Log;
-            // KCPTool.WarnFunc = LogCore.Warn;
-            // KCPTool.ErrorFunc = LogCore.Error;
+            KCPTool.WarnFunc = LogCore.Warn;
+            KCPTool.ErrorFunc = LogCore.Error;
             KCPTool.ColorLogFunc = (color, msg) =>
             {
                 LogCore.ColorLog(msg, (ELogColor)color);

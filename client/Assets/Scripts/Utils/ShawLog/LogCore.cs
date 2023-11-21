@@ -132,14 +132,14 @@ namespace ShawnFramework.ShawLog
         /// </summary>
         /// <param name="msg">日志信息</param>
         /// <param name="args">通用参数</param>
-        public static void Warn(string msg, params object[] args)
+        public static void Warn(string msg)
         {
             if (!config.EnableLog)
             {
                 return;
             }
 
-            msg = DecorateLog(string.Format(msg, args));
+            msg = DecorateLog(string.Format(msg));
             platform.Warn(msg);
         }
 
@@ -148,14 +148,14 @@ namespace ShawnFramework.ShawLog
         /// </summary>
         /// <param name="msg">日志信息</param>
         /// <param name="args">通用参数</param>
-        public static void Error(string msg, params object[] args)
+        public static void Error(string msg)
         {
             if (!config.EnableLog)
             {
                 return;
             }
 
-            msg = DecorateLog(string.Format(msg, args));
+            msg = DecorateLog(string.Format(msg));
             platform.Error(msg);
         }
 
