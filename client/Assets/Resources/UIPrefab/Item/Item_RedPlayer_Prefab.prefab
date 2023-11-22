@@ -84,6 +84,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 296329028390510533}
+  - component: {fileID: 6040816998014532533}
   m_Layer: 5
   m_Name: Item_RedPlayer_Prefab
   m_TagString: Untagged
@@ -113,6 +114,26 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 250, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &6040816998014532533
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1459739182956814983}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 66a914cff69b86f49899fa003793aec1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  LuaPath: ui.lobby.item_blue_player
+  injections:
+  - name: img_member_icon
+    value: {fileID: 436023707788195062}
+    type: Image
+  - name: text_stage
+    value: {fileID: 3431303712129702073}
+    type: Text
 --- !u!1 &3431303712129702073
 GameObject:
   m_ObjectHideFlags: 0

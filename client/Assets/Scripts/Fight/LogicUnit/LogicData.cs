@@ -97,13 +97,13 @@ public abstract class MainLogicUnit : BaseLogicUnit
 
         // 表现层初始化
         GameObject go = AssetsSvc.Instance.LoadPrefab(pathPrefix + "/" + unitData.unitCfg.resName);
-        mainViewUnit = go.AddComponent<HeroView>();
-        if (mainViewUnit == null )
-        {
-            LogCore.Error("Get MainViewUnit Error:" + unitName);
-        }
-        mainViewUnit.Init(this);
-        stateType = EUnitStateType.Alive;
+        // mainViewUnit = go.AddComponent<HeroView>();
+        // if (mainViewUnit == null )
+        // {
+        //     LogCore.Error("Get MainViewUnit Error:" + unitName);
+        // }
+        // mainViewUnit.Init(this);
+        // stateType = EUnitStateType.Alive;
     }
 
     public override void LogicTick()

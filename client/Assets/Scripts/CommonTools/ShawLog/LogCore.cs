@@ -80,6 +80,7 @@ namespace ShawnFramework.ShawLog
                     }
                 });
             }
+            ColorLog("LogCore日志模块已初始化！", ELogColor.Orange);
         }
 
         #region 对外调用的API

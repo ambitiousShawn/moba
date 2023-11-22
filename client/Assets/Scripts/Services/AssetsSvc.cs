@@ -1,15 +1,29 @@
+using ShawnFramework.ShawHotUpdate;
 using ShawnFramework.ShawMath;
 using ShawnFramework.ShawnPhysics;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Numerics;
 using UnityEngine;
+using UnityEngine.Purchasing;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using XLua;
 
 namespace ShawnFramework.CommonModule
 {
+    /// <summary>
+    /// 资产管理方式
+    /// </summary>
+    [LuaCallCSharp]
+    public enum EAssetsType
+    {
+        Resources = 0,
+        AssetBundle = 1,
+        Addressable = 2,
+    }
+
     /// <summary>
     /// 资产管理
     /// </summary>
@@ -18,9 +32,6 @@ namespace ShawnFramework.CommonModule
     {
         public static AssetsSvc Instance;
 
-        public int test = 5;
-
-        public EAssetsType type = EAssetsType.Resources;
         public void InitService()
         {
             Instance = this;
@@ -29,6 +40,38 @@ namespace ShawnFramework.CommonModule
         private void Update()
         {
             prgCB?.Invoke();
+        }
+
+        private Dictionary<string, GameObject> m_PanelCache = new Dictionary<string, GameObject>();
+        /// <summary>
+        /// 资源加载通用方式
+        /// </summary>
+        /// <param name="arg1">if Resources:pathWithoutName >>> if AssetBundle:packageName </param>
+        /// <param name="assetName">if Resources:assetName >>> if AssetBundle:assetName </param>
+        /// <param name="assetsType">资源管理的方式</param>
+        /// <param name="cache">是否启用缓存</param>
+        /// <returns></returns>
+        public GameObject LoadUIPrefab(string arg1, string assetName, int type, bool cache = false)
+        {
+            GameObject panel = null;
+            EAssetsType assetsType = (EAssetsType)type;
+            if (m_PanelCache.TryGetValue(assetName, out panel))
+            {
+                return panel;
+            }
+            switch (assetsType)
+            {
+                case EAssetsType.Resources:
+                    panel = Resources.Load<GameObject>($"{arg1}/{assetName}");
+                    break;
+                case EAssetsType.AssetBundle:
+                    panel = AssetBundleMgr.Instance.LoadAsset<GameObject>(arg1, assetName);
+                    break;
+                case EAssetsType.Addressable:
+                    break;
+            }
+
+            return panel;
         }
 
         private Dictionary<string, Sprite> m_SpriteCache = new Dictionary<string, Sprite>();
@@ -138,7 +181,7 @@ namespace ShawnFramework.CommonModule
                 return audio;
 
             // TODO:资源加载
-            switch (type)
+/*            switch (type)
             {
                 case EAssetsType.Resources:
                     audio = Resources.Load<AudioClip>(path);
@@ -147,7 +190,7 @@ namespace ShawnFramework.CommonModule
                     break;
                 case EAssetsType.Addressable:
                     break;
-            }
+            }*/
 
             _cacheDic.Add(path, audio);
 
@@ -391,13 +434,6 @@ namespace ShawnFramework.CommonModule
                     };
             }
             return null;
-        }
-
-        public enum EAssetsType
-        {
-            Resources,
-            AssetBundle,
-            Addressable,
         }
     }
 }

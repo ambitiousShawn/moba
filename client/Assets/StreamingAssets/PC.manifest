@@ -1,0 +1,13 @@
+ManifestFileVersion: 0
+CRC: 3072832482
+AssetBundleManifest:
+  AssetBundleInfos:
+    Info_0:
+      Name: login
+      Dependencies: {}
+    Info_1:
+      Name: lobby
+      Dependencies: {}
+    Info_2:
+      Name: charactor
+      Dependencies: {}

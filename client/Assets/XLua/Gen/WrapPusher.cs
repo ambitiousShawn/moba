@@ -38,6 +38,7 @@ namespace XLua
 				translator.RegisterPushAndGetAndUpdate<EUnitType>(translator.PushEUnitType, translator.Get, translator.UpdateEUnitType);
 				translator.RegisterPushAndGetAndUpdate<EUnitStateType>(translator.PushEUnitStateType, translator.Get, translator.UpdateEUnitStateType);
 				translator.RegisterPushAndGetAndUpdate<Tutorial.TestEnum>(translator.PushTutorialTestEnum, translator.Get, translator.UpdateTutorialTestEnum);
+				translator.RegisterPushAndGetAndUpdate<ShawnFramework.CommonModule.EAssetsType>(translator.PushShawnFrameworkCommonModuleEAssetsType, translator.Get, translator.UpdateShawnFrameworkCommonModuleEAssetsType);
 				translator.RegisterPushAndGetAndUpdate<Tutorial.DerivedClass.TestEnumInner>(translator.PushTutorialDerivedClassTestEnumInner, translator.Get, translator.UpdateTutorialDerivedClassTestEnumInner);
 			
 			}
@@ -911,6 +912,90 @@ namespace XLua
             }
         }
         
+        int ShawnFrameworkCommonModuleEAssetsType_TypeID = -1;
+		int ShawnFrameworkCommonModuleEAssetsType_EnumRef = -1;
+        
+        public void PushShawnFrameworkCommonModuleEAssetsType(RealStatePtr L, ShawnFramework.CommonModule.EAssetsType val)
+        {
+            if (ShawnFrameworkCommonModuleEAssetsType_TypeID == -1)
+            {
+			    bool is_first;
+                ShawnFrameworkCommonModuleEAssetsType_TypeID = getTypeId(L, typeof(ShawnFramework.CommonModule.EAssetsType), out is_first);
+				
+				if (ShawnFrameworkCommonModuleEAssetsType_EnumRef == -1)
+				{
+				    Utils.LoadCSTable(L, typeof(ShawnFramework.CommonModule.EAssetsType));
+				    ShawnFrameworkCommonModuleEAssetsType_EnumRef = LuaAPI.luaL_ref(L, LuaIndexes.LUA_REGISTRYINDEX);
+				}
+				
+            }
+			
+			if (LuaAPI.xlua_tryget_cachedud(L, (int)val, ShawnFrameworkCommonModuleEAssetsType_EnumRef) == 1)
+            {
+			    return;
+			}
+			
+            IntPtr buff = LuaAPI.xlua_pushstruct(L, 4, ShawnFrameworkCommonModuleEAssetsType_TypeID);
+            if (!CopyByValue.Pack(buff, 0, (int)val))
+            {
+                throw new Exception("pack fail fail for ShawnFramework.CommonModule.EAssetsType ,value="+val);
+            }
+			
+			LuaAPI.lua_getref(L, ShawnFrameworkCommonModuleEAssetsType_EnumRef);
+			LuaAPI.lua_pushvalue(L, -2);
+			LuaAPI.xlua_rawseti(L, -2, (int)val);
+			LuaAPI.lua_pop(L, 1);
+			
+        }
+		
+        public void Get(RealStatePtr L, int index, out ShawnFramework.CommonModule.EAssetsType val)
+        {
+		    LuaTypes type = LuaAPI.lua_type(L, index);
+            if (type == LuaTypes.LUA_TUSERDATA )
+            {
+			    if (LuaAPI.xlua_gettypeid(L, index) != ShawnFrameworkCommonModuleEAssetsType_TypeID)
+				{
+				    throw new Exception("invalid userdata for ShawnFramework.CommonModule.EAssetsType");
+				}
+				
+                IntPtr buff = LuaAPI.lua_touserdata(L, index);
+				int e;
+                if (!CopyByValue.UnPack(buff, 0, out e))
+                {
+                    throw new Exception("unpack fail for ShawnFramework.CommonModule.EAssetsType");
+                }
+				val = (ShawnFramework.CommonModule.EAssetsType)e;
+                
+            }
+            else
+            {
+                val = (ShawnFramework.CommonModule.EAssetsType)objectCasters.GetCaster(typeof(ShawnFramework.CommonModule.EAssetsType))(L, index, null);
+            }
+        }
+		
+        public void UpdateShawnFrameworkCommonModuleEAssetsType(RealStatePtr L, int index, ShawnFramework.CommonModule.EAssetsType val)
+        {
+		    
+            if (LuaAPI.lua_type(L, index) == LuaTypes.LUA_TUSERDATA)
+            {
+			    if (LuaAPI.xlua_gettypeid(L, index) != ShawnFrameworkCommonModuleEAssetsType_TypeID)
+				{
+				    throw new Exception("invalid userdata for ShawnFramework.CommonModule.EAssetsType");
+				}
+				
+                IntPtr buff = LuaAPI.lua_touserdata(L, index);
+                if (!CopyByValue.Pack(buff, 0,  (int)val))
+                {
+                    throw new Exception("pack fail for ShawnFramework.CommonModule.EAssetsType ,value="+val);
+                }
+            }
+			
+            else
+            {
+                throw new Exception("try to update a data with lua type:" + LuaAPI.lua_type(L, index));
+            }
+        }
+        
         int TutorialDerivedClassTestEnumInner_TypeID = -1;
 		int TutorialDerivedClassTestEnumInner_EnumRef = -1;
         
@@ -1078,6 +1163,12 @@ namespace XLua
 				translator.PushTutorialTestEnum(L, array[index]);
 				return true;
 			}
+			else if (type == typeof(ShawnFramework.CommonModule.EAssetsType[]))
+			{
+			    ShawnFramework.CommonModule.EAssetsType[] array = obj as ShawnFramework.CommonModule.EAssetsType[];
+				translator.PushShawnFrameworkCommonModuleEAssetsType(L, array[index]);
+				return true;
+			}
 			else if (type == typeof(Tutorial.DerivedClass.TestEnumInner[]))
 			{
 			    Tutorial.DerivedClass.TestEnumInner[] array = obj as Tutorial.DerivedClass.TestEnumInner[];
@@ -1159,6 +1250,12 @@ namespace XLua
 			else if (type == typeof(Tutorial.TestEnum[]))
 			{
 			    Tutorial.TestEnum[] array = obj as Tutorial.TestEnum[];
+				translator.Get(L, obj_idx, out array[array_idx]);
+				return true;
+			}
+			else if (type == typeof(ShawnFramework.CommonModule.EAssetsType[]))
+			{
+			    ShawnFramework.CommonModule.EAssetsType[] array = obj as ShawnFramework.CommonModule.EAssetsType[];
 				translator.Get(L, obj_idx, out array[array_idx]);
 				return true;
 			}

@@ -266,6 +266,70 @@ namespace XLua.CSObjectWrap
 		}
 	}
     
+    public class ShawnFrameworkCommonModuleEAssetsTypeWrap
+    {
+		public static void __Register(RealStatePtr L)
+        {
+		    ObjectTranslator translator = ObjectTranslatorPool.Instance.Find(L);
+		    Utils.BeginObjectRegister(typeof(ShawnFramework.CommonModule.EAssetsType), L, translator, 0, 0, 0, 0);
+			Utils.EndObjectRegister(typeof(ShawnFramework.CommonModule.EAssetsType), L, translator, null, null, null, null, null);
+			
+			Utils.BeginClassRegister(typeof(ShawnFramework.CommonModule.EAssetsType), L, null, 4, 0, 0);
+
+            
+            Utils.RegisterObject(L, translator, Utils.CLS_IDX, "Resources", ShawnFramework.CommonModule.EAssetsType.Resources);
+            
+            Utils.RegisterObject(L, translator, Utils.CLS_IDX, "AssetBundle", ShawnFramework.CommonModule.EAssetsType.AssetBundle);
+            
+            Utils.RegisterObject(L, translator, Utils.CLS_IDX, "Addressable", ShawnFramework.CommonModule.EAssetsType.Addressable);
+            
+
+			Utils.RegisterFunc(L, Utils.CLS_IDX, "__CastFrom", __CastFrom);
+            
+            Utils.EndClassRegister(typeof(ShawnFramework.CommonModule.EAssetsType), L, translator);
+        }
+		
+		[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
+        static int __CastFrom(RealStatePtr L)
+		{
+			ObjectTranslator translator = ObjectTranslatorPool.Instance.Find(L);
+			LuaTypes lua_type = LuaAPI.lua_type(L, 1);
+            if (lua_type == LuaTypes.LUA_TNUMBER)
+            {
+                translator.PushShawnFrameworkCommonModuleEAssetsType(L, (ShawnFramework.CommonModule.EAssetsType)LuaAPI.xlua_tointeger(L, 1));
+            }
+			
+            else if(lua_type == LuaTypes.LUA_TSTRING)
+            {
+
+			    if (LuaAPI.xlua_is_eq_str(L, 1, "Resources"))
+                {
+                    translator.PushShawnFrameworkCommonModuleEAssetsType(L, ShawnFramework.CommonModule.EAssetsType.Resources);
+                }
+				else if (LuaAPI.xlua_is_eq_str(L, 1, "AssetBundle"))
+                {
+                    translator.PushShawnFrameworkCommonModuleEAssetsType(L, ShawnFramework.CommonModule.EAssetsType.AssetBundle);
+                }
+				else if (LuaAPI.xlua_is_eq_str(L, 1, "Addressable"))
+                {
+                    translator.PushShawnFrameworkCommonModuleEAssetsType(L, ShawnFramework.CommonModule.EAssetsType.Addressable);
+                }
+				else
+                {
+                    return LuaAPI.luaL_error(L, "invalid string for ShawnFramework.CommonModule.EAssetsType!");
+                }
+
+            }
+			
+            else
+            {
+                return LuaAPI.luaL_error(L, "invalid lua type for ShawnFramework.CommonModule.EAssetsType! Expect number or string, got + " + lua_type);
+            }
+
+            return 1;
+		}
+	}
+    
     public class TutorialDerivedClassTestEnumInnerWrap
     {
 		public static void __Register(RealStatePtr L)

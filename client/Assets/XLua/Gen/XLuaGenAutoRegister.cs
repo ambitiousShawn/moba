@@ -58,7 +58,13 @@ namespace XLua.CSObjectWrap
             translator.DelayWrapLoader(typeof(Tutorial.DerivedClassExtensions), TutorialDerivedClassExtensionsWrap.__Register);
         
         
+            translator.DelayWrapLoader(typeof(ShawnFramework.CommonModule.EAssetsType), ShawnFrameworkCommonModuleEAssetsTypeWrap.__Register);
+        
+        
             translator.DelayWrapLoader(typeof(ShawnFramework.CommonModule.AssetsSvc), ShawnFrameworkCommonModuleAssetsSvcWrap.__Register);
+        
+        
+            translator.DelayWrapLoader(typeof(ShawnFramework.ShawHotUpdate.AssetBundleMgr), ShawnFrameworkShawHotUpdateAssetBundleMgrWrap.__Register);
         
         
             translator.DelayWrapLoader(typeof(Tutorial.DerivedClass.TestEnumInner), TutorialDerivedClassTestEnumInnerWrap.__Register);

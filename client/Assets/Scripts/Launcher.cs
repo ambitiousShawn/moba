@@ -1,6 +1,7 @@
 // Demo启动类
 using GameProtocol;
 using ShawnFramework.CommonModule;
+using ShawnFramework.ShawHotUpdate;
 using ShawnFramework.ShawLog;
 using System.Collections.Generic;
 using UnityEngine;
@@ -67,6 +68,19 @@ public class Launcher : MonoBehaviour
             Type = EShawLogType.Unity,
         };
         LogCore.InitSettings(config);
+
+        // 初始化资源管理
+        AssetBundleMgr.InitManager(this);
+        // 初始化热更新流程
+        HotUpdateMgr.InitManager(this);
+        HotUpdateMgr.Instance.HotUpdate((isOver) =>
+        {
+            LogCore.ColorLog("资产热更新已完成！", ELogColor.Orange);
+        }, (info) =>
+        {
+
+        });
+
         DontDestroyOnLoad(this);
 
         // 初始化Lua模块

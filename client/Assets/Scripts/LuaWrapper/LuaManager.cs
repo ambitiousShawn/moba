@@ -1,4 +1,5 @@
 
+using ShawnFramework.ShawLog;
 using ShawnFramework.Singleton;
 using System.IO;
 using System.Runtime.InteropServices;
@@ -50,7 +51,7 @@ public class LuaManager : Singleton<LuaManager>
 //         }
 // #endif
 // #if UNITY_EDITOR || UNITY_STANDALONE_WIN
-        string realPath = Application.streamingAssetsPath + "/Lua/" + filepath.Replace(".", "/");
+        string realPath = Application.dataPath + "/LuaScript/" + filepath.Replace(".", "/");
         if (File.Exists($"{realPath}.lua"))
         {
             fileContent = File.ReadAllBytes($"{realPath}.lua");
