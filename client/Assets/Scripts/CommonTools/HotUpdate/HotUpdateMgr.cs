@@ -61,20 +61,20 @@ namespace ShawnFramework.ShawHotUpdate
         /// </summary>
         /// <param name="overCallback">结束回调</param>
         /// <param name="updateInfoCallBack">更新资源回调</param>
-        public void HotUpdate(UnityAction<bool> overCallback, UnityAction<string> updateInfoCallBack)
+        public void HotUpdate(UnityAction<bool> overCallback, UnityAction<string, float> updateInfoCallBack)
         {
             remoteAssets.Clear();
             localAssets.Clear();
             downloadList.Clear();
 
             // 下载远端资源对比文件
-            updateInfoCallBack("正在下载远端版本对比文件");
+            updateInfoCallBack("正在下载远端版本对比文件", 0.05f);
             DownloadRemoteVersionCompareFile((isOver) =>
             {
                 if (isOver)
                 {
                     string RemoteVCContent = File.ReadAllText(DownloadPath + "VersionCompare_Remote.txt");
-                    updateInfoCallBack("正在解析远端版本对比文件");
+                    updateInfoCallBack("正在解析远端版本对比文件", 0.12f);
                     AnalyzeRemoteVCompare(RemoteVCContent, remoteAssets);
 
                     // 解析本地资源对比文件
@@ -82,7 +82,7 @@ namespace ShawnFramework.ShawHotUpdate
                     {
                         if (isOver)
                         {
-                            updateInfoCallBack("正在对比本地/远端资源文件");
+                            updateInfoCallBack("正在对比本地/远端资源文件", 0.18f);
                             foreach (string assetName in  remoteAssets.Keys)
                             {
                                 if (!localAssets.ContainsKey(assetName))
@@ -101,7 +101,7 @@ namespace ShawnFramework.ShawHotUpdate
                                     localAssets.Remove(assetName); 
                                 }
                             }
-                            updateInfoCallBack("正在删除无用的资源文件");
+                            updateInfoCallBack("正在删除无用的资源文件", 0.3f);
                             foreach (string assetName in localAssets.Keys)
                             {
                                 if (File.Exists(DownloadPath + assetName))
@@ -109,7 +109,7 @@ namespace ShawnFramework.ShawHotUpdate
                                     File.Delete(DownloadPath + assetName);
                                 }
                             }
-                            updateInfoCallBack("正在下载和更新AB包文件");
+                            updateInfoCallBack("正在下载和更新AB包文件", 0.5f);
                             DownLoadMissingAsset((isOver) =>
                             {
                                 if (isOver)
@@ -205,7 +205,7 @@ namespace ShawnFramework.ShawHotUpdate
         }
 
         // 下载列表中待下载资源
-        private async void DownLoadMissingAsset(UnityAction<bool> overCallBack, UnityAction<string> updatePro)
+        private async void DownLoadMissingAsset(UnityAction<bool> overCallBack, UnityAction<string, float> updatePro)
         {
             string localPath = DownloadPath;
             //是否下载成功
@@ -230,7 +230,7 @@ namespace ShawnFramework.ShawHotUpdate
                     });
                     if (isOver)
                     {
-                        updatePro(++downLoadOverNum + "/" + downLoadMaxNum);
+                        updatePro(++downLoadOverNum + "/" + downLoadMaxNum, 0.5f + (downLoadOverNum / (float)downLoadMaxNum) / 2);
                         tempList.Add(downloadList[i]);//下载成功记录下来
                     }
                 }

@@ -1,9 +1,11 @@
 ﻿using ShawnFramework.ShawLog;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using UnityEngine;
 using UnityEngine.Events;
 using XLua;
+using static UnityEngine.GraphicsBuffer;
 
 namespace ShawnFramework.ShawHotUpdate
 {
@@ -20,9 +22,10 @@ namespace ShawnFramework.ShawHotUpdate
         private AssetBundleManifest manifest = null;
         private Dictionary<string, AssetBundle> nameToABDic = new Dictionary<string, AssetBundle>();
         private MonoBehaviour mono;
+
+        public static string SteamingAssetsPath = Application.streamingAssetsPath;
+        public static string PersistentDataPath = Application.persistentDataPath;
         
-        // 获取AB包加载路径
-        public static string LoadPath = Application.streamingAssetsPath + "/";
         // 根目录名称
         public static string RootFolderName
         {
@@ -39,16 +42,22 @@ namespace ShawnFramework.ShawHotUpdate
         }
 
         /// <summary>
+        /// AssetBundleMgr资源读取规则：
+        ///     优先级1：从 persistantDataPath 中读取 asset(热更新资源路径)
+        ///     优先级2：从 streamingAssetsPath 中读取 asset (默认资源路径)
+        /// </summary>
+
+        /// <summary>
         /// 初始化AB包管理器
         /// </summary>
         public static void InitManager(MonoBehaviour mono)
         {
             instance = new AssetBundleMgr();
             instance.mono = mono;
-            // 加载主包和配置
+            // 加载主包和配置(主包在默认资源)
             if (instance.mainABPackage == null)
             {
-                instance.mainABPackage = AssetBundle.LoadFromFile(LoadPath + RootFolderName);
+                instance.mainABPackage = AssetBundle.LoadFromFile($"{SteamingAssetsPath}/{RootFolderName}");
                 instance.manifest = instance.mainABPackage.LoadAsset<AssetBundleManifest>("AssetBundleManifest");
             }
             LogCore.ColorLog("AssetBundle管理模块已初始化！", ELogColor.Orange);
@@ -70,51 +79,34 @@ namespace ShawnFramework.ShawHotUpdate
                 string dependence = dependencies[i];
                 if (!nameToABDic.ContainsKey(dependence))
                 {
-                    AssetBundle target = AssetBundle.LoadFromFile (LoadPath + dependence);
+                    AssetBundle target;
+                    if (File.Exists($"{PersistentDataPath}/{dependence}"))
+                    {
+                        target = AssetBundle.LoadFromFile($"{PersistentDataPath}/{dependence}");
+                    }
+                    else
+                    {
+                        target = AssetBundle.LoadFromFile($"{SteamingAssetsPath}/{dependence}");
+                    }
                     nameToABDic.Add(dependence, target);
                 }
             }
             // 加载目标包
             if (!nameToABDic.ContainsKey(packageName))
             {
-                AssetBundle target = AssetBundle.LoadFromFile(LoadPath + packageName);
+                AssetBundle target;
+                if (File.Exists($"{PersistentDataPath}/{packageName}"))
+                {
+                    target = AssetBundle.LoadFromFile($"{PersistentDataPath}/{packageName}");
+                }
+                else
+                {
+                    target = AssetBundle.LoadFromFile($"{SteamingAssetsPath}/{packageName}");
+                }
                 nameToABDic.Add(packageName, target) ;
             }
 
             T obj = nameToABDic[packageName].LoadAsset<T>(resName);
-            if (obj is GameObject)
-                return GameObject.Instantiate(obj);
-            else
-                return obj;
-        }
-
-        /// <summary>
-        /// Type同步加载指定资源
-        /// </summary>
-        /// <param name="abName"></param>
-        /// <param name="resName"></param>
-        /// <param name="type"></param>
-        /// <returns></returns>
-        public Object LoadAsset(string packageName, string resName, System.Type type)
-        {
-            // 加载依赖包
-            string[] dependencies = manifest.GetAllDependencies(packageName);
-            for (int i = 0; i < dependencies.Length; i++)
-            {
-                string dependence = dependencies[i];
-                if (!nameToABDic.ContainsKey(dependence))
-                {
-                    AssetBundle target = AssetBundle.LoadFromFile(LoadPath + dependence);
-                    nameToABDic.Add(dependence, target);
-                }
-            }
-            // 加载目标包
-            if (!nameToABDic.ContainsKey(packageName))
-            {
-                AssetBundle target = AssetBundle.LoadFromFile(LoadPath + packageName);
-                nameToABDic.Add(packageName, target) ;
-            }
-            Object obj = nameToABDic[packageName].LoadAsset(resName, type);
             if (obj is GameObject)
                 return GameObject.Instantiate(obj);
             else
@@ -141,14 +133,30 @@ namespace ShawnFramework.ShawHotUpdate
                 string dependence = dependencies[i];
                 if (!nameToABDic.ContainsKey(dependence))
                 {
-                    AssetBundle target = AssetBundle.LoadFromFile(LoadPath + dependence);
+                    AssetBundle target;
+                    if (File.Exists($"{PersistentDataPath}/{dependence}"))
+                    {
+                        target = AssetBundle.LoadFromFile($"{PersistentDataPath}/{dependence}");
+                    }
+                    else
+                    {
+                        target = AssetBundle.LoadFromFile($"{SteamingAssetsPath}/{dependence}");
+                    }
                     nameToABDic.Add(dependence, target);
                 }
             }
             //加载目标包
             if (!nameToABDic.ContainsKey(packageName))
             {
-                AssetBundle target = AssetBundle.LoadFromFile(LoadPath + packageName);
+                AssetBundle target;
+                if (File.Exists($"{PersistentDataPath}/{packageName}"))
+                {
+                    target = AssetBundle.LoadFromFile($"{PersistentDataPath}/{packageName}");
+                }
+                else
+                {
+                    target = AssetBundle.LoadFromFile($"{SteamingAssetsPath}/{packageName}");
+                }
                 nameToABDic.Add(packageName, target);
             }
             //异步加载包中资源
@@ -159,46 +167,6 @@ namespace ShawnFramework.ShawHotUpdate
                 callBack(GameObject.Instantiate(abq.asset) as T);
             else
                 callBack(abq.asset as T);
-        }
-
-        /// <summary>
-        /// Type异步加载资源
-        /// </summary>
-        /// <param name="abName"></param>
-        /// <param name="resName"></param>
-        /// <param name="type"></param>
-        /// <param name="callBack"></param>
-        public void LoadAssetAsync(string packageName, string resName, System.Type type, UnityAction<Object> callBack)
-        {
-            mono.StartCoroutine(ReallyLoadResAsync(packageName, resName, type, callBack));
-        }
-        private IEnumerator ReallyLoadResAsync(string packageName, string resName, System.Type type, UnityAction<Object> callBack)
-        {
-            // 加载依赖包
-            string[] dependencies = manifest.GetAllDependencies(packageName);
-            for (int i = 0; i < dependencies.Length; i++)
-            {
-                string dependence = dependencies[i];
-                if (!nameToABDic.ContainsKey(dependence))
-                {
-                    AssetBundle target = AssetBundle.LoadFromFile(LoadPath + dependence);
-                    nameToABDic.Add(dependence, target);
-                }
-            }
-            //加载目标包
-            if (!nameToABDic.ContainsKey(packageName))
-            {
-                AssetBundle target = AssetBundle.LoadFromFile(LoadPath + packageName);
-                nameToABDic.Add(packageName, target);
-            }
-            //异步加载包中资源
-            AssetBundleRequest abq = nameToABDic[packageName].LoadAssetAsync(resName, type);
-            yield return abq;
-
-            if (abq.asset is GameObject)
-                callBack(GameObject.Instantiate(abq.asset));
-            else
-                callBack(abq.asset);
         }
 
         //卸载AB包的方法

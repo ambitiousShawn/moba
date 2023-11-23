@@ -76,21 +76,21 @@ public class Launcher : MonoBehaviour
         HotUpdateMgr.Instance.HotUpdate((isOver) =>
         {
             LogCore.ColorLog("资产热更新已完成！", ELogColor.Orange);
-        }, (info) =>
-        {
 
+            // 初始化Lua模块
+            LuaManager.CreateSingletonInstance();
+            LuaManager.Instance.GlobalLuaEnv.DoString("require 'lua_enter'");
+        }, (info, progress) =>
+        {
+            LogCore.ColorLog($"{info},进度: {progress * 100} %", ELogColor.Cyan);
         });
 
         DontDestroyOnLoad(this);
-
-        // 初始化Lua模块
-        LuaManager.CreateSingletonInstance();
     }
 
     private void Start()
     {
         InitService();
-        LuaManager.Instance.GlobalLuaEnv.DoString("require 'lua_enter'");
     }
 
     private AssetsSvc _assetsSvc;

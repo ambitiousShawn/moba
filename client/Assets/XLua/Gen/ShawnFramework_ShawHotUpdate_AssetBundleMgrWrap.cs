@@ -21,10 +21,8 @@ namespace XLua.CSObjectWrap
         {
 			ObjectTranslator translator = ObjectTranslatorPool.Instance.Find(L);
 			System.Type type = typeof(ShawnFramework.ShawHotUpdate.AssetBundleMgr);
-			Utils.BeginObjectRegister(type, L, translator, 0, 4, 0, 0);
+			Utils.BeginObjectRegister(type, L, translator, 0, 2, 0, 0);
 			
-			Utils.RegisterFunc(L, Utils.METHOD_IDX, "LoadAsset", _m_LoadAsset);
-			Utils.RegisterFunc(L, Utils.METHOD_IDX, "LoadAssetAsync", _m_LoadAssetAsync);
 			Utils.RegisterFunc(L, Utils.METHOD_IDX, "UnLoadAB", _m_UnLoadAB);
 			Utils.RegisterFunc(L, Utils.METHOD_IDX, "ClearAB", _m_ClearAB);
 			
@@ -35,16 +33,18 @@ namespace XLua.CSObjectWrap
 			Utils.EndObjectRegister(type, L, translator, null, null,
 			    null, null, null);
 
-		    Utils.BeginClassRegister(type, L, __CreateInstance, 2, 3, 1);
-			Utils.RegisterFunc(L, Utils.CLS_IDX, "InitManager", _m_InitAssetBundle_xlua_st_);
+		    Utils.BeginClassRegister(type, L, __CreateInstance, 2, 4, 2);
+			Utils.RegisterFunc(L, Utils.CLS_IDX, "InitManager", _m_InitManager_xlua_st_);
             
 			
             
 			Utils.RegisterFunc(L, Utils.CLS_GETTER_IDX, "Instance", _g_get_Instance);
             Utils.RegisterFunc(L, Utils.CLS_GETTER_IDX, "RootFolderName", _g_get_RootFolderName);
-            Utils.RegisterFunc(L, Utils.CLS_GETTER_IDX, "LoadPath", _g_get_LoadPath);
+            Utils.RegisterFunc(L, Utils.CLS_GETTER_IDX, "SteamingAssetsPath", _g_get_SteamingAssetsPath);
+            Utils.RegisterFunc(L, Utils.CLS_GETTER_IDX, "PersistentDataPath", _g_get_PersistentDataPath);
             
-			Utils.RegisterFunc(L, Utils.CLS_SETTER_IDX, "LoadPath", _s_set_LoadPath);
+			Utils.RegisterFunc(L, Utils.CLS_SETTER_IDX, "SteamingAssetsPath", _s_set_SteamingAssetsPath);
+            Utils.RegisterFunc(L, Utils.CLS_SETTER_IDX, "PersistentDataPath", _s_set_PersistentDataPath);
             
 			
 			Utils.EndClassRegister(type, L, translator);
@@ -81,7 +81,7 @@ namespace XLua.CSObjectWrap
         
         
         [MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
-        static int _m_InitAssetBundle_xlua_st_(RealStatePtr L)
+        static int _m_InitManager_xlua_st_(RealStatePtr L)
         {
 		    try {
             
@@ -94,68 +94,6 @@ namespace XLua.CSObjectWrap
                     UnityEngine.MonoBehaviour _mono = (UnityEngine.MonoBehaviour)translator.GetObject(L, 1, typeof(UnityEngine.MonoBehaviour));
                     
                     ShawnFramework.ShawHotUpdate.AssetBundleMgr.InitManager( _mono );
-                    
-                    
-                    
-                    return 0;
-                }
-                
-            } catch(System.Exception gen_e) {
-                return LuaAPI.luaL_error(L, "c# exception:" + gen_e);
-            }
-            
-        }
-        
-        [MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
-        static int _m_LoadAsset(RealStatePtr L)
-        {
-		    try {
-            
-                ObjectTranslator translator = ObjectTranslatorPool.Instance.Find(L);
-            
-            
-                ShawnFramework.ShawHotUpdate.AssetBundleMgr gen_to_be_invoked = (ShawnFramework.ShawHotUpdate.AssetBundleMgr)translator.FastGetCSObj(L, 1);
-            
-            
-                
-                {
-                    string _packageName = LuaAPI.lua_tostring(L, 2);
-                    string _resName = LuaAPI.lua_tostring(L, 3);
-                    System.Type _type = (System.Type)translator.GetObject(L, 4, typeof(System.Type));
-                    
-                        var gen_ret = gen_to_be_invoked.LoadAsset( _packageName, _resName, _type );
-                        translator.Push(L, gen_ret);
-                    
-                    
-                    
-                    return 1;
-                }
-                
-            } catch(System.Exception gen_e) {
-                return LuaAPI.luaL_error(L, "c# exception:" + gen_e);
-            }
-            
-        }
-        
-        [MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
-        static int _m_LoadAssetAsync(RealStatePtr L)
-        {
-		    try {
-            
-                ObjectTranslator translator = ObjectTranslatorPool.Instance.Find(L);
-            
-            
-                ShawnFramework.ShawHotUpdate.AssetBundleMgr gen_to_be_invoked = (ShawnFramework.ShawHotUpdate.AssetBundleMgr)translator.FastGetCSObj(L, 1);
-            
-            
-                
-                {
-                    string _packageName = LuaAPI.lua_tostring(L, 2);
-                    string _resName = LuaAPI.lua_tostring(L, 3);
-                    System.Type _type = (System.Type)translator.GetObject(L, 4, typeof(System.Type));
-                    UnityEngine.Events.UnityAction<UnityEngine.Object> _callBack = translator.GetDelegate<UnityEngine.Events.UnityAction<UnityEngine.Object>>(L, 5);
-                    
-                    gen_to_be_invoked.LoadAssetAsync( _packageName, _resName, _type, _callBack );
                     
                     
                     
@@ -251,11 +189,23 @@ namespace XLua.CSObjectWrap
         }
         
         [MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
-        static int _g_get_LoadPath(RealStatePtr L)
+        static int _g_get_SteamingAssetsPath(RealStatePtr L)
         {
 		    try {
             
-			    LuaAPI.lua_pushstring(L, ShawnFramework.ShawHotUpdate.AssetBundleMgr.LoadPath);
+			    LuaAPI.lua_pushstring(L, ShawnFramework.ShawHotUpdate.AssetBundleMgr.SteamingAssetsPath);
+            } catch(System.Exception gen_e) {
+                return LuaAPI.luaL_error(L, "c# exception:" + gen_e);
+            }
+            return 1;
+        }
+        
+        [MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
+        static int _g_get_PersistentDataPath(RealStatePtr L)
+        {
+		    try {
+            
+			    LuaAPI.lua_pushstring(L, ShawnFramework.ShawHotUpdate.AssetBundleMgr.PersistentDataPath);
             } catch(System.Exception gen_e) {
                 return LuaAPI.luaL_error(L, "c# exception:" + gen_e);
             }
@@ -265,11 +215,24 @@ namespace XLua.CSObjectWrap
         
         
         [MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
-        static int _s_set_LoadPath(RealStatePtr L)
+        static int _s_set_SteamingAssetsPath(RealStatePtr L)
         {
 		    try {
                 
-			    ShawnFramework.ShawHotUpdate.AssetBundleMgr.LoadPath = LuaAPI.lua_tostring(L, 1);
+			    ShawnFramework.ShawHotUpdate.AssetBundleMgr.SteamingAssetsPath = LuaAPI.lua_tostring(L, 1);
+            
+            } catch(System.Exception gen_e) {
+                return LuaAPI.luaL_error(L, "c# exception:" + gen_e);
+            }
+            return 0;
+        }
+        
+        [MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
+        static int _s_set_PersistentDataPath(RealStatePtr L)
+        {
+		    try {
+                
+			    ShawnFramework.ShawHotUpdate.AssetBundleMgr.PersistentDataPath = LuaAPI.lua_tostring(L, 1);
             
             } catch(System.Exception gen_e) {
                 return LuaAPI.luaL_error(L, "c# exception:" + gen_e);
