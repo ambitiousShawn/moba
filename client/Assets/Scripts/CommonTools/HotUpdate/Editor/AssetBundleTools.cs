@@ -55,7 +55,7 @@ namespace ShawnFramework.ShawHotUpdate
         //上传AB包文件到服务器
         private void UploadAllAssetBundles()
         {
-            DirectoryInfo directory = Directory.CreateDirectory(Application.dataPath + "/AssetBundles/" + targetPlatform[currSelIndex]);
+            DirectoryInfo directory = Directory.CreateDirectory(Application.dataPath + "/Assets/AssetBundles/" + targetPlatform[currSelIndex]);
             FileInfo[] fileInfos = directory.GetFiles();
 
             int total = fileInfos.Length;

@@ -941,6 +941,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3e0f5ed78d71f5e4aa9533c5de84df44, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  IsFightTick: 0
 --- !u!1 &1073537278
 GameObject:
   m_ObjectHideFlags: 0

@@ -37,7 +37,7 @@ namespace ShawnFramework.ShawHotUpdate
         public static HotUpdateMgr Instance => instance;
 
         // 一些下载的配置信息
-        public static string RemoteFTPServerIP = "ftp://192.168.50.211";
+        public static string RemoteFTPServerIP = "ftp://127.0.0.1";
         public static int MaxRedownloadCnt = 5; // 单个文件的最大重新下载次数
         public static string DownloadPath = $"{Application.persistentDataPath}/";
 
