@@ -203,7 +203,6 @@ namespace ShawnFramework.ShawHotUpdate
             else
                 overCallBack(false);
         }
-
         // 下载列表中待下载资源
         private async void DownLoadMissingAsset(UnityAction<bool> overCallBack, UnityAction<string, float> updatePro)
         {

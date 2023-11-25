@@ -57,7 +57,7 @@ namespace ShawnFramework.ShawHotUpdate
             // 加载主包和配置(主包在默认资源)
             if (instance.mainABPackage == null)
             {
-                instance.mainABPackage = AssetBundle.LoadFromFile($"{SteamingAssetsPath}/{RootFolderName}");
+                instance.mainABPackage = AssetBundle.LoadFromFile($"{PersistentDataPath}/{RootFolderName}");
                 instance.manifest = instance.mainABPackage.LoadAsset<AssetBundleManifest>("AssetBundleManifest");
             }
             LogCore.ColorLog("AssetBundle管理模块已初始化！", ELogColor.Orange);

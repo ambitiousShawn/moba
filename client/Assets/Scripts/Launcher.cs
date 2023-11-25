@@ -15,8 +15,8 @@ public class Launcher : MonoBehaviour
     public Transform UIRoot;
     public Popup_Tip TipPanel;
 
-    [Header("免登录测试")]
-    public bool SkipLogin;
+    [Header("开启游戏资源热更新(确保资源服务器顺利运行！！！)")]
+    public bool EnableHotUpdate;
 
     #region 数据区域
     UserData userData;
@@ -33,7 +33,7 @@ public class Launcher : MonoBehaviour
         get { return roomID; }
     }
 
-    public int mapID = 101;
+    private int mapID;
     public int MapID
     {
         set { mapID = value; }
@@ -59,6 +59,8 @@ public class Launcher : MonoBehaviour
     {
         Instance = this;
 
+        Screen.SetResolution(960, 540, false);
+
         // 初始化日志
         LogConfig config = new LogConfig()
         {
@@ -71,20 +73,24 @@ public class Launcher : MonoBehaviour
 
         // 初始化资源管理
         AssetBundleMgr.InitManager(this);
+
         // 初始化热更新流程
-        HotUpdateMgr.InitManager(this);
-        HotUpdateMgr.Instance.HotUpdate((isOver) =>
+        if (EnableHotUpdate)
         {
-            LogCore.ColorLog("资产热更新已完成！", ELogColor.Orange);
+            HotUpdateMgr.InitManager(this);
+            HotUpdateMgr.Instance.HotUpdate((isOver) =>
+            {
+                LogCore.ColorLog("资产热更新已完成！", ELogColor.Orange);
 
-            // 初始化Lua模块
-            LuaManager.CreateSingletonInstance();
-            LuaManager.Instance.GlobalLuaEnv.DoString("require 'lua_enter'");
-        }, (info, progress) =>
-        {
-            LogCore.ColorLog($"{info},进度: {progress * 100} %", ELogColor.Cyan);
-        });
-
+                // 初始化Lua模块
+                LuaManager.CreateSingletonInstance();
+                LuaManager.Instance.GlobalLuaEnv.DoString("require 'lua_enter'");
+            }, (info, progress) =>
+            {
+                LogCore.ColorLog($"{info},进度: {progress * 100} %", ELogColor.Cyan);
+            });
+        }
+        
         DontDestroyOnLoad(this);
     }
 

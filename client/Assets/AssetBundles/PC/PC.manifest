@@ -1,5 +1,5 @@
 ManifestFileVersion: 0
-CRC: 3072832482
+CRC: 4146190265
 AssetBundleManifest:
   AssetBundleInfos:
     Info_0:
@@ -10,4 +10,7 @@ AssetBundleManifest:
       Dependencies: {}
     Info_2:
       Name: charactor
+      Dependencies: {}
+    Info_3:
+      Name: battle
       Dependencies: {}

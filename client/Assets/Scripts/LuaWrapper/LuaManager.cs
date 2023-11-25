@@ -51,7 +51,7 @@ public class LuaManager : Singleton<LuaManager>
 //         }
 // #endif
 // #if UNITY_EDITOR || UNITY_STANDALONE_WIN
-        string realPath = Application.dataPath + "/LuaScript/" + filepath.Replace(".", "/");
+        string realPath = Application.streamingAssetsPath + "/LuaScripts/" + filepath.Replace(".", "/");
         if (File.Exists($"{realPath}.lua"))
         {
             fileContent = File.ReadAllBytes($"{realPath}.lua");

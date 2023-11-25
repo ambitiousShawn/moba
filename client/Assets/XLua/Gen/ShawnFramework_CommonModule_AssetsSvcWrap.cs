@@ -246,23 +246,27 @@ namespace XLua.CSObjectWrap
             
 			    int gen_param_count = LuaAPI.lua_gettop(L);
             
-                if(gen_param_count == 3&& (LuaAPI.lua_isnil(L, 2) || LuaAPI.lua_type(L, 2) == LuaTypes.LUA_TSTRING)&& LuaTypes.LUA_TBOOLEAN == LuaAPI.lua_type(L, 3)) 
+                if(gen_param_count == 5&& (LuaAPI.lua_isnil(L, 2) || LuaAPI.lua_type(L, 2) == LuaTypes.LUA_TSTRING)&& (LuaAPI.lua_isnil(L, 3) || LuaAPI.lua_type(L, 3) == LuaTypes.LUA_TSTRING)&& LuaTypes.LUA_TNUMBER == LuaAPI.lua_type(L, 4)&& LuaTypes.LUA_TBOOLEAN == LuaAPI.lua_type(L, 5)) 
                 {
-                    string _path = LuaAPI.lua_tostring(L, 2);
-                    bool _cache = LuaAPI.lua_toboolean(L, 3);
+                    string _arg1 = LuaAPI.lua_tostring(L, 2);
+                    string _assetName = LuaAPI.lua_tostring(L, 3);
+                    int _type = LuaAPI.xlua_tointeger(L, 4);
+                    bool _cache = LuaAPI.lua_toboolean(L, 5);
                     
-                        var gen_ret = gen_to_be_invoked.LoadPrefab( _path, _cache );
+                        var gen_ret = gen_to_be_invoked.LoadPrefab( _arg1, _assetName, _type, _cache );
                         translator.Push(L, gen_ret);
                     
                     
                     
                     return 1;
                 }
-                if(gen_param_count == 2&& (LuaAPI.lua_isnil(L, 2) || LuaAPI.lua_type(L, 2) == LuaTypes.LUA_TSTRING)) 
+                if(gen_param_count == 4&& (LuaAPI.lua_isnil(L, 2) || LuaAPI.lua_type(L, 2) == LuaTypes.LUA_TSTRING)&& (LuaAPI.lua_isnil(L, 3) || LuaAPI.lua_type(L, 3) == LuaTypes.LUA_TSTRING)&& LuaTypes.LUA_TNUMBER == LuaAPI.lua_type(L, 4)) 
                 {
-                    string _path = LuaAPI.lua_tostring(L, 2);
+                    string _arg1 = LuaAPI.lua_tostring(L, 2);
+                    string _assetName = LuaAPI.lua_tostring(L, 3);
+                    int _type = LuaAPI.xlua_tointeger(L, 4);
                     
-                        var gen_ret = gen_to_be_invoked.LoadPrefab( _path );
+                        var gen_ret = gen_to_be_invoked.LoadPrefab( _arg1, _assetName, _type );
                         translator.Push(L, gen_ret);
                     
                     

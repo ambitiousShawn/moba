@@ -496,6 +496,7 @@ GameObject:
   - component: {fileID: 986831287}
   - component: {fileID: 986831286}
   - component: {fileID: 986831285}
+  - component: {fileID: 986831288}
   m_Layer: 0
   m_Name: GameRoot
   m_TagString: Untagged
@@ -535,8 +536,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   UIRoot: {fileID: 1971447529}
   TipPanel: {fileID: 363009048}
-  SkipLogin: 1
-  mapID: 101
+  EnableHotUpdate: 0
 --- !u!114 &986831285
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -575,8 +575,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 81790e87a39822c4797b474cea6869d0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  test: 5
-  type: 0
+--- !u!114 &986831288
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 986831279}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 51db9cfdb98001649a3891d0e000fe4f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  EnableGM: 0
 --- !u!1 &1087571095
 GameObject:
   m_ObjectHideFlags: 0

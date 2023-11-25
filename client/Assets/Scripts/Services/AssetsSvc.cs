@@ -3,12 +3,8 @@ using ShawnFramework.ShawMath;
 using ShawnFramework.ShawnPhysics;
 using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Numerics;
 using UnityEngine;
-using UnityEngine.Purchasing;
 using UnityEngine.SceneManagement;
-using UnityEngine.UI;
 using XLua;
 
 namespace ShawnFramework.CommonModule
@@ -55,14 +51,14 @@ namespace ShawnFramework.CommonModule
         {
             GameObject panel = null;
             EAssetsType assetsType = (EAssetsType)type;
-            if (m_PanelCache.TryGetValue(assetName, out panel))
+            if (cache && m_PanelCache.TryGetValue(assetName, out panel))
             {
                 return panel;
             }
             switch (assetsType)
             {
                 case EAssetsType.Resources:
-                    panel = Resources.Load<GameObject>($"{arg1}/{assetName}");
+                    panel = Instantiate(Resources.Load<GameObject>($"{assetName}"));
                     break;
                 case EAssetsType.AssetBundle:
                     panel = AssetBundleMgr.Instance.LoadAsset<GameObject>(arg1, assetName);
@@ -70,7 +66,7 @@ namespace ShawnFramework.CommonModule
                 case EAssetsType.Addressable:
                     break;
             }
-
+            m_PanelCache.Add(assetName, panel); 
             return panel;
         }
 
@@ -124,23 +120,29 @@ namespace ShawnFramework.CommonModule
         /// </summary>
         /// <param name="path"></param>
         /// <param name="cache"></param>
-        public GameObject LoadPrefab(string path, bool cache = true)
+        public GameObject LoadPrefab(string arg1, string assetName, int type, bool cache = false)
         {
             GameObject prefab = null;
-            if (!goDic.TryGetValue(path, out prefab))
+            EAssetsType assetsType = (EAssetsType)type;
+            if (cache && goDic.TryGetValue(assetName, out prefab))
             {
-                prefab = Resources.Load<GameObject>(path);
-                if (cache)
-                {
-                    goDic.Add(path, prefab);
-                }
+                return prefab;
             }
-            GameObject go = null;
-            if (prefab != null)
+            
+            switch (assetsType)
             {
-                go = Instantiate(prefab);
+                case EAssetsType.Resources:
+                    prefab = Resources.Load<GameObject>($"{arg1}/{assetName}");
+                    break;
+                case EAssetsType.AssetBundle:
+                    prefab = AssetBundleMgr.Instance.LoadAsset<GameObject>(arg1, assetName);
+                    break;
+                case EAssetsType.Addressable:
+                    break;
             }
-            return go;
+            goDic.Add(assetName, prefab);
+
+            return prefab;
         }
 
         /// <summary>

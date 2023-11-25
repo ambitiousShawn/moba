@@ -131,12 +131,27 @@ public class FightManager : MonoBehaviour
             heroList.Add(hero);
         }
     }
-    
+
+    Transform transCameraRoot = null;
+
     /// <summary>
     /// 初始化相机
     /// </summary>
     public void InitCamera(int posIndex)
     {
         cameraFollowTarget = heroList[posIndex].mainViewUnit.transform;
+    }
+
+    private void LateUpdate()
+    {
+        // 相机跟随
+        if (cameraFollowTarget == null) 
+        {
+            transCameraRoot = GameObject.Find("MapRoot/CameraRoot").transform;
+        }
+        else
+        {
+            transCameraRoot.position =  cameraFollowTarget.position;
+        }
     }
 }

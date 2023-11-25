@@ -89,28 +89,28 @@ namespace ShawnFramework.CommonModule
                 return;
             }
 
-            // if (GMSys.Instance.IsActive)
-            // {
-            //     if (msgPackQueue.Count > 0)
-            //     {
-            //         lock (msgqueue_lock)
-            //         {
-            //             GameMsg msg = msgPackQueue.Dequeue();
-            //             HandoutMsg(msg);
-            //         }
-            //     }
-            // }
+            if (GMSys.Instance.EnableGM)
+            {
+                if (msgPackQueue.Count > 0)
+                {
+                    lock (msgqueue_lock)
+                    {
+                        GameMsg msg = msgPackQueue.Dequeue();
+                        HandoutMsg(msg);
+                    }
+                }
+            }
         }
 
         public void SendMsg(GameMsg msg, Action<bool> callback = null)
         {
             // 测试接收消息
-            // if (GMSys.Instance.IsActive)
-            // {
-            //     GMSys.Instance.SimulateServerRevMsg(msg);
-            //     callback?.Invoke(true);
-            //     return;
-            // }
+            if (GMSys.Instance.EnableGM)
+            {
+                GMSys.Instance.SimulateServerRevMsg(msg);
+                callback?.Invoke(true);
+                return;
+            }
 
             if (client.clientSession != null && client.clientSession.IsConnected())
             {
