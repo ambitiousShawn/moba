@@ -51,6 +51,14 @@ namespace GameProtocol
 
         SndOpKey = 100, // 玩家操作相关
         NtfOpKey = 101,
+
+        //结算
+        ReqBattleEnd = 201,
+        RspBattleEnd = 202,
+
+        //聊天
+        SndChat = 203,
+        NtfChat = 204
     }
     /// <summary>
     /// 通信错误码
@@ -65,6 +73,7 @@ namespace GameProtocol
     {
         public CMD cmd;
         public ErrorCode errorCode;
+        public bool isEmpty;
         public ReqLogin reqLogin;
         public RspLogin rspLogin;
 
@@ -86,6 +95,15 @@ namespace GameProtocol
 
         public SndOpKey sndOpKey;
         public NtfOpKey ntfOpKey;
+
+        public ReqBattleEnd reqBattleEnd;
+        public RspBattleEnd rspBattleEnd;
+
+        public SndChat sndChat;
+        public NtfChat ntfChat;
+
+        public ReqPing reqPing;
+        public RspPing rspPing;
     }
 
     #region 登录相关
@@ -240,7 +258,43 @@ namespace GameProtocol
         public uint frameID;
         public List<OpKey> keyList;
     }
-    #endregion
+
+    [Serializable]
+    public class ReqBattleEnd
+    {
+        public uint roomID;
+    }
+    [Serializable]
+    public class RspBattleEnd
+    {
+        //结算数据
+    }
+
+    [Serializable]
+    public class SndChat
+    {
+        public uint roomID;
+        public string chatMsg;
+    }
+    [Serializable]
+    public class NtfChat
+    {
+        public string chatMsg;
+    }
+
+    [Serializable]
+    public class ReqPing
+    {
+        public uint pingID;
+        public ulong sendTime;
+        public ulong backTime;
+    }
+    [Serializable]
+    public class RspPing
+    {
+        public uint pingID;
+    }
+#endregion
 }
 
 

@@ -17,6 +17,13 @@ namespace GameServer
             pvpRoomDic = new Dictionary<uint, PVPRoom>();
 
             this.Log("RoomSys Init Done!");
+
+            TimerSvc.Instance.AddTask(5000, CheckStatus, null, 0);
+        }
+
+        void CheckStatus(int id)
+        {
+            this.ColorLog(PEUtils.LogColor.Magenta, $"对战房间负载：{pvpRoomList.Count}个");
         }
 
         public void AddPVPRoom(ServerSession[] serverSessions, PVPType type)
@@ -25,12 +32,6 @@ namespace GameServer
             PVPRoom room = new PVPRoom(roomID, type, serverSessions);
             pvpRoomList.Add(room);
             pvpRoomDic.Add(roomID, room);
-        }
-
-        uint roomID = 0;
-        public uint GetUniqueRoomID()
-        {
-            return ++roomID;
         }
 
         public override void Update()
@@ -87,6 +88,79 @@ namespace GameServer
             else
             {
                 this.Warn("PVPRoom ID:" + req.roomID + "is destroyed.");
+            }
+        }
+
+        public void SndOpKey(MsgPack pack)
+        {
+            SndOpKey snd = pack.msg.sndOpKey;
+            if (pvpRoomDic.TryGetValue(snd.roomID, out PVPRoom room))
+            {
+                room.SndOpKey(snd.opKey);
+            }
+            else
+            {
+                this.Warn("PVPRoom ID:" + snd.roomID + " is not exist.");
+            }
+        }
+
+        public void SndChat(MsgPack pack)
+        {
+            SndChat snd = pack.msg.sndChat;
+            if (pvpRoomDic.TryGetValue(snd.roomID, out PVPRoom room))
+            {
+                room.SndChat(snd.chatMsg);
+            }
+            else
+            {
+                this.Warn("PVPRoom ID:" + snd.roomID + " is not exist.");
+            }
+        }
+
+        public void ReqBattleEnd(MsgPack pack)
+        {
+            ReqBattleEnd snd = pack.msg.reqBattleEnd;
+            if (pvpRoomDic.TryGetValue(snd.roomID, out PVPRoom room))
+            {
+                room.ReqBattleEnd(pack.session);
+            }
+            else
+            {
+                this.Warn("PVPRoom ID:" + snd.roomID + " is not exist.");
+            }
+        }
+
+        uint roomID = 0;
+        public uint GetUniqueRoomID()
+        {
+            return ++roomID;
+        }
+
+        //clear room
+        public void DestroyRoom(uint roomID)
+        {
+            if (pvpRoomDic.TryGetValue(roomID, out PVPRoom room))
+            {
+                room.Clear();
+
+                int index = -1;
+                for (int i = 0; i < pvpRoomList.Count; i++)
+                {
+                    if (pvpRoomList[i].roomID == roomID)
+                    {
+                        index = i;
+                        break;
+                    }
+                }
+                if (index >= 0)
+                {
+                    pvpRoomList.RemoveAt(index);
+                }
+                pvpRoomDic.Remove(roomID);
+            }
+            else
+            {
+                this.Error("PVPRoom is not exist ID:" + roomID);
             }
         }
     }

@@ -124,5 +124,47 @@ namespace GameServer
                 }
             }
         }
+
+        public void SndOpKey(OpKey opKey)
+        {
+            if (currentType == ERoomStateType.Fight)
+            {
+                if (FSM[currentType] is RoomStateFight state)
+                {
+                    state.UpdateOpKey(opKey);
+                }
+            }
+        }
+
+        public void SndChat(string chatMsg)
+        {
+            GameMsg msg = new GameMsg
+            {
+                cmd = CMD.NtfChat,
+                ntfChat = new NtfChat
+                {
+                    chatMsg = chatMsg
+                }
+            };
+            BroadcastMsg(msg);
+        }
+
+        public void ReqBattleEnd(ServerSession session)
+        {
+            if (currentType == ERoomStateType.Fight)
+            {
+                if (FSM[currentType] is RoomStateFight state)
+                {
+                    state.UpdateEndState(GetPosIndex(session));
+                }
+            }
+        }
+
+        public void Clear()
+        {
+            selectHeroArr = null;
+            sessionArr = null;
+            FSM = null;
+        }
     }
 }

@@ -12,10 +12,6 @@ namespace GameProtocol
 
         public const string LocalDevInnerIP = "127.0.0.1";
         public const int UdpPort = 17666;
-    }
-
-    public class Config
-    {
-        public const float ClientLogicFrameDeltaTimeSec = 0.066f;
+        public const int ServerLogicFrameIntervelMs = 66;
     }
 }
