@@ -17,14 +17,4 @@ public class HeroLogic : MainLogicUnit
         unitName = ud.unitCfg.unitName + "_" + userName;
         pathPrefix = "charactor";
     }
-
-    public override void LogicTick()
-    {
-        
-    }
-
-    public override void LogicUninit()
-    {
-        
-    }
 }

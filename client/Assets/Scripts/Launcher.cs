@@ -80,8 +80,10 @@ public class Launcher : MonoBehaviour
             HotUpdateMgr.InitManager(this);
             HotUpdateMgr.Instance.HotUpdate((isOver) =>
             {
-                LogCore.ColorLog("资产热更新已完成！", ELogColor.Orange);
-
+                if (isOver)
+                    LogCore.ColorLog("资产热更新已完成！", ELogColor.Orange);
+                else
+                    LogCore.ColorLog("资产热更新失败！", ELogColor.Orange);
                 // 初始化Lua模块
                 LuaManager.CreateSingletonInstance();
                 LuaManager.Instance.GlobalLuaEnv.DoString("require 'lua_enter'");

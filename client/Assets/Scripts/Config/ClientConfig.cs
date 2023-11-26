@@ -6,6 +6,9 @@ using ShawnFramework.ShawnPhysics;
 /// </summary>
 public static class ClientConfig
 {
+    // 客户端逻辑帧时间间隔
+    public const float ClientLogicFrameDeltaTimeSecond = 0.066f;
+
     public const int ScreenStandardWidth = 1920;
     public const int ScreenStandardHeight = 1080;
     public const int ScreenOPDis = 135;

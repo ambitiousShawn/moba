@@ -14,7 +14,6 @@ public class FightManager : MonoBehaviour
     public static FightManager Instance;
 
     Transform cameraFollowTarget = null; // 相机跟随目标
-    public bool IsFightTick = false;    // 是否开始战斗打点
 
     void Awake()
     {
@@ -33,6 +32,7 @@ public class FightManager : MonoBehaviour
         return colliderLst;
     }
 
+    #region 初始化相关(包括相机跟随)
     /// <summary>
     /// 初始化场景碰撞环境
     /// </summary>
@@ -154,4 +154,54 @@ public class FightManager : MonoBehaviour
             transCameraRoot.position =  cameraFollowTarget.position;
         }
     }
+
+    #endregion
+
+    #region 游戏运行过程中
+    public void Tick()
+    {
+        for (int i = 0; i < heroList.Count; i++)
+        {
+            heroList[i].LogicTick();
+        }
+    }
+
+    public void InputKey(List<OpKey> keyList)
+    {
+        for (int i = 0; i < keyList.Count; i++)
+        {
+            OpKey key = keyList[i];
+            MainLogicUnit hero = heroList[key.opIndex];
+            hero.InputKey(key);
+        }
+    }
+
+    uint keyID = 0;
+    public uint KeyID => ++keyID;
+
+    public void SendMoveOperation(ShawVector3 logicDir)
+    {
+        GameMsg msg = new()
+        {
+            cmd = CMD.SndOpKey,
+            sndOpKey = new SndOpKey
+            {
+                roomID = Launcher.Instance.RoomID,
+                opKey = new OpKey
+                {
+                    opIndex = Launcher.Instance.SelfIndex,
+                    keyType = EKeyType.Move,
+                    moveKey = new MoveKey
+                    {
+                        x = logicDir.x.ScaledValue,
+                        z = logicDir.z.ScaledValue,
+                        keyID = keyID,
+                    },
+                },
+            }
+        };
+    
+        NetSvc.Instance.SendMsg(msg);
+    }
+    #endregion
 }

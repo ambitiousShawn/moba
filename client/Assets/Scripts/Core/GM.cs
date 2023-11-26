@@ -95,11 +95,17 @@ public class GMSys : MonoBehaviour
         {
             case CMD.SndOpKey:
                 // 仅处理一帧的最后一次操作，前面的会被覆盖
-                // UpdateOpKey(msg.sndOpKey.opKey);
+                UpdateOpKey(msg.sndOpKey.opKey);
                 break;
             default:
                 break;
         }
+    }
+
+    private List<OpKey> opKeyList = new List<OpKey>();
+    private void UpdateOpKey(OpKey key)
+    {
+        opKeyList.Add(key);
     }
 
     /// <summary>
@@ -107,27 +113,27 @@ public class GMSys : MonoBehaviour
     /// </summary>
     private void FixedUpdate()
     {
-        // ++frameID;
-        // GameMsg msg = new GameMsg
-        // {
-        //     cmd = CMD.NtfOpKey,
-        //     ntfOpKey = new NtfOpKey
-        //     {
-        //         frameID = frameID,
-        //         keyList = new List<OpKey>(),
-        //     }
-        // };
-        // 
-        // int count = opKeyList.Count;
-        // if (count > 0)
-        // {
-        //     for (int i = 0; i < count; i++)
-        //     {
-        //         OpKey key = opKeyList[i];
-        //         msg.ntfOpKey.keyList.Add(key);
-        //     }
-        // }
-        // opKeyList.Clear();
-        // netSvc.AddToMsgQueue(msg);
+        ++frameID;
+        GameMsg msg = new GameMsg
+        {
+            cmd = CMD.NtfOpKey,
+            ntfOpKey = new NtfOpKey
+            {
+                frameID = frameID,
+                keyList = new List<OpKey>(),
+            }
+        };
+        
+        int count = opKeyList.Count;
+        if (count > 0)
+        {
+            for (int i = 0; i < count; i++)
+            {
+                OpKey key = opKeyList[i];
+                msg.ntfOpKey.keyList.Add(key);
+            }
+        }
+        opKeyList.Clear();
+        NetSvc.Instance.AddToMsgQueue(msg);
     }
 }

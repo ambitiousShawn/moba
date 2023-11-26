@@ -1,3 +1,4 @@
+using GameProtocol;
 using ShawnFramework.CommonModule;
 using ShawnFramework.ShawLog;
 using ShawnFramework.ShawMath;
@@ -108,7 +109,29 @@ public abstract class MainLogicUnit : BaseLogicUnit
 
     public override void LogicTick()
     {
+        TickSkill();
         TickMove();
+    }
+
+    public override void LogicUninit()
+    {
+        
+    }
+
+    public void InputKey(OpKey key)
+    {
+        switch (key.keyType)
+        {
+            case EKeyType.Move:
+                ShawInt x = ShawInt.zero;
+                x.ScaledValue = key.moveKey.x;
+                ShawInt z = ShawInt.zero;
+                z.ScaledValue = key.moveKey.z;
+                InputMoveKey(new ShawVector3(x, 0, z));
+                break;
+            case EKeyType.Skill:
+                break;
+        }
     }
 
     #region 属性模块
@@ -186,6 +209,11 @@ public abstract class MainLogicUnit : BaseLogicUnit
         }
     }
 
+    void TickSkill()
+    {
+
+    }
+
     /// <summary>
     /// 拿到当前逻辑单元的普通攻击配置
     /// </summary>
@@ -204,6 +232,13 @@ public abstract class MainLogicUnit : BaseLogicUnit
     public ShawCylinderCollider selfCollider; // 自身碰撞体
     List<ShawColliderBase> envColliLst;       // 环境碰撞体
 
+    private ShawVector3 inputDir; // 输入方向
+    public ShawVector3 InputDir
+    {
+        get => inputDir;
+        set => inputDir = value;
+    }
+
     void InitMove()
     {
         LogicPos = unitData.bornPos;
@@ -218,10 +253,28 @@ public abstract class MainLogicUnit : BaseLogicUnit
         };
     }
 
-    public ShawVector3 InputDir {  get; set; }
     void TickMove()
     {
-        ShawVector3 moveDir;
+        ShawVector3 moveDir = InputDir;
+        selfCollider.mPos += moveDir * LogicMoveSpeed * (ShawInt)ClientConfig.ClientLogicFrameDeltaTimeSecond;
+
+        ShawVector3 adj = ShawVector3.zero;
+        selfCollider.CalcColliderInteraction(envColliLst, ref moveDir, ref adj);
+        if (LogicDir != moveDir)
+        {
+            LogicDir = moveDir;
+        }
+        if (LogicDir != ShawVector3.zero)
+        {
+            LogicDir = selfCollider.mPos + adj;
+        }
+        selfCollider.mPos = LogicPos;
+    }
+
+    public void InputMoveKey(ShawVector3 dir)
+    {
+        InputDir = dir;
+        LogCore.ColorLog(InputDir.ConvertViewVector3().ToString(), ELogColor.Green) ;
     }
     #endregion
 }

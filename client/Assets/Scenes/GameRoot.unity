@@ -536,7 +536,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   UIRoot: {fileID: 1971447529}
   TipPanel: {fileID: 363009048}
-  EnableHotUpdate: 1
+  EnableHotUpdate: 0
 --- !u!114 &986831285
 MonoBehaviour:
   m_ObjectHideFlags: 0

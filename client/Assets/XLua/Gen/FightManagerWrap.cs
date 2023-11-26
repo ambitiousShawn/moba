@@ -21,18 +21,20 @@ namespace XLua.CSObjectWrap
         {
 			ObjectTranslator translator = ObjectTranslatorPool.Instance.Find(L);
 			System.Type type = typeof(FightManager);
-			Utils.BeginObjectRegister(type, L, translator, 0, 4, 1, 1);
+			Utils.BeginObjectRegister(type, L, translator, 0, 7, 1, 0);
 			
 			Utils.RegisterFunc(L, Utils.METHOD_IDX, "GetAllEnvColliders", _m_GetAllEnvColliders);
 			Utils.RegisterFunc(L, Utils.METHOD_IDX, "InitCollisionEnv", _m_InitCollisionEnv);
 			Utils.RegisterFunc(L, Utils.METHOD_IDX, "InitHero", _m_InitHero);
 			Utils.RegisterFunc(L, Utils.METHOD_IDX, "InitCamera", _m_InitCamera);
+			Utils.RegisterFunc(L, Utils.METHOD_IDX, "Tick", _m_Tick);
+			Utils.RegisterFunc(L, Utils.METHOD_IDX, "InputKey", _m_InputKey);
+			Utils.RegisterFunc(L, Utils.METHOD_IDX, "SendMoveOperation", _m_SendMoveOperation);
 			
 			
-			Utils.RegisterFunc(L, Utils.GETTER_IDX, "IsFightTick", _g_get_IsFightTick);
+			Utils.RegisterFunc(L, Utils.GETTER_IDX, "KeyID", _g_get_KeyID);
             
-			Utils.RegisterFunc(L, Utils.SETTER_IDX, "IsFightTick", _s_set_IsFightTick);
-            
+			
 			
 			Utils.EndObjectRegister(type, L, translator, null, null,
 			    null, null, null);
@@ -191,15 +193,100 @@ namespace XLua.CSObjectWrap
             
         }
         
+        [MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
+        static int _m_Tick(RealStatePtr L)
+        {
+		    try {
+            
+                ObjectTranslator translator = ObjectTranslatorPool.Instance.Find(L);
+            
+            
+                FightManager gen_to_be_invoked = (FightManager)translator.FastGetCSObj(L, 1);
+            
+            
+                
+                {
+                    
+                    gen_to_be_invoked.Tick(  );
+                    
+                    
+                    
+                    return 0;
+                }
+                
+            } catch(System.Exception gen_e) {
+                return LuaAPI.luaL_error(L, "c# exception:" + gen_e);
+            }
+            
+        }
+        
+        [MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
+        static int _m_InputKey(RealStatePtr L)
+        {
+		    try {
+            
+                ObjectTranslator translator = ObjectTranslatorPool.Instance.Find(L);
+            
+            
+                FightManager gen_to_be_invoked = (FightManager)translator.FastGetCSObj(L, 1);
+            
+            
+                
+                {
+                    System.Collections.Generic.List<GameProtocol.OpKey> _keyList = (System.Collections.Generic.List<GameProtocol.OpKey>)translator.GetObject(L, 2, typeof(System.Collections.Generic.List<GameProtocol.OpKey>));
+                    
+                    gen_to_be_invoked.InputKey( _keyList );
+                    
+                    
+                    
+                    return 0;
+                }
+                
+            } catch(System.Exception gen_e) {
+                return LuaAPI.luaL_error(L, "c# exception:" + gen_e);
+            }
+            
+        }
+        
+        [MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
+        static int _m_SendMoveOperation(RealStatePtr L)
+        {
+		    try {
+            
+                ObjectTranslator translator = ObjectTranslatorPool.Instance.Find(L);
+            
+            
+                FightManager gen_to_be_invoked = (FightManager)translator.FastGetCSObj(L, 1);
+            
+            
+                
+                {
+                    ShawnFramework.ShawMath.ShawVector3 _logicDir;translator.Get(L, 2, out _logicDir);
+                    
+                    gen_to_be_invoked.SendMoveOperation( _logicDir );
+                    
+                    
+                    
+                    return 0;
+                }
+                
+            } catch(System.Exception gen_e) {
+                return LuaAPI.luaL_error(L, "c# exception:" + gen_e);
+            }
+            
+        }
+        
         
         
         
         [MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
-        static int _g_get_Instance(RealStatePtr L)
+        static int _g_get_KeyID(RealStatePtr L)
         {
 		    try {
                 ObjectTranslator translator = ObjectTranslatorPool.Instance.Find(L);
-			    translator.Push(L, FightManager.Instance);
+			
+                FightManager gen_to_be_invoked = (FightManager)translator.FastGetCSObj(L, 1);
+                LuaAPI.xlua_pushuint(L, gen_to_be_invoked.KeyID);
             } catch(System.Exception gen_e) {
                 return LuaAPI.luaL_error(L, "c# exception:" + gen_e);
             }
@@ -207,13 +294,11 @@ namespace XLua.CSObjectWrap
         }
         
         [MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
-        static int _g_get_IsFightTick(RealStatePtr L)
+        static int _g_get_Instance(RealStatePtr L)
         {
 		    try {
                 ObjectTranslator translator = ObjectTranslatorPool.Instance.Find(L);
-			
-                FightManager gen_to_be_invoked = (FightManager)translator.FastGetCSObj(L, 1);
-                LuaAPI.lua_pushboolean(L, gen_to_be_invoked.IsFightTick);
+			    translator.Push(L, FightManager.Instance);
             } catch(System.Exception gen_e) {
                 return LuaAPI.luaL_error(L, "c# exception:" + gen_e);
             }
@@ -228,21 +313,6 @@ namespace XLua.CSObjectWrap
 		    try {
                 ObjectTranslator translator = ObjectTranslatorPool.Instance.Find(L);
 			    FightManager.Instance = (FightManager)translator.GetObject(L, 1, typeof(FightManager));
-            
-            } catch(System.Exception gen_e) {
-                return LuaAPI.luaL_error(L, "c# exception:" + gen_e);
-            }
-            return 0;
-        }
-        
-        [MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
-        static int _s_set_IsFightTick(RealStatePtr L)
-        {
-		    try {
-                ObjectTranslator translator = ObjectTranslatorPool.Instance.Find(L);
-			
-                FightManager gen_to_be_invoked = (FightManager)translator.FastGetCSObj(L, 1);
-                gen_to_be_invoked.IsFightTick = LuaAPI.lua_toboolean(L, 2);
             
             } catch(System.Exception gen_e) {
                 return LuaAPI.luaL_error(L, "c# exception:" + gen_e);

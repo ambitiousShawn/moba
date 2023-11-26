@@ -1,8 +1,11 @@
 local ugui_loadpanel = require 'ui.battle.ugui_loadpanel'
 local ugui_playpanel = require 'ui.battle.ugui_playpanel'
 local game_message   = require 'system.game_message'
+local EKeyType = CS.GameProtocol.EKeyType
 
 local system = {}
+
+local IsFightTick = false
 
 local mapID 
 local battleHeroDatas
@@ -66,7 +69,39 @@ function RspBattleStartCallBack (msg)
     -- UI管理(创建游戏UI)
     ugui_loadpanel:close_self(true)
     WindowManager:open('ugui_playpanel')
-    FightManager.IsFightTick = true -- 战斗开始
+    IsFightTick = true -- 战斗开始
+end
+
+-- 获取到新的keyID
+-- local keyID = 0
+-- local function GetKeyID()
+--     keyID = keyID + 1
+--     return keyID
+-- end
+-- -- 由playwnd发送的玩家操作移动的数据
+-- function SendMoveOperation (logicDir)
+--     local data = {
+--         roomID = Launcher.RoomID,
+--         opKey = {
+--             opIndex = Launcher.SelfIndex,
+--             keyType = EKeyType.Move,
+--             moveKey = {
+--                 x = logicDir.x.ScaledValue,
+--                 z = logicDir.z.ScaledValue,
+--                 keyID = GetKeyID(),
+--             },
+--         },
+--     }
+--     local msg = game_message:new_msg('sndOpKey', data)
+--     NetworkManager:SendMsg(msg)
+-- end
+
+-- 接收到服务器的操作信息
+function NtfOpKeyCallBack (msg)
+    if IsFightTick then
+        FightManager:InputKey(msg.ntfOpKey.keyList)
+        FightManager:Tick()
+    end
 end
 
 return system

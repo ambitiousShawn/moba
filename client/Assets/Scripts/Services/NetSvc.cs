@@ -173,9 +173,12 @@ namespace ShawnFramework.CommonModule
                     Action<GameMsg> rsp_battlestart = LuaManager.Instance.GlobalLuaEnv.Global.Get<Action<GameMsg>>("RspBattleStart"); // 调用lua的全局响应函数
                     rsp_battlestart?.Invoke(msg);
                     break;
-                // case CMD.NtfOpKey:
-                //     BattleSys.Instance.NtfOpKey(msg);
-                //     break;
+                case CMD.NtfOpKey:
+                    Action<GameMsg> ntf_opkey = LuaManager.Instance.GlobalLuaEnv.Global.Get<Action<GameMsg>>("NtfOpKeyCallBack"); // 调用lua的全局响应函数
+                    ntf_opkey?.Invoke(msg);
+                    break;
+                case CMD.RspBattleEnd:
+                    break;
                 default:
                     break;
             }

@@ -1,5 +1,6 @@
 local MsgType = CS.GameProtocol.CMD
 local PVPType = CS.GameProtocol.PVPType
+local EKeyType = CS.GameProtocol.EKeyType
 
 local msg = {}
 msg.__index = msg
@@ -14,6 +15,7 @@ function msg:new_msg(command, data)
         sndSelect = {},
         sndLoadPrg = {},
         reqBattleStart = {},
+        sndOpKey = {},
     }
 
     if command == 'reqLogin' then
@@ -42,6 +44,11 @@ function msg:new_msg(command, data)
     if command == 'reqBattleStart' then
         instance.cmd = MsgType.reqBattleStart
         instance.reqBattleStart.roomID = data.roomID
+    end
+    if command == 'sndOpKey' then
+        instance.cmd = MsgType.SndOpKey
+        instance.sndOpKey.roomID = data.roomID
+        instance.sndOpKey.opKey = data.opKey
     end
     
     setmetatable(instance, self)

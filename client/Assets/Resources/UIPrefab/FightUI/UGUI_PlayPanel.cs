@@ -8,7 +8,7 @@ using UnityEngine.UI;
 
 public class UGUI_PlayPanel : CommonListenerRoot
 {
-# region 除技能
+    # region 除技能
     public Image imgCancelSkill;
     public Image imgTouch;
     public Image imgDirBg;
@@ -103,11 +103,11 @@ public class UGUI_PlayPanel : CommonListenerRoot
                 logicDir.z = (ShawInt)dirVector3.z;
             }
 
-            // bool isSend = BattleSys.Instance.SendMoveKey(logicDir);
-            // if (isSend)
-            // {
-            //     lastStickDir = dir;
-            // }
+            // Action<ShawVector3> snd_opkey = LuaManager.Instance.GlobalLuaEnv.Global.Get<Action<ShawVector3>>("SendMoveOperation"); // 调用lua的全局响应函数
+            // snd_opkey?.Invoke(logicDir);
+            FightManager.Instance.SendMoveOperation(logicDir);
+
+            lastStickDir = dir;
         }
        
     }
