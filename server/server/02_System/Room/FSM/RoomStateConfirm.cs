@@ -1,4 +1,5 @@
 ﻿using GameProtocol;
+using ShawnFramework.ShawLog;
 
 namespace GameServer
 {
@@ -37,10 +38,10 @@ namespace GameServer
             };
             room.BroadcastMsg(msg);
 
-            checkTastID = TimerSvc.Instance.AddTask(
-                ServerConfig.ConfirmCountDown * 1000
-                ,  ReachTimeLimit
-                );
+             // checkTastID = TimerSvc.Instance.AddTask(
+             //     ServerConfig.ConfirmCountDown * 1000
+             //     ,  ReachTimeLimit
+             //     );
         }
         
         void ReachTimeLimit(int tid)
@@ -51,7 +52,7 @@ namespace GameServer
             }
             else
             {
-                this.ColorLog(PEUtils.LogColor.Yellow, "RoomID:{0} 确认超时，解散房间。", room.roomID);
+                LogCore.ColorLog($"RoomID:{room.roomID} 所有玩家加载完成", ELogColor.Yellow);
                 GameMsg msg = new GameMsg
                 {
                     cmd = CMD.NtfConfirm,
@@ -89,14 +90,14 @@ namespace GameServer
             if (isAllConfirmed)
             {
                 // 已经全部确认
-                if (TimerSvc.Instance.DeleteTask(checkTastID))
-                {
-                    this.ColorLog(PEUtils.LogColor.Green, "RoomID:{0} 所有玩家确认完成！", room.roomID);
-                }
-                else
-                {
-                    this.Warn("Remove CheckTaskID Failed.");
-                }
+                // if (TimerSvc.Instance.DeleteTask(checkTastID))
+                // {
+                //     LogCore.ColorLog($"RoomID:{room.roomID} 所有玩家加载完成", ELogColor.Green);
+                // }
+                // else
+                // {
+                //     LogCore.Warn("Remove CheckTaskID Failed.");
+                // }
                 room.SwitchRoomState(ERoomStateType.Select);
             }
             else

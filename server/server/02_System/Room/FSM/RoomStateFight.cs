@@ -1,4 +1,5 @@
 ﻿using GameProtocol;
+using ShawnFramework.ShawLog;
 
 namespace GameServer
 {
@@ -22,7 +23,7 @@ namespace GameServer
         public override void Enter()
         {
             opkeyLst.Clear();
-            checkTaskID = TimerSvc.Instance.AddTask(ServerConfig.ServerLogicFrameIntervelMs, SyncLogicFrame, null, 0);
+            // checkTaskID = TimerSvc.Instance.AddTask(ServerConfig.ServerLogicFrameIntervelMs, SyncLogicFrame, null, 0);
         }
 
         void SyncLogicFrame(int tid)
@@ -70,14 +71,14 @@ namespace GameServer
         {
             endArr[posIndex] = true;
 
-            if (TimerSvc.Instance.DeleteTask(checkTaskID))
-            {
-                this.ColorLog(PEUtils.LogColor.Green, "Delete Sync Task Success.");
-            }
-            else
-            {
-                this.Warn("Delete Sync Task Failed.");
-            }
+            // if (TimerSvc.Instance.DeleteTask(checkTaskID))
+            // {
+            //     LogCore.ColorLog("Delete Sync Task Success.", ELogColor.Green);
+            // }
+            // else
+            // {
+            //     LogCore.Warn("Delete Sync Task Failed.");
+            // }
             room.SwitchRoomState(ERoomStateType.End);
         }
     }

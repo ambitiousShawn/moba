@@ -8,11 +8,7 @@
     ".NETCoreApp,Version=v6.0": {
       "server/1.0.0": {
         "dependencies": {
-          "protocol": "1.0.0",
-          "Kcp": "2.0.0.0",
-          "KCPNet": "1.0.0.0",
-          "PETimer": "1.0.0.0",
-          "PEUtils": "1.0.0.0"
+          "protocol": "1.0.0"
         },
         "runtime": {
           "server.dll": {}
@@ -30,30 +26,6 @@
             "fileVersion": "2.0.0.0"
           }
         }
-      },
-      "KCPNet/1.0.0.0": {
-        "runtime": {
-          "KCPNet.dll": {
-            "assemblyVersion": "1.0.0.0",
-            "fileVersion": "1.0.0.0"
-          }
-        }
-      },
-      "PETimer/1.0.0.0": {
-        "runtime": {
-          "PETimer.dll": {
-            "assemblyVersion": "1.0.0.0",
-            "fileVersion": "1.0.0.0"
-          }
-        }
-      },
-      "PEUtils/1.0.0.0": {
-        "runtime": {
-          "PEUtils.dll": {
-            "assemblyVersion": "1.0.0.0",
-            "fileVersion": "1.0.0.0"
-          }
-        }
       }
     }
   },
@@ -69,21 +41,6 @@
       "sha512": ""
     },
     "Kcp/2.0.0.0": {
-      "type": "reference",
-      "serviceable": false,
-      "sha512": ""
-    },
-    "KCPNet/1.0.0.0": {
-      "type": "reference",
-      "serviceable": false,
-      "sha512": ""
-    },
-    "PETimer/1.0.0.0": {
-      "type": "reference",
-      "serviceable": false,
-      "sha512": ""
-    },
-    "PEUtils/1.0.0.0": {
       "type": "reference",
       "serviceable": false,
       "sha512": ""

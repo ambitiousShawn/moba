@@ -9,10 +9,7 @@
 
   <ItemGroup>
     <Reference Include="Kcp">
-      <HintPath>..\..\..\..\文档\但我真的是自来卷呀\2101HOK_但我真的是自来卷呀\_3Note\_3Note\Libs\KCPNetLibs\Kcp.dll</HintPath>
-    </Reference>
-    <Reference Include="KCPNet">
-      <HintPath>..\..\..\..\文档\但我真的是自来卷呀\2101HOK_但我真的是自来卷呀\_3Note\_3Note\Libs\KCPNetLibs\KCPNet.dll</HintPath>
+      <HintPath>Kcp.dll</HintPath>
     </Reference>
   </ItemGroup>
 

@@ -1,6 +1,7 @@
 ﻿
 
 using GameProtocol;
+using ShawnFramework.ShawLog;
 
 namespace GameServer
 {
@@ -14,7 +15,7 @@ namespace GameServer
             que2v2 = new Queue<ServerSession>();
             que5v5 = new Queue<ServerSession>();
 
-            this.Log("MatchSys Init Done!");
+            LogCore.ColorLog("[Match] 匹配系统初始化完成！", ELogColor.Cyan);
         }
         public override void Update()
         {

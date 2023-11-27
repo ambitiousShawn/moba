@@ -1,8 +1,8 @@
 ﻿
 
 using GameProtocol;
-using PENet;
-using PEUtils;
+using server.CommonTools.ShawKCPNet;
+using ShawnFramework.ShawLog;
 
 namespace GameServer
 {
@@ -10,17 +10,17 @@ namespace GameServer
     {
         protected override void OnConnected()
         {
-            this.ColorLog(LogColor.Green, "Client Online:sid:{0}", m_sid);
+            LogCore.ColorLog($"Client Online:sid:{m_sid}", ELogColor.Green);
         }
 
         protected override void OnDisConnected()
         {
-            this.Warn("Client Offline:sid:{0}", m_sid);
+            LogCore.Warn($"Client Offline:sid:{m_sid}");
         }
 
         protected override void OnReciveMsg(GameMsg msg)
         {
-            this.Log("RevPack CMD:{0}", msg.cmd.ToString());
+            LogCore.Log("RevPack CMD:{0}", msg.cmd.ToString());
             NetSvc.Instance.AddToMsgQueue(this, msg);
         }
 

@@ -1,8 +1,8 @@
 ﻿
 
 using GameProtocol;
-using PENet;
-using PEUtils;
+using ShawnFramework.ShawKCPNet;
+using ShawnFramework.ShawLog;
 
 namespace GameServer
 {
@@ -24,22 +24,15 @@ namespace GameServer
     {
         public static readonly string msgqueue_lock = "msgqueue_lock";
 
-        private KCPNet<ServerSession, GameMsg> server = new KCPNet<ServerSession, GameMsg>();
+        private KCPNet<ServerSession, GameMsg> server = new();
 
         public override void Init()
         {
             base.Init();
 
-            KCPTool.LogFunc = this.Log;
-            KCPTool.WarnFunc = this.Warn;
-            KCPTool.ErrorFunc = this.Error;
-            KCPTool.ColorLogFunc = (color, msg) =>
-            {
-                this.ColorLog((LogColor) color, msg);
-            };
             server.StartAsServer(ServerConfig.LocalDevInnerIP, ServerConfig.UdpPort);
 
-            this.Log("NetSvc Init Done!");
+            LogCore.ColorLog("[Net] 网络服务初始化完成！", ELogColor.Cyan);
         }
 
         private Queue<MsgPack> msgPackQueue = new Queue<MsgPack>();

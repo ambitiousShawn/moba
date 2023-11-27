@@ -1,4 +1,5 @@
 ﻿using GameProtocol;
+using ShawnFramework.ShawLog;
 
 namespace GameServer
 {
@@ -106,7 +107,7 @@ namespace GameServer
             room.BroadcastMsg (msg);
 
             room.SwitchRoomState(ERoomStateType.Fight);
-            this.ColorLog(PEUtils.LogColor.Green, "RoomID:{0} 所有玩家加载完成", room.roomID);
+            LogCore.ColorLog($"RoomID:{room.roomID} 所有玩家加载完成", ELogColor.Green);
         }
     }
 }

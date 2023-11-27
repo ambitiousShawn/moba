@@ -1,6 +1,7 @@
 ﻿
 
 using GameProtocol;
+using ShawnFramework.ShawLog;
 
 namespace GameServer
 {
@@ -9,7 +10,7 @@ namespace GameServer
         public override void Init()
         {
             base.Init();
-            this.Log("LoginSys Init Done!");
+            LogCore.ColorLog("[Login] 登录系统初始化完成！", ELogColor.Cyan);
         }
         public override void Update()
         {

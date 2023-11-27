@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "ZEBTA6OTPAWF8xEMMdbhiwZOeAtqLRUossjDGgAzJ24BqeU1zTolVr4z0EiPgzNS+fGQYtSWSRIzdX6yvVnevQ==",
+  "dgSpecHash": "XuxaDx1AJHtaWZslfE8UEGQqBPvEPaKaMD1ZeufIME12aR5eevuJinwgvFrBPdAPmqEOQUtCGS4oxdclSGdetg==",
   "success": true,
-  "projectFilePath": "D:\\UnityWorkSpace\\moba\\server\\server\\server.csproj",
+  "projectFilePath": "D:\\ProjectRoot\\Self\\moba\\server\\server\\server.csproj",
   "expectedPackageFiles": [],
   "logs": []
 }

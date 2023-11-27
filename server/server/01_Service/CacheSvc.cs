@@ -1,6 +1,5 @@
-﻿
-
-using GameProtocol;
+﻿using GameProtocol;
+using ShawnFramework.ShawLog;
 
 namespace GameServer
 {
@@ -9,7 +8,7 @@ namespace GameServer
         public override void Init()
         {
             base.Init();
-            this.Log("CacheSvc Init Done!");
+            LogCore.ColorLog("[Cache] 缓存服务初始化完成！", ELogColor.Cyan);
         }
 
         public override void Update()

@@ -1,6 +1,4 @@
-﻿using PENet;
-
-/*
+﻿/*
 新功能模块添加通用步骤：
 服务端：
     1. 添加新的协议信息
@@ -22,6 +20,8 @@
 
 
 //网络通信数据协议
+using ShawnFramework.ShawKCPNet;
+
 namespace GameProtocol
 {
     /// <summary>

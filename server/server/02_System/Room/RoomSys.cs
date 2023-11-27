@@ -1,6 +1,7 @@
 ﻿
 
 using GameProtocol;
+using ShawnFramework.ShawLog;
 
 namespace GameServer
 {
@@ -16,14 +17,14 @@ namespace GameServer
             pvpRoomList = new List<PVPRoom>();
             pvpRoomDic = new Dictionary<uint, PVPRoom>();
 
-            this.Log("RoomSys Init Done!");
+            LogCore.ColorLog("[Room] 房间系统初始化完成！", ELogColor.Cyan);
 
-            TimerSvc.Instance.AddTask(5000, CheckStatus, null, 0);
+            // TimerSvc.Instance.AddTask(5000, CheckStatus, null, 0);
         }
 
         void CheckStatus(int id)
         {
-            this.ColorLog(PEUtils.LogColor.Magenta, $"对战房间负载：{pvpRoomList.Count}个");
+            LogCore.ColorLog($"对战房间负载：{pvpRoomList.Count}个", ELogColor.Magenta);
         }
 
         public void AddPVPRoom(ServerSession[] serverSessions, PVPType type)
@@ -48,7 +49,7 @@ namespace GameServer
             }
             else
             {
-                this.Warn("PVPRoom ID:" + req.roomID + "is destroyed.");
+                LogCore.Warn("PVPRoom ID:" + req.roomID + "is destroyed.");
             }
         }
 
@@ -61,7 +62,7 @@ namespace GameServer
             }
             else
             {
-                this.Warn("PVPRoom ID:" + req.roomID + "is destroyed.");
+                LogCore.Warn("PVPRoom ID:" + req.roomID + "is destroyed.");
             }
         }
 
@@ -74,7 +75,7 @@ namespace GameServer
             }
             else
             {
-                this.Warn("PVPRoom ID:" + req.roomID + "is destroyed.");
+                LogCore.Warn("PVPRoom ID:" + req.roomID + "is destroyed.");
             }
         }
 
@@ -87,7 +88,7 @@ namespace GameServer
             }
             else
             {
-                this.Warn("PVPRoom ID:" + req.roomID + "is destroyed.");
+                LogCore.Warn("PVPRoom ID:" + req.roomID + "is destroyed.");
             }
         }
 
@@ -100,7 +101,7 @@ namespace GameServer
             }
             else
             {
-                this.Warn("PVPRoom ID:" + snd.roomID + " is not exist.");
+                LogCore.Warn("PVPRoom ID:" + snd.roomID + " is not exist.");
             }
         }
 
@@ -113,7 +114,7 @@ namespace GameServer
             }
             else
             {
-                this.Warn("PVPRoom ID:" + snd.roomID + " is not exist.");
+                LogCore.Warn("PVPRoom ID:" + snd.roomID + " is not exist.");
             }
         }
 
@@ -126,7 +127,7 @@ namespace GameServer
             }
             else
             {
-                this.Warn("PVPRoom ID:" + snd.roomID + " is not exist.");
+                LogCore.Warn("PVPRoom ID:" + snd.roomID + " is not exist.");
             }
         }
 
@@ -160,7 +161,7 @@ namespace GameServer
             }
             else
             {
-                this.Error("PVPRoom is not exist ID:" + roomID);
+                LogCore.Error("PVPRoom is not exist ID:" + roomID);
             }
         }
     }

@@ -1,7 +1,7 @@
 ﻿
 
 using GameProtocol;
-using PENet;
+using ShawnFramework.ShawKCPNet;
 
 namespace GameServer
 {
@@ -59,7 +59,7 @@ namespace GameServer
         public void BroadcastMsg(GameMsg msg)
         {
             // 由于每个人广播消息都一样，所以可以优先序列化，否则需要序列化相同消息很多次
-            byte[] bytes = KCPTool.Serialize(msg);
+            byte[] bytes = KCPTools.Serialize(msg);
             if (bytes != null)
             {
                 for (int i = 0; i < sessionArr.Length; i++)
@@ -72,7 +72,7 @@ namespace GameServer
         {
             int posIndex = 0;
             for (int i = 0;i < sessionArr.Length;i++)
-            {
+            {  
                 if (sessionArr[i].Equals(session))
                 {
                     posIndex = i;

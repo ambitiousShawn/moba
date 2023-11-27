@@ -1,4 +1,5 @@
 ﻿using GameProtocol;
+using ShawnFramework.ShawLog;
 
 namespace GameServer
 {
@@ -31,7 +32,7 @@ namespace GameServer
             };
             room.BroadcastMsg(msg);
 
-            checkTaskID = TimerSvc.Instance.AddTask(ServerConfig.SelectCountDown * 1000 + 2000, ReachTimeLimit);
+            // checkTaskID = TimerSvc.Instance.AddTask(ServerConfig.SelectCountDown * 1000 + 2000, ReachTimeLimit);
         }
 
         void ReachTimeLimit(int tid)
@@ -42,7 +43,7 @@ namespace GameServer
             }
             else
             {
-                this.Warn("RoomID:{0} 玩家超时未确认选择", room.roomID);
+                LogCore.Warn($"RoomID:{room.roomID} 玩家超时未确认选择");
                 for (int i = 0;i < selectArr.Length;i++)
                 {
                     if (!selectArr[i].selectDone)
@@ -88,14 +89,14 @@ namespace GameServer
             if (isAllSelected)
             {
                 // 进入Load状态
-                if (TimerSvc.Instance.DeleteTask(checkTaskID))
-                {
-                    this.ColorLog(PEUtils.LogColor.Green, "RoomID:{0} 所有玩家选择英雄完成", room.roomID);
-                }
-                else
-                {
-                    this.Warn("Remove CheckTaskID Failed!");
-                }
+                // if (TimerSvc.Instance.DeleteTask(checkTaskID))
+                // {
+                //     LogCore.ColorLog($"RoomID:{room.roomID} 所有玩家加载完成", ELogColor.Green);
+                // }
+                // else
+                // {
+                //     LogCore.Warn("Remove CheckTaskID Failed!");
+                // }
 
                 room.SelectHeroArr = selectArr;
                 room.SwitchRoomState(ERoomStateType.Load);

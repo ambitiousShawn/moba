@@ -10,20 +10,4 @@
   <ItemGroup>
     <ProjectReference Include="..\protocol\protocol.csproj" />
   </ItemGroup>
-
-  <ItemGroup>
-    <Reference Include="Kcp">
-      <HintPath>..\..\..\..\文档\但我真的是自来卷呀\2101HOK_但我真的是自来卷呀\_3Note\_3Note\Libs\KCPNetLibs\Kcp.dll</HintPath>
-    </Reference>
-    <Reference Include="KCPNet">
-      <HintPath>..\..\..\..\文档\但我真的是自来卷呀\2101HOK_但我真的是自来卷呀\_3Note\_3Note\Libs\KCPNetLibs\KCPNet.dll</HintPath>
-    </Reference>
-    <Reference Include="PETimer">
-      <HintPath>..\..\..\..\文档\但我真的是自来卷呀\2101HOK_但我真的是自来卷呀\_3Note\_3Note\Libs\PETimer.dll</HintPath>
-    </Reference>
-    <Reference Include="PEUtils">
-      <HintPath>..\..\..\..\文档\但我真的是自来卷呀\2101HOK_但我真的是自来卷呀\_3Note\_3Note\Libs\PEUtils.dll</HintPath>
-    </Reference>
-  </ItemGroup>
-
 </Project>
