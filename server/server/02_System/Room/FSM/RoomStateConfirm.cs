@@ -38,10 +38,10 @@ namespace GameServer
             };
             room.BroadcastMsg(msg);
 
-             // checkTastID = TimerSvc.Instance.AddTask(
-             //     ServerConfig.ConfirmCountDown * 1000
-             //     ,  ReachTimeLimit
-             //     );
+            checkTastID = TimerSvc.Instance.AddTask(
+                ServerConfig.ConfirmCountDown * 1000
+                ,  ReachTimeLimit
+                );
         }
         
         void ReachTimeLimit(int tid)
@@ -89,15 +89,15 @@ namespace GameServer
             CheckConfirmState();
             if (isAllConfirmed)
             {
-                // 已经全部确认
-                // if (TimerSvc.Instance.DeleteTask(checkTastID))
-                // {
-                //     LogCore.ColorLog($"RoomID:{room.roomID} 所有玩家加载完成", ELogColor.Green);
-                // }
-                // else
-                // {
-                //     LogCore.Warn("Remove CheckTaskID Failed.");
-                // }
+               // 已经全部确认
+               if (TimerSvc.Instance.RemoveTask(checkTastID))
+               {
+                   LogCore.ColorLog($"RoomID:{room.roomID} 所有玩家加载完成", ELogColor.Green);
+               }
+               else
+               {
+                   LogCore.Warn("Remove CheckTaskID Failed.");
+               }
                 room.SwitchRoomState(ERoomStateType.Select);
             }
             else

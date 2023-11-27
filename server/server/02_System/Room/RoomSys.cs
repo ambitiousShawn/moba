@@ -19,7 +19,7 @@ namespace GameServer
 
             LogCore.ColorLog("[Room] 房间系统初始化完成！", ELogColor.Cyan);
 
-            // TimerSvc.Instance.AddTask(5000, CheckStatus, null, 0);
+            TimerSvc.Instance.AddTask(5000, CheckStatus, null, 0);
         }
 
         void CheckStatus(int id)

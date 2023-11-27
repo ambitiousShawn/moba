@@ -32,7 +32,7 @@ namespace GameServer
             };
             room.BroadcastMsg(msg);
 
-            // checkTaskID = TimerSvc.Instance.AddTask(ServerConfig.SelectCountDown * 1000 + 2000, ReachTimeLimit);
+            checkTaskID = TimerSvc.Instance.AddTask(ServerConfig.SelectCountDown * 1000 + 2000, ReachTimeLimit);
         }
 
         void ReachTimeLimit(int tid)
@@ -89,14 +89,14 @@ namespace GameServer
             if (isAllSelected)
             {
                 // 进入Load状态
-                // if (TimerSvc.Instance.DeleteTask(checkTaskID))
-                // {
-                //     LogCore.ColorLog($"RoomID:{room.roomID} 所有玩家加载完成", ELogColor.Green);
-                // }
-                // else
-                // {
-                //     LogCore.Warn("Remove CheckTaskID Failed!");
-                // }
+                if (TimerSvc.Instance.RemoveTask(checkTaskID))
+                {
+                    LogCore.ColorLog($"RoomID:{room.roomID} 所有玩家加载完成", ELogColor.Green);
+                }
+                else
+                {
+                    LogCore.Warn("Remove CheckTaskID Failed!");
+                }
 
                 room.SelectHeroArr = selectArr;
                 room.SwitchRoomState(ERoomStateType.Load);

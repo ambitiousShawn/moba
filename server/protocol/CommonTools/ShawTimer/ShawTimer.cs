@@ -10,14 +10,14 @@
         /// <param name="cancelCB">取消时的回调</param>
         /// <param name="count">任务重复次数</param>
         /// <returns></returns>
-        public abstract int AddTimer(uint delay, Action<int> taskCB, Action<int> cancelCB, int count = 1);
+        public abstract int AddTask(uint delay, Action<int> taskCB, Action<int> cancelCB, int count = 1);
 
         /// <summary>
         /// 移除一个定时任务
         /// </summary>
         /// <param name="tid">定时任务ID</param>
         /// <returns></returns>
-        public abstract bool RemoveTimer(int tid);
+        public abstract bool RemoveTask(int tid);
 
         /// <summary>
         /// 重置定时器
