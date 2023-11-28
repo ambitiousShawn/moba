@@ -115,7 +115,8 @@ public abstract class MainLogicUnit : BaseLogicUnit
 
     public override void LogicUninit()
     {
-        
+        UnInitSkill();
+        UnInitMove();
     }
 
     public void InputKey(OpKey key)
@@ -214,6 +215,11 @@ public abstract class MainLogicUnit : BaseLogicUnit
 
     }
 
+    void UnInitSkill()
+    {
+
+    }
+
     /// <summary>
     /// 拿到当前逻辑单元的普通攻击配置
     /// </summary>
@@ -266,15 +272,21 @@ public abstract class MainLogicUnit : BaseLogicUnit
         }
         if (LogicDir != ShawVector3.zero)
         {
-            LogicDir = selfCollider.mPos + adj;
+            LogicPos = selfCollider.mPos + adj;
         }
         selfCollider.mPos = LogicPos;
+        LogCore.ColorLog(selfCollider.mPos.x + " " + selfCollider.mPos.z, ELogColor.Green);
+    }
+
+    void UnInitMove()
+    {
+
     }
 
     public void InputMoveKey(ShawVector3 dir)
     {
         InputDir = dir;
-        LogCore.ColorLog(InputDir.ConvertViewVector3().ToString(), ELogColor.Green) ;
+        // LogCore.ColorLog(InputDir.ConvertViewVector3().ToString(), ELogColor.Green) ;
     }
     #endregion
 }

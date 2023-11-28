@@ -84,6 +84,9 @@ namespace GameServer
                 case CMD.ReqBattleStart:
                     RoomSys.Instance.ReqBattleStart(pack);
                     break;
+                case CMD.SndOpKey:
+                    RoomSys.Instance.SndOpKey(pack);
+                    break;
                 default:
                     break;
             }

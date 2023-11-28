@@ -92,10 +92,9 @@ namespace ShawnFramework.ShawnPhysics
 
             if (collisionInfoLst.Count == 0) 
             {
-                return;
+                
             }
-
-            if (collisionInfoLst.Count == 1)
+            else if (collisionInfoLst.Count == 1)
             {
                 // 仅有一个碰撞体，修正速度
                 CollisionInfo info = collisionInfoLst[0];
