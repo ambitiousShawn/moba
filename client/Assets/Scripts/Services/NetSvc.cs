@@ -5,8 +5,6 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityEngine;
-using UnityEngine.UI;
-using XLua;
 
 namespace ShawnFramework.CommonModule
 {
@@ -25,14 +23,6 @@ namespace ShawnFramework.CommonModule
             Instance = this;
             client = new KCPNet<ClientSession, GameMsg>();
             msgPackQueue = new Queue<GameMsg>();
-
-            KCPTool.LogFunc = LogCore.Log;
-            KCPTool.WarnFunc = LogCore.Warn;
-            KCPTool.ErrorFunc = LogCore.Error;
-            KCPTool.ColorLogFunc = (color, msg) =>
-            {
-                LogCore.ColorLog(msg, (ELogColor)color);
-            };
             
             string srvIP = ServerConfig.LocalDevInnerIP;
 
