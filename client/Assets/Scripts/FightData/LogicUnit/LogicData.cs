@@ -4,6 +4,7 @@ using ShawnFramework.ShawLog;
 using ShawnFramework.ShawMath;
 using ShawnFramework.ShawnPhysics;
 using System.Collections.Generic;
+using System.Numerics;
 using UnityEngine;
 /// <summary>
 /// 逻辑单元基础接口
@@ -99,6 +100,7 @@ public abstract class MainLogicUnit : BaseLogicUnit
         // 表现层初始化
         GameObject go = AssetsSvc.Instance.LoadPrefab(pathPrefix, unitData.unitCfg.resName, 1);
         mainViewUnit = go.AddComponent<HeroView>();
+        mainViewUnit.skillRange = go.transform.Find("skillRange");
         if (mainViewUnit == null )
         {
             LogCore.Error("Get MainViewUnit Error:" + unitName);
@@ -131,6 +133,7 @@ public abstract class MainLogicUnit : BaseLogicUnit
                 InputMoveKey(new ShawVector3(x, 0, z));
                 break;
             case EKeyType.Skill:
+                InputSkillKey(key.skillKey);
                 break;
         }
     }
@@ -220,6 +223,24 @@ public abstract class MainLogicUnit : BaseLogicUnit
 
     }
 
+    void InputSkillKey(SkillKey key)
+    {
+        for (int i = 0; i < skillArr.Length; i++)
+        {
+            if (skillArr[i].skillID == key.skillID)
+            {
+                ShawInt x = ShawInt.zero;
+                ShawInt z = ShawInt.zero;
+                x.ScaledValue = key.x;
+                z.ScaledValue = key.z;
+                ShawVector3 skillArgs = new ShawVector3(x, 0, z);
+                skillArr[i].ReleaseSkill(skillArgs);
+                return;
+            }
+        }
+        LogCore.Error($"skillID:{key.skillID} is not exist.");
+    }
+
     /// <summary>
     /// 拿到当前逻辑单元的普通攻击配置
     /// </summary>
@@ -275,7 +296,7 @@ public abstract class MainLogicUnit : BaseLogicUnit
             LogicPos = selfCollider.mPos + adj;
         }
         selfCollider.mPos = LogicPos;
-        LogCore.ColorLog(selfCollider.mPos.x + " " + selfCollider.mPos.z, ELogColor.Green);
+        // LogCore.ColorLog(selfCollider.mPos.x + " " + selfCollider.mPos.z, ELogColor.Green);
     }
 
     void UnInitMove()
@@ -287,6 +308,19 @@ public abstract class MainLogicUnit : BaseLogicUnit
     {
         InputDir = dir;
         // LogCore.ColorLog(InputDir.ConvertViewVector3().ToString(), ELogColor.Green) ;
+    }
+    #endregion
+
+    #region API Func
+
+    /// <summary>
+    /// 判断是否是某队
+    /// </summary>
+    /// <param name="type"></param>
+    /// <returns></returns>
+    public bool IsTeam(ETeamType type)
+    {
+        return unitData.teamType == type;
     }
     #endregion
 }

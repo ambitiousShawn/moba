@@ -7,7 +7,7 @@ using UnityEngine.UI;
 /// <summary>
 /// 技能按钮
 /// </summary>
-public partial class SkillItem : CommonListenerRoot
+public partial class SkillItem : WindowRoot
 {
     public Image ImgCycle;
     public Image ImgSkillIcon;
@@ -29,7 +29,7 @@ public partial class SkillItem : CommonListenerRoot
     {
         EffectRoot.gameObject.SetActive(false);
 
-        // heroView = BattleSys.Instance.GetSelfHero().mainViewUnit as HeroView;
+        heroView = FightManager.Instance.GetSelfHero(Launcher.Instance.SelfIndex).mainViewUnit as HeroView;
         this.skillIndex = skillIndex;
         this.skillConf = skillConf;
 
@@ -37,7 +37,7 @@ public partial class SkillItem : CommonListenerRoot
         if (!skillConf.isNormalAttack)
         {
             // 不是普通攻击，开启小轮盘
-            ImgSkillIcon.sprite = AssetsSvc.Instance.LoadSprite("ResImages/PlayWnd/" + skillConf.iconName);
+            // ImgSkillIcon.sprite = AssetsSvc.Instance.LoadSprite("ResImages/PlayWnd/" + skillConf.iconName);
             ImgCD.gameObject.SetActive(false);
             Txt_CD.gameObject.SetActive(false);
 
@@ -51,13 +51,13 @@ public partial class SkillItem : CommonListenerRoot
                 if (skillConf.releaseModeType == EReleaseModeType.Position)
                 {
                     // 需要选定位置的技能
-                    // heroView.SetSkillGuide(skillIndex, true, EReleaseModeType.Position, Vector3.zero);
+                    heroView.SetSkillGuide(skillIndex, true, EReleaseModeType.Position, Vector3.zero);
 
                 }
                 else if (skillConf.releaseModeType == EReleaseModeType.Direction)
                 {
                     // 需要选定方向的技能
-                    // heroView.SetSkillGuide(skillIndex, true, EReleaseModeType.Direction, Vector3.zero);
+                    heroView.SetSkillGuide(skillIndex, true, EReleaseModeType.Direction, Vector3.zero);
                 }
             });
             OnDrag(ImgSkillIcon.gameObject, (evt, args) =>
@@ -81,18 +81,18 @@ public partial class SkillItem : CommonListenerRoot
                     {
                         return;
                     }
-                    // dir = BattleSys.Instance.SkillDisMultipler * dir;
+                    dir = FightManager.Instance.SkillDisMultipler * dir;
                     Vector2 clampDir = Vector2.ClampMagnitude(dir, skillConf.targetConf.selectRange);
                     Vector3 clampDirVector3 = new Vector3(clampDir.x, 0, clampDir.y);
                     clampDirVector3 = Quaternion.Euler(0, 45, 0) * clampDirVector3;
-                    // heroView.SetSkillGuide(skillIndex, true, EReleaseModeType.Position, clampDirVector3);
+                    heroView.SetSkillGuide(skillIndex, true, EReleaseModeType.Position, clampDirVector3);
                 }
                 else if (skillConf.releaseModeType == EReleaseModeType.Direction)
                 {
                     // 方向技能指引
                     Vector3 dirVector3 = new Vector3(dir.x, 0, dir.y);
                     dirVector3 = Quaternion.Euler(0, 45, 0) * dirVector3;
-                    // heroView.SetSkillGuide(skillIndex, true, EReleaseModeType.Direction, dirVector3.normalized);
+                    heroView.SetSkillGuide(skillIndex, true, EReleaseModeType.Direction, dirVector3.normalized);
                 }
                 else
                 {
@@ -101,11 +101,11 @@ public partial class SkillItem : CommonListenerRoot
 
                 if (len >= ClientConfig.SkillCancelDis)
                 {
-                    // SetState(BattleSys.Instance.playWnd.imgCancelSkill);
+                    FightManager.Instance.playWnd.imgCancelSkill.gameObject.SetActive(true);
                 }
                 else
                 {
-                    // SetState(BattleSys.Instance.playWnd.imgCancelSkill, false);
+                    FightManager.Instance.playWnd.imgCancelSkill.gameObject.SetActive(false);
                 }
             });
 
@@ -117,13 +117,13 @@ public partial class SkillItem : CommonListenerRoot
                 ImgCycle.gameObject.SetActive(false);
                 ImgPoint.gameObject.SetActive(false);
 
-                // SetState(BattleSys.Instance.playWnd.imgCancelSkill, false);
+                FightManager.Instance.playWnd.imgCancelSkill.gameObject.SetActive(false);
                 ShowSkillAtkRange(false);
 
                 if (dir.magnitude >= ClientConfig.SkillCancelDis)
                 {
                     LogCore.Log("取消技能释放");
-                    // heroView.DisableSkillGuide(skillIndex);
+                    heroView.DisableSkillGuide(skillIndex);
                     return;
                 }
                 if (skillConf.releaseModeType == EReleaseModeType.Click)
@@ -133,10 +133,10 @@ public partial class SkillItem : CommonListenerRoot
                 }
                 else if (skillConf.releaseModeType == EReleaseModeType.Position)
                 {
-                    // dir = BattleSys.Instance.SkillDisMultipler * dir;
+                    dir = FightManager.Instance.SkillDisMultipler * dir;
                     Vector2 clampDir = Vector2.ClampMagnitude(dir, skillConf.targetConf.selectRange);
                     LogCore.Log("Pos Info:" + clampDir.ToString());
-                    // heroView.DisableSkillGuide(skillIndex);
+                    heroView.DisableSkillGuide(skillIndex);
                     Vector3 clampDirVector3 = new Vector3(clampDir.x, 0, clampDir.y);
                     clampDirVector3 = Quaternion.Euler(0, 45, 0) * clampDirVector3;
 
@@ -148,7 +148,7 @@ public partial class SkillItem : CommonListenerRoot
                     {
                         return;
                     }
-                    // heroView.DisableSkillGuide(skillIndex);
+                    heroView.DisableSkillGuide(skillIndex);
 
                     Vector3 dirVector3 = new Vector3(dir.x, 0, dir.y);
                     dirVector3 = Quaternion.Euler(0, 45, 0) * dirVector3;
@@ -201,14 +201,14 @@ public partial class SkillItem : CommonListenerRoot
     {
         if (skillConf.targetConf != null)
         {
-            // heroView.SetAtkSkillRange(state, skillConf.targetConf.selectRange);     
+            heroView.SetAtkSkillRange(state, skillConf.targetConf.selectRange);     
         }
     }
 
     // 点击技能图标
     public void ClickSkillItem()
     {
-        // BattleSys.Instance.SendSkillKey(skillConf.skillID, Vector2.zero);
+        FightManager.Instance.SendSkillOperation(skillConf.skillID, Vector2.zero);
     }
 
     /// <summary>
@@ -217,7 +217,7 @@ public partial class SkillItem : CommonListenerRoot
     /// <param name="arg"></param>
     public void ClickSkillItem(Vector3 arg)
     {
-        // BattleSys.Instance.SendSkillKey(skillConf.skillID, arg);
+        FightManager.Instance.SendSkillOperation(skillConf.skillID, arg);
     }
 
     public void SetForbidState(bool state)

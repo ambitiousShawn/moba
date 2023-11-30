@@ -3,6 +3,7 @@ using ShawnFramework.CommonModule;
 using ShawnFramework.ShawLog;
 using ShawnFramework.ShawMath;
 using ShawnFramework.ShawnPhysics;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -13,26 +14,18 @@ public class FightManager : MonoBehaviour
 {
     public static FightManager Instance;
 
-    Transform cameraFollowTarget = null; // 相机跟随目标
+    public UGUI_PlayPanel playWnd; // Lua中赋值
+
+    public float SkillDisMultipler = 0.03f; // 技能距离的乘法系数
 
     void Awake()
     {
         Instance = this;
     }
 
-    List<ShawColliderBase> colliderLst; // 存储环境中所有碰撞体
-    List<HeroLogic> heroList = new List<HeroLogic>();
-    
-    /// <summary>
-    /// 外部获取所有环境碰撞
-    /// </summary>
-    /// <returns></returns>
-    public List<ShawColliderBase> GetAllEnvColliders()
-    {
-        return colliderLst;
-    }
-
     #region 初始化相关(包括相机跟随)
+    
+    List<ShawColliderBase> colliderLst; // 存储环境中所有碰撞体
     /// <summary>
     /// 初始化场景碰撞环境
     /// </summary>
@@ -97,6 +90,8 @@ public class FightManager : MonoBehaviour
         colliderLst = logicEnv.GetAllEnvColliders();
     }
 
+
+    List<HeroLogic> heroList = new List<HeroLogic>();
     /// <summary>
     /// 初始化英雄单位
     /// </summary>
@@ -133,7 +128,7 @@ public class FightManager : MonoBehaviour
     }
 
     Transform transCameraRoot = null;
-
+    Transform cameraFollowTarget = null; // 相机跟随目标
     /// <summary>
     /// 初始化相机
     /// </summary>
@@ -178,7 +173,7 @@ public class FightManager : MonoBehaviour
 
     uint keyID = 0;
     public uint KeyID => ++keyID;
-
+    // 移动操作请求
     public void SendMoveOperation(ShawVector3 logicDir)
     {
         GameMsg msg = new()
@@ -202,6 +197,53 @@ public class FightManager : MonoBehaviour
         };
     
         NetSvc.Instance.SendMsg(msg);
+    }
+
+    // 技能操作请求
+    public void SendSkillOperation(int skillID, Vector3 vec)
+    {
+        GameMsg msg = new GameMsg
+        {
+            cmd = CMD.SndOpKey,
+            sndOpKey = new SndOpKey
+            {
+                roomID = Launcher.Instance.RoomID,
+                opKey = new OpKey
+                {
+                    opIndex = Launcher.Instance.SelfIndex,
+                    keyType = EKeyType.Skill,
+                    skillKey = new SkillKey
+                    {
+                        skillID = (uint)skillID,
+                        x = ((ShawInt)vec.x).ScaledValue,
+                        z = ((ShawInt)vec.z).ScaledValue,
+                    }
+                }
+            }
+        };
+
+        NetSvc.Instance.SendMsg(msg);
+    }
+    #endregion
+
+    #region API Func
+    /// <summary>
+    /// 获取当前客户端的逻辑实体
+    /// </summary>
+    /// <param name="posIndex"></param>
+    /// <returns></returns>
+    public MainLogicUnit GetSelfHero(int posIndex)
+    {
+        return heroList[posIndex];
+    }
+
+    /// <summary>
+    /// 外部获取所有环境碰撞
+    /// </summary>
+    /// <returns></returns>
+    public List<ShawColliderBase> GetAllEnvColliders()
+    {
+        return colliderLst;
     }
     #endregion
 }

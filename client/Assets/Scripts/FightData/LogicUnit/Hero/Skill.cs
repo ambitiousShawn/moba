@@ -30,6 +30,15 @@ public class Skill
         }
         this.owner = owner;
     }
+
+    /// <summary>
+    /// ÊÍ·Å¼¼ÄÜ
+    /// </summary>
+    /// <param name="skillArgs"></param>
+    public void ReleaseSkill(ShawVector3 skillArgs)
+    {
+
+    }
 }
 
 public enum ESkillState

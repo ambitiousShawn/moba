@@ -1,0 +1,49 @@
+ManifestFileVersion: 0
+CRC: 3276616397
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: bfda44342ac7ec7bb211930bef9a9103
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: dc870fe5861c186424dfb4b32e102178
+  IncrementalBuildHash:
+    serializedVersion: 2
+    Hash: bfda44342ac7ec7bb211930bef9a9103
+HashAppended: 0
+ClassTypes:
+- Class: 1
+  Script: {instanceID: 0}
+- Class: 28
+  Script: {instanceID: 0}
+- Class: 114
+  Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 383b8937fbff63f4e93957a98b78ad00, type: 3}
+- Class: 115
+  Script: {instanceID: 0}
+- Class: 213
+  Script: {instanceID: 0}
+- Class: 222
+  Script: {instanceID: 0}
+- Class: 224
+  Script: {instanceID: 0}
+SerializeReferenceClassIdentifiers:
+- AssemblyName: UnityEngine.CoreModule
+  ClassName: UnityEngine.Events.PersistentCallGroup
+- AssemblyName: UnityEngine.UI
+  ClassName: UnityEngine.UI.MaskableGraphic/CullStateChangedEvent
+Assets:
+- Assets/ArtRes/PlayWndRes/MiniMap/blueSoldier_mapIcon.png
+- Assets/ArtRes/PlayWndRes/MiniMap/blueCrystal.png
+- Assets/ArtRes/PlayWndRes/MiniMap/blueTower.png
+- Assets/Resources/UIPrefab/DynamicItem/ItemMapIconHero.prefab
+- Assets/ArtRes/PlayWndRes/MiniMap/galen_mapIcon.png
+- Assets/ArtRes/PlayWndRes/MiniMap/redTower.png
+- Assets/ArtRes/PlayWndRes/MiniMap/redSoldier_mapIcon.png
+- Assets/ArtRes/PlayWndRes/MiniMap/ashe_mapIcon.png
+- Assets/ArtRes/PlayWndRes/MiniMap/blueHeroMapFrame.png
+- Assets/ArtRes/PlayWndRes/MiniMap/redHeroMapFrame.png
+- Assets/ArtRes/PlayWndRes/MiniMap/redCrystal.png
+- Assets/Resources/UIPrefab/DynamicItem/ItemMapIcon.prefab
+Dependencies: []

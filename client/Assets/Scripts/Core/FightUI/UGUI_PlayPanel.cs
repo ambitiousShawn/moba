@@ -1,14 +1,29 @@
 using GameProtocol;
 using ShawnFramework.CommonModule;
+using ShawnFramework.ShawLog;
 using ShawnFramework.ShawMath;
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class UGUI_PlayPanel : CommonListenerRoot
+public class UGUI_PlayPanel : WindowRoot
 {
-    # region 除技能
+    private void OnEnable()
+    {
+        InitMove();
+        InitMiniMap();
+
+        RegisterMoveEvts();
+    }
+
+    private void Update()
+    {
+        MoveTick();
+    }
+
+    #region 移动模块
     public Image imgCancelSkill;
     public Image imgTouch;
     public Image imgDirBg;
@@ -19,14 +34,12 @@ public class UGUI_PlayPanel : CommonListenerRoot
     Vector2 startPos = Vector2.zero;
     Vector2 defaultPos = Vector2.zero;
 
-    private void Awake()
+    private void InitMove()
     {
         pointDis = Screen.height * 1.0f / ClientConfig.ScreenStandardHeight * ClientConfig.ScreenOPDis;
         ArrowRoot.gameObject.SetActive(false);
         defaultPos = imgDirBg.transform.position;
-
-        RegisterMoveEvts();
-    }   
+    }
 
     void RegisterMoveEvts()
     {
@@ -71,7 +84,7 @@ public class UGUI_PlayPanel : CommonListenerRoot
     }
 
     private Vector2 lastKeyDir = Vector2.zero;
-    private void Update()
+    private void MoveTick()
     {
         float h = Input.GetAxisRaw("Horizontal");
         float v = Input.GetAxisRaw("Vertical");
@@ -119,7 +132,7 @@ public class UGUI_PlayPanel : CommonListenerRoot
     public SkillItem skillItem2;
     public SkillItem skillItem3;
 
-    // public Transform ImgInfoRoot;
+    public Transform ImgInfoRoot;
     public void InitSkillInfo()
     {
         BattleHeroData self = Launcher.Instance.BattleHeroDatas[Launcher.Instance.SelfIndex];
@@ -132,7 +145,7 @@ public class UGUI_PlayPanel : CommonListenerRoot
         skillItem3.InitSkillItem(AssetsSvc.Instance.GetSkillConfigByID(skillArr[3]), 3);
 
         SetForbidState(false);
-        // ImgInfoRoot.gameObject.SetActive(false);
+        ImgInfoRoot.gameObject.SetActive(true);
     }
 
     /// <summary>
@@ -146,36 +159,77 @@ public class UGUI_PlayPanel : CommonListenerRoot
         skillItem3.SetForbidState(state);
     }
     #endregion
-}
 
-public class PEListener :
-MonoBehaviour,
-IPointerClickHandler,
-IPointerDownHandler,
-IPointerUpHandler,
-IDragHandler
-{
-    public Action<PointerEventData, object[]> onClick;
-    public Action<PointerEventData, object[]> onClickDown;
-    public Action<PointerEventData, object[]> onClickUp;
-    public Action<PointerEventData, object[]> onDrag;
+    #region 小地图模块
+    public Transform mapIconRoot;
+    public Transform mapHeroIconRoot;
 
-    public object[] args = null;
+    private Dictionary<MainLogicUnit, MinimapItem> unitMapitemDic; // 场景对象与地图图标的映射
+    private Vector3 refPosition = Vector3.zero; // 相对位置
 
-    public void OnPointerClick(PointerEventData eventData)
+    void InitMiniMap()
     {
-        onClick?.Invoke(eventData, args);
+        unitMapitemDic = new Dictionary<MainLogicUnit, MinimapItem>();
     }
-    public void OnPointerDown(PointerEventData eventData)
+    void UnInitMiniMap()
     {
-        onClickDown?.Invoke(eventData, args);
+        for (int i = mapHeroIconRoot.childCount - 1; i >= 0; --i)
+        {
+            Destroy(mapHeroIconRoot.GetChild(i).gameObject);
+        }
+        for (int i = mapIconRoot.childCount - 1; i >= 0; --i)
+        {
+            if (mapIconRoot.GetChild(i).name != "bgRoad")
+            {
+                Destroy(mapIconRoot.GetChild(i).gameObject);
+            }
+        }
+        if (unitMapitemDic != null)
+        {
+            unitMapitemDic.Clear();
+        }
     }
-    public void OnPointerUp(PointerEventData eventData)
+
+    public void AddMiniIconItemInfo(MainLogicUnit unit)
     {
-        onClickUp?.Invoke(eventData, args);
+        if (unitMapitemDic.ContainsKey(unit))
+        {
+            LogCore.Error(unit.unitName + "minimap item is already exist.");
+            return;
+        }
+        else
+        {
+            if (gameObject.activeSelf == false)
+            {
+                return;
+            }
+            GameObject go = null;
+            if (unit.unitType == EUnitType.Hero)
+            {
+                go = AssetsSvc.Instance.LoadPrefab("", "UIPrefab/DynamicItem/ItemMapIconHero", 0);
+                go.transform.SetParent(mapHeroIconRoot);
+            }
+            else
+            {
+                go = AssetsSvc.Instance.LoadPrefab("", "UIPrefab/DynamicItem/ItemMapIcon", 0);
+                go.transform.SetParent(mapIconRoot);
+            }
+            go.transform.localPosition = Vector3.zero;
+            go.transform.localScale = Vector3.one;
+
+            MinimapItem item = go.GetComponent<MinimapItem>();
+            item.InitItem(unit, refPosition);
+            unitMapitemDic.Add(unit, item);
+        }
     }
-    public void OnDrag(PointerEventData eventData)
+
+    public void RmvMapIconItemInfo(MainLogicUnit key)
     {
-        onDrag?.Invoke(eventData, args);
+        if (unitMapitemDic.TryGetValue(key, out MinimapItem item))
+        {
+            Destroy(item.gameObject);
+            unitMapitemDic.Remove(key);
+        }
     }
+    #endregion
 }

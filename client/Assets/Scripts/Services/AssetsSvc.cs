@@ -3,6 +3,7 @@ using ShawnFramework.ShawMath;
 using ShawnFramework.ShawnPhysics;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using XLua;
@@ -38,16 +39,17 @@ namespace ShawnFramework.CommonModule
             prgCB?.Invoke();
         }
 
+        #region UI预制体
         private Dictionary<string, GameObject> m_PanelCache = new Dictionary<string, GameObject>();
         /// <summary>
-        /// 资源加载通用方式
+        /// UI预制体加载通用方式
         /// </summary>
-        /// <param name="arg1">if Resources:pathWithoutName >>> if AssetBundle:packageName </param>
+        /// <param name="packageName">if Resources:pathWithoutName >>> if AssetBundle:packageName </param>
         /// <param name="assetName">if Resources:assetName >>> if AssetBundle:assetName </param>
         /// <param name="assetsType">资源管理的方式</param>
         /// <param name="cache">是否启用缓存</param>
         /// <returns></returns>
-        public GameObject LoadUIPrefab(string arg1, string assetName, int type, bool cache = false)
+        public GameObject LoadUIPrefab(string packageName, string assetName, int type, bool cache = false)
         {
             GameObject panel = null;
             EAssetsType assetsType = (EAssetsType)type;
@@ -61,36 +63,59 @@ namespace ShawnFramework.CommonModule
                     panel = Instantiate(Resources.Load<GameObject>($"{assetName}"));
                     break;
                 case EAssetsType.AssetBundle:
-                    panel = AssetBundleMgr.Instance.LoadAsset<GameObject>(arg1, assetName);
+                    panel = AssetBundleMgr.Instance.LoadAsset<GameObject>(packageName, assetName);
                     break;
                 case EAssetsType.Addressable:
                     break;
             }
-            m_PanelCache.Add(assetName, panel); 
+            if (cache)
+            {
+                m_PanelCache.Add(assetName, panel);
+            }
             return panel;
         }
+        #endregion
 
-        private Dictionary<string, Sprite> m_SpriteCache = new Dictionary<string, Sprite>();
-        /// <summary>
-        /// 加载精灵图像
-        /// </summary>
-        /// <param name="path"></param>
-        /// <param name="cache"></param>
-        /// <returns></returns>
-        public Sprite LoadSprite(string path, bool cache = false)
-        {
-            Sprite sprite = null;
-            if (!m_SpriteCache.TryGetValue(path, out sprite))
-            {
-                sprite = Resources.Load<Sprite>(path);
-                if (cache)
+        # region 精灵图像
+                private Dictionary<string, Sprite> m_SpriteCache = new Dictionary<string, Sprite>();
+                /// <summary>
+                /// 加载精灵图像
+                /// </summary>
+                /// <param name="packageName"></param>
+                /// <param name="assetName"></param>
+                /// <param name="type"></param>
+                /// <param name="cache"></param>
+                /// <returns></returns>
+                public Sprite LoadSprite(string packageName, string assetName, int type, bool cache = false)
                 {
-                    m_SpriteCache.Add(path, sprite);
-                }
-            }
-            return sprite;
-        }
+                    Sprite sprite = null;
+                    EAssetsType assetsType = (EAssetsType)type;
+                    if (cache && m_SpriteCache.TryGetValue(assetName, out sprite))
+                    {
+                        return sprite;   
+                    }
+                    switch (assetsType)
+                    {
+                        case EAssetsType.Resources:
+                            sprite = Resources.Load<Sprite>(assetName);
+                            break;
+                        case EAssetsType.AssetBundle:
+                            sprite = AssetBundleMgr.Instance.LoadAsset<Sprite>(packageName, assetName);
+                            break;
+                        case EAssetsType.Addressable:
+                            break;
+                    }
 
+                    if (cache)
+                    {
+                        m_SpriteCache.Add(assetName, sprite);
+                    }
+
+                    return sprite;
+                }
+        #endregion
+
+        #region 场景
         private Action prgCB = null;
         /// <summary>
         /// 异步加载场景
@@ -113,14 +138,16 @@ namespace ShawnFramework.CommonModule
                 }
             };
         }
+        #endregion
 
+        #region 加载预制体
         private Dictionary<string, GameObject> goDic = new Dictionary<string, GameObject>();
         /// <summary>
         /// 加载预制体模型
         /// </summary>
         /// <param name="path"></param>
         /// <param name="cache"></param>
-        public GameObject LoadPrefab(string arg1, string assetName, int type, bool cache = false)
+        public GameObject LoadPrefab(string packageName, string assetName, int type, bool cache = false)
         {
             GameObject prefab = null;
             EAssetsType assetsType = (EAssetsType)type;
@@ -132,44 +159,24 @@ namespace ShawnFramework.CommonModule
             switch (assetsType)
             {
                 case EAssetsType.Resources:
-                    prefab = Resources.Load<GameObject>($"{arg1}/{assetName}");
+                    prefab = Instantiate(Resources.Load<GameObject>($"{assetName}"));
                     break;
                 case EAssetsType.AssetBundle:
-                    prefab = AssetBundleMgr.Instance.LoadAsset<GameObject>(arg1, assetName);
+                    prefab = AssetBundleMgr.Instance.LoadAsset<GameObject>(packageName, assetName);
                     break;
                 case EAssetsType.Addressable:
                     break;
             }
-            goDic.Add(assetName, prefab);
+            if (cache)
+            {
+                goDic.Add(assetName, prefab);
+            }
 
             return prefab;
         }
+        #endregion
 
-        /// <summary>
-        /// 根据mapID获取地图配置信息
-        /// </summary>
-        /// <param name="mapID"></param>
-        /// <returns></returns>
-        public MapConfig GetMapConfigByID(int mapID)
-        {
-            switch (mapID)
-            {
-                case 101:
-                    return new MapConfig
-                    {
-                        mapID = 101,
-                        blueBornPos = new ShawVector3(-27, 0, 0),
-                        redBornPos = new ShawVector3(-27, 0, 0),
-                        soldierBornDelay = 15000,
-                        soldierBornInterval = 2000,
-                        soldierWaveInterval = 50000,
-                    };
-                default:
-                    return null;
-            }
-        }
-
-
+        #region 音频切片
         private Dictionary<string, AudioClip> _cacheDic = new Dictionary<string, AudioClip>();
         /// <summary>
         /// 加载音频切片
@@ -198,6 +205,31 @@ namespace ShawnFramework.CommonModule
 
             return audio;
         }
+        #endregion
+
+        /// <summary>
+        /// 根据mapID获取地图配置信息
+        /// </summary>
+        /// <param name="mapID"></param>
+        /// <returns></returns>
+        public MapConfig GetMapConfigByID(int mapID)
+        {
+            switch (mapID)
+            {
+                case 101:
+                    return new MapConfig
+                    {
+                        mapID = 101,
+                        blueBornPos = new ShawVector3(-27, 0, 0),
+                        redBornPos = new ShawVector3(-27, 0, 0),
+                        soldierBornDelay = 15000,
+                        soldierBornInterval = 2000,
+                        soldierWaveInterval = 50000,
+                    };
+                default:
+                    return null;
+            }
+        }
 
         /// <summary>
         /// 根据heroID获取英雄配置数据
@@ -213,7 +245,7 @@ namespace ShawnFramework.CommonModule
                     {
                         unitID = 101,
                         unitName = "德玛西亚之力",
-                        resName = "Galen",
+                        resName = "galen",
 
                         hp = 800,
                         defense = 0,
@@ -237,7 +269,7 @@ namespace ShawnFramework.CommonModule
                     {
                         unitID = 102,
                         unitName = "寒冰射手",
-                        resName = "Ashe",
+                        resName = "ashe",
 
                         hp = 650,
                         defense = 0,

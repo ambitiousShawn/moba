@@ -29,14 +29,8 @@ public class GMSys : MonoBehaviour
     }
 
     public void StartSimulate()
-    {
+    {        
         EnableGM = true;
-        // ¹Ø±Õµ±Ç°UI
-        for (int i = 0; i < Launcher.Instance.UIRoot.childCount - 1; i++)
-        {
-            Launcher.Instance.UIRoot.GetChild(i).gameObject.SetActive(false);
-        }
-        
         StartCoroutine(BattleSimulate());
     }
 

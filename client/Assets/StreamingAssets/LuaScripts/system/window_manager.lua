@@ -93,7 +93,7 @@ function mgr:open(window_name, callback)
 	
 	-- callback
 	if callback then
-		callback(window)
+		callback(window_obj)
 	end
 
 	-- self:rearrage_stack_view()
@@ -157,6 +157,10 @@ function mgr:find_window_in_stack(window_name)
 		end
 	end
 	return {nil, nil}
+end
+
+function mgr:find_active_window_obj(name)
+	return self.name_obj_dic[name]
 end
 
 -- 重新排列窗口中的顺序(TODO)

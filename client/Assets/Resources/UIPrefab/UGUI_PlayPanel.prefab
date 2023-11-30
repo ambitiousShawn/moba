@@ -4438,6 +4438,9 @@ MonoBehaviour:
   skillItem1: {fileID: 2675077097118121555}
   skillItem2: {fileID: 5634555288218456824}
   skillItem3: {fileID: 3353027106542029639}
+  ImgInfoRoot: {fileID: 3492246124000736555}
+  mapIconRoot: {fileID: 4512877283743078767}
+  mapHeroIconRoot: {fileID: 163064224277592193}
 --- !u!114 &7474533271687682996
 MonoBehaviour:
   m_ObjectHideFlags: 0

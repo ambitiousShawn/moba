@@ -1,15 +1,15 @@
 ManifestFileVersion: 0
-CRC: 4016247092
+CRC: 3091740898
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: 7038ac88e9e76e96cc107284ec1d6f5a
+    Hash: 6d2f2d75e0b8db740ee5804e70259d89
   TypeTreeHash:
     serializedVersion: 2
-    Hash: 16c8aa2ea7eeb9c3aebb6cebe2273284
+    Hash: 0a7b158eeccbc03366a7670a0358deb8
   IncrementalBuildHash:
     serializedVersion: 2
-    Hash: 7038ac88e9e76e96cc107284ec1d6f5a
+    Hash: 6d2f2d75e0b8db740ee5804e70259d89
 HashAppended: 0
 ClassTypes:
 - Class: 1
@@ -20,6 +20,8 @@ ClassTypes:
   Script: {instanceID: 0}
 - Class: 23
   Script: {instanceID: 0}
+- Class: 28
+  Script: {instanceID: 0}
 - Class: 33
   Script: {instanceID: 0}
 - Class: 43
@@ -28,8 +30,12 @@ ClassTypes:
   Script: {instanceID: 0}
 - Class: 65
   Script: {instanceID: 0}
+- Class: 212
+  Script: {instanceID: 0}
+- Class: 213
+  Script: {instanceID: 0}
 SerializeReferenceClassIdentifiers: []
 Assets:
-- Assets/Resources/Charactor/Ashe.prefab
-- Assets/Resources/Charactor/Galen.prefab
+- Assets/ArtRes/Charactor/Ashe/Ashe.prefab
+- Assets/ArtRes/Charactor/Galen/Galen.prefab
 Dependencies: []

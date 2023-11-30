@@ -17,6 +17,7 @@ function system:enter_battle()
     battleHeroDatas = Launcher.BattleHeroDatas
 
     -- 加载 '加载界面' 与 场景信息
+    WindowManager:close_all()
     WindowManager:open('ugui_loadpanel')
     AssetsSvc:LoadSceneAsync('map_' .. mapID, function (val)
         local percent = math.floor(val * 100)
@@ -32,6 +33,7 @@ function system:enter_battle()
     end, function ()
         -- TODO:场景加载完成
         print('场景加载完成！！！')
+        
         -- 拿到地图配置
         local mapCfg = AssetsSvc:GetMapConfigByID(mapID)
         -- 初始化场景和英雄
@@ -39,8 +41,11 @@ function system:enter_battle()
             FightManager = CS.FightManager.Instance    
         end
         
-        FightManager:InitCollisionEnv()
-        FightManager:InitHero(battleHeroDatas, mapCfg)
+        WindowManager:open('ugui_playpanel', function (window_obj)
+            FightManager.playWnd = window_obj:GetComponent('UGUI_PlayPanel')
+            FightManager:InitCollisionEnv()
+            FightManager:InitHero(battleHeroDatas, mapCfg)
+        end)
 
         -- 加载完成后发送请求开始游戏
         local data = {
@@ -68,7 +73,7 @@ function RspBattleStartCallBack (msg)
     FightManager:InitCamera(Launcher.SelfIndex)
     -- UI管理(创建游戏UI)
     ugui_loadpanel:close_self(true)
-    WindowManager:open('ugui_playpanel')
+    FightManager.playWnd:InitSkillInfo() 
     IsFightTick = true -- 战斗开始
 end
 

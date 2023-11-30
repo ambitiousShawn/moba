@@ -28,8 +28,8 @@ namespace XLua.CSObjectWrap
 			Utils.RegisterFunc(L, Utils.METHOD_IDX, "LoadSprite", _m_LoadSprite);
 			Utils.RegisterFunc(L, Utils.METHOD_IDX, "LoadSceneAsync", _m_LoadSceneAsync);
 			Utils.RegisterFunc(L, Utils.METHOD_IDX, "LoadPrefab", _m_LoadPrefab);
-			Utils.RegisterFunc(L, Utils.METHOD_IDX, "GetMapConfigByID", _m_GetMapConfigByID);
 			Utils.RegisterFunc(L, Utils.METHOD_IDX, "LoadAudioClip", _m_LoadAudioClip);
+			Utils.RegisterFunc(L, Utils.METHOD_IDX, "GetMapConfigByID", _m_GetMapConfigByID);
 			Utils.RegisterFunc(L, Utils.METHOD_IDX, "GetHeroConfigByID", _m_GetHeroConfigByID);
 			Utils.RegisterFunc(L, Utils.METHOD_IDX, "GetSkillConfigByID", _m_GetSkillConfigByID);
 			
@@ -124,12 +124,12 @@ namespace XLua.CSObjectWrap
             
                 if(gen_param_count == 5&& (LuaAPI.lua_isnil(L, 2) || LuaAPI.lua_type(L, 2) == LuaTypes.LUA_TSTRING)&& (LuaAPI.lua_isnil(L, 3) || LuaAPI.lua_type(L, 3) == LuaTypes.LUA_TSTRING)&& LuaTypes.LUA_TNUMBER == LuaAPI.lua_type(L, 4)&& LuaTypes.LUA_TBOOLEAN == LuaAPI.lua_type(L, 5)) 
                 {
-                    string _arg1 = LuaAPI.lua_tostring(L, 2);
+                    string _packageName = LuaAPI.lua_tostring(L, 2);
                     string _assetName = LuaAPI.lua_tostring(L, 3);
                     int _type = LuaAPI.xlua_tointeger(L, 4);
                     bool _cache = LuaAPI.lua_toboolean(L, 5);
                     
-                        var gen_ret = gen_to_be_invoked.LoadUIPrefab( _arg1, _assetName, _type, _cache );
+                        var gen_ret = gen_to_be_invoked.LoadUIPrefab( _packageName, _assetName, _type, _cache );
                         translator.Push(L, gen_ret);
                     
                     
@@ -138,11 +138,11 @@ namespace XLua.CSObjectWrap
                 }
                 if(gen_param_count == 4&& (LuaAPI.lua_isnil(L, 2) || LuaAPI.lua_type(L, 2) == LuaTypes.LUA_TSTRING)&& (LuaAPI.lua_isnil(L, 3) || LuaAPI.lua_type(L, 3) == LuaTypes.LUA_TSTRING)&& LuaTypes.LUA_TNUMBER == LuaAPI.lua_type(L, 4)) 
                 {
-                    string _arg1 = LuaAPI.lua_tostring(L, 2);
+                    string _packageName = LuaAPI.lua_tostring(L, 2);
                     string _assetName = LuaAPI.lua_tostring(L, 3);
                     int _type = LuaAPI.xlua_tointeger(L, 4);
                     
-                        var gen_ret = gen_to_be_invoked.LoadUIPrefab( _arg1, _assetName, _type );
+                        var gen_ret = gen_to_be_invoked.LoadUIPrefab( _packageName, _assetName, _type );
                         translator.Push(L, gen_ret);
                     
                     
@@ -171,23 +171,27 @@ namespace XLua.CSObjectWrap
             
 			    int gen_param_count = LuaAPI.lua_gettop(L);
             
-                if(gen_param_count == 3&& (LuaAPI.lua_isnil(L, 2) || LuaAPI.lua_type(L, 2) == LuaTypes.LUA_TSTRING)&& LuaTypes.LUA_TBOOLEAN == LuaAPI.lua_type(L, 3)) 
+                if(gen_param_count == 5&& (LuaAPI.lua_isnil(L, 2) || LuaAPI.lua_type(L, 2) == LuaTypes.LUA_TSTRING)&& (LuaAPI.lua_isnil(L, 3) || LuaAPI.lua_type(L, 3) == LuaTypes.LUA_TSTRING)&& LuaTypes.LUA_TNUMBER == LuaAPI.lua_type(L, 4)&& LuaTypes.LUA_TBOOLEAN == LuaAPI.lua_type(L, 5)) 
                 {
-                    string _path = LuaAPI.lua_tostring(L, 2);
-                    bool _cache = LuaAPI.lua_toboolean(L, 3);
+                    string _packageName = LuaAPI.lua_tostring(L, 2);
+                    string _assetName = LuaAPI.lua_tostring(L, 3);
+                    int _type = LuaAPI.xlua_tointeger(L, 4);
+                    bool _cache = LuaAPI.lua_toboolean(L, 5);
                     
-                        var gen_ret = gen_to_be_invoked.LoadSprite( _path, _cache );
+                        var gen_ret = gen_to_be_invoked.LoadSprite( _packageName, _assetName, _type, _cache );
                         translator.Push(L, gen_ret);
                     
                     
                     
                     return 1;
                 }
-                if(gen_param_count == 2&& (LuaAPI.lua_isnil(L, 2) || LuaAPI.lua_type(L, 2) == LuaTypes.LUA_TSTRING)) 
+                if(gen_param_count == 4&& (LuaAPI.lua_isnil(L, 2) || LuaAPI.lua_type(L, 2) == LuaTypes.LUA_TSTRING)&& (LuaAPI.lua_isnil(L, 3) || LuaAPI.lua_type(L, 3) == LuaTypes.LUA_TSTRING)&& LuaTypes.LUA_TNUMBER == LuaAPI.lua_type(L, 4)) 
                 {
-                    string _path = LuaAPI.lua_tostring(L, 2);
+                    string _packageName = LuaAPI.lua_tostring(L, 2);
+                    string _assetName = LuaAPI.lua_tostring(L, 3);
+                    int _type = LuaAPI.xlua_tointeger(L, 4);
                     
-                        var gen_ret = gen_to_be_invoked.LoadSprite( _path );
+                        var gen_ret = gen_to_be_invoked.LoadSprite( _packageName, _assetName, _type );
                         translator.Push(L, gen_ret);
                     
                     
@@ -248,12 +252,12 @@ namespace XLua.CSObjectWrap
             
                 if(gen_param_count == 5&& (LuaAPI.lua_isnil(L, 2) || LuaAPI.lua_type(L, 2) == LuaTypes.LUA_TSTRING)&& (LuaAPI.lua_isnil(L, 3) || LuaAPI.lua_type(L, 3) == LuaTypes.LUA_TSTRING)&& LuaTypes.LUA_TNUMBER == LuaAPI.lua_type(L, 4)&& LuaTypes.LUA_TBOOLEAN == LuaAPI.lua_type(L, 5)) 
                 {
-                    string _arg1 = LuaAPI.lua_tostring(L, 2);
+                    string _packageName = LuaAPI.lua_tostring(L, 2);
                     string _assetName = LuaAPI.lua_tostring(L, 3);
                     int _type = LuaAPI.xlua_tointeger(L, 4);
                     bool _cache = LuaAPI.lua_toboolean(L, 5);
                     
-                        var gen_ret = gen_to_be_invoked.LoadPrefab( _arg1, _assetName, _type, _cache );
+                        var gen_ret = gen_to_be_invoked.LoadPrefab( _packageName, _assetName, _type, _cache );
                         translator.Push(L, gen_ret);
                     
                     
@@ -262,11 +266,11 @@ namespace XLua.CSObjectWrap
                 }
                 if(gen_param_count == 4&& (LuaAPI.lua_isnil(L, 2) || LuaAPI.lua_type(L, 2) == LuaTypes.LUA_TSTRING)&& (LuaAPI.lua_isnil(L, 3) || LuaAPI.lua_type(L, 3) == LuaTypes.LUA_TSTRING)&& LuaTypes.LUA_TNUMBER == LuaAPI.lua_type(L, 4)) 
                 {
-                    string _arg1 = LuaAPI.lua_tostring(L, 2);
+                    string _packageName = LuaAPI.lua_tostring(L, 2);
                     string _assetName = LuaAPI.lua_tostring(L, 3);
                     int _type = LuaAPI.xlua_tointeger(L, 4);
                     
-                        var gen_ret = gen_to_be_invoked.LoadPrefab( _arg1, _assetName, _type );
+                        var gen_ret = gen_to_be_invoked.LoadPrefab( _packageName, _assetName, _type );
                         translator.Push(L, gen_ret);
                     
                     
@@ -279,35 +283,6 @@ namespace XLua.CSObjectWrap
             }
             
             return LuaAPI.luaL_error(L, "invalid arguments to ShawnFramework.CommonModule.AssetsSvc.LoadPrefab!");
-            
-        }
-        
-        [MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
-        static int _m_GetMapConfigByID(RealStatePtr L)
-        {
-		    try {
-            
-                ObjectTranslator translator = ObjectTranslatorPool.Instance.Find(L);
-            
-            
-                ShawnFramework.CommonModule.AssetsSvc gen_to_be_invoked = (ShawnFramework.CommonModule.AssetsSvc)translator.FastGetCSObj(L, 1);
-            
-            
-                
-                {
-                    int _mapID = LuaAPI.xlua_tointeger(L, 2);
-                    
-                        var gen_ret = gen_to_be_invoked.GetMapConfigByID( _mapID );
-                        translator.Push(L, gen_ret);
-                    
-                    
-                    
-                    return 1;
-                }
-                
-            } catch(System.Exception gen_e) {
-                return LuaAPI.luaL_error(L, "c# exception:" + gen_e);
-            }
             
         }
         
@@ -327,6 +302,35 @@ namespace XLua.CSObjectWrap
                     string _path = LuaAPI.lua_tostring(L, 2);
                     
                         var gen_ret = gen_to_be_invoked.LoadAudioClip( _path );
+                        translator.Push(L, gen_ret);
+                    
+                    
+                    
+                    return 1;
+                }
+                
+            } catch(System.Exception gen_e) {
+                return LuaAPI.luaL_error(L, "c# exception:" + gen_e);
+            }
+            
+        }
+        
+        [MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
+        static int _m_GetMapConfigByID(RealStatePtr L)
+        {
+		    try {
+            
+                ObjectTranslator translator = ObjectTranslatorPool.Instance.Find(L);
+            
+            
+                ShawnFramework.CommonModule.AssetsSvc gen_to_be_invoked = (ShawnFramework.CommonModule.AssetsSvc)translator.FastGetCSObj(L, 1);
+            
+            
+                
+                {
+                    int _mapID = LuaAPI.xlua_tointeger(L, 2);
+                    
+                        var gen_ret = gen_to_be_invoked.GetMapConfigByID( _mapID );
                         translator.Push(L, gen_ret);
                     
                     

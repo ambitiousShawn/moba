@@ -125,6 +125,8 @@ public abstract class BaseViewUnit : MonoBehaviour
 /// </summary>
 public abstract class MainViewUnit : BaseViewUnit
 {
+    public Transform skillRange; // 普攻技能范围
+
     float animMoveSpeedBase;
     MainLogicUnit mainLogicUnit = null;
     public override void Init(BaseLogicUnit logicUnit)
@@ -133,5 +135,23 @@ public abstract class MainViewUnit : BaseViewUnit
         mainLogicUnit = logicUnit as MainLogicUnit;
         // 基础移速
         animMoveSpeedBase = mainLogicUnit.LogicMoveSpeed.RawFloat;
+
+        // 将该表现单元加入小地图
+        FightManager.Instance.playWnd.AddMiniIconItemInfo(mainLogicUnit);
+    }
+
+    /// <summary>
+    /// 设置并显示技能指示范围
+    /// </summary>
+    /// <param name="state"></param>
+    /// <param name="range"></param>
+    public void SetAtkSkillRange(bool state, float range = 2.5f)
+    {
+        if (skillRange != null)
+        {
+            range += mainLogicUnit.unitData.unitCfg.colliCfg.mRadius.RawFloat;
+            skillRange.localScale = new Vector3(range / 2.5f, range / 2.5f);
+            skillRange.gameObject.SetActive(state);
+        }
     }
 }
