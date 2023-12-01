@@ -8,6 +8,7 @@ public static class ClientConfig
 {
     // 客户端逻辑帧时间间隔
     public const float ClientLogicFrameDeltaTimeSecond = 0.066f;
+    public const int ClientLogicFrameDeltaTimeMS = 66;
 
     public const int ScreenStandardWidth = 1920;
     public const int ScreenStandardHeight = 1080;
@@ -49,10 +50,18 @@ public class MapConfig
     public ShawVector3 blueBornPos;
     public ShawVector3 redBornPos;
 
+    // 防御塔相关配置
+    public int[] towerIDArr;
+    public ShawVector3[] towerPosArr;
+
     // 小兵相关配置
     public int soldierBornDelay;
     public int soldierBornInterval;
     public int soldierWaveInterval;
+    public int[] blueSoldierIDArr;
+    public ShawVector3[] blueSoldierPosArr;
+    public int[] redSoldierIDArr;
+    public ShawVector3[] redSoldierPosArr;
 }
 
 

@@ -77,7 +77,7 @@ function window:awake()
         -- 获取到组件，刷新item数据与表现
         local module = go:GetComponent('LuaBehavior').Module
         -- 获取英雄配置数据
-        local cfg = AssetsSvc:GetHeroConfigByID(heroID)
+        local cfg = AssetsSvc:GetUnitConfigByID(heroID)
         -- UI表现刷新赋值
         -- module.img_icon.sprite = cfg.
         module.text_name.text = cfg.unitName

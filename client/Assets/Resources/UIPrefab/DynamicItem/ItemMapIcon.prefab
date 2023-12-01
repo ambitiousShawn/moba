@@ -88,7 +88,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 383b8937fbff63f4e93957a98b78ad00, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  scaler: 1
+  scaler: 7
   rect: {fileID: 6085781799215732031}
   imgIcon: {fileID: 119475901035126660}
   imgFrame: {fileID: 0}

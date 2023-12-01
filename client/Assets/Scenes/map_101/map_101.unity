@@ -386,7 +386,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!23 &552688977
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -701,7 +701,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!23 &859086007
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -937,6 +937,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3e0f5ed78d71f5e4aa9533c5de84df44, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playWnd: {fileID: 0}
+  SkillDisMultipler: 0.03
 --- !u!1 &1073537278
 GameObject:
   m_ObjectHideFlags: 0
@@ -1165,7 +1167,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!23 &1283048199
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -1954,7 +1956,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!23 &2096855554
 MeshRenderer:
   m_ObjectHideFlags: 0

@@ -136,7 +136,7 @@ public class UGUI_PlayPanel : WindowRoot
     public void InitSkillInfo()
     {
         BattleHeroData self = Launcher.Instance.BattleHeroDatas[Launcher.Instance.SelfIndex];
-        UnitConfig heroCfg = AssetsSvc.Instance.GetHeroConfigByID(self.heroID);
+        UnitConfig heroCfg = AssetsSvc.Instance.GetUnitConfigByID(self.heroID);
         int[] skillArr = heroCfg.skillArr; // ƒ√µΩººƒ‹≈‰÷√
 
         skillItemA.InitSkillItem(AssetsSvc.Instance.GetSkillConfigByID(skillArr[0]), 0);

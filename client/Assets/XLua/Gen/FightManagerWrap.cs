@@ -21,10 +21,9 @@ namespace XLua.CSObjectWrap
         {
 			ObjectTranslator translator = ObjectTranslatorPool.Instance.Find(L);
 			System.Type type = typeof(FightManager);
-			Utils.BeginObjectRegister(type, L, translator, 0, 9, 3, 2);
+			Utils.BeginObjectRegister(type, L, translator, 0, 8, 3, 2);
 			
-			Utils.RegisterFunc(L, Utils.METHOD_IDX, "InitCollisionEnv", _m_InitCollisionEnv);
-			Utils.RegisterFunc(L, Utils.METHOD_IDX, "InitHero", _m_InitHero);
+			Utils.RegisterFunc(L, Utils.METHOD_IDX, "InitAll", _m_InitAll);
 			Utils.RegisterFunc(L, Utils.METHOD_IDX, "InitCamera", _m_InitCamera);
 			Utils.RegisterFunc(L, Utils.METHOD_IDX, "Tick", _m_Tick);
 			Utils.RegisterFunc(L, Utils.METHOD_IDX, "InputKey", _m_InputKey);
@@ -88,34 +87,7 @@ namespace XLua.CSObjectWrap
         
         
         [MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
-        static int _m_InitCollisionEnv(RealStatePtr L)
-        {
-		    try {
-            
-                ObjectTranslator translator = ObjectTranslatorPool.Instance.Find(L);
-            
-            
-                FightManager gen_to_be_invoked = (FightManager)translator.FastGetCSObj(L, 1);
-            
-            
-                
-                {
-                    
-                    gen_to_be_invoked.InitCollisionEnv(  );
-                    
-                    
-                    
-                    return 0;
-                }
-                
-            } catch(System.Exception gen_e) {
-                return LuaAPI.luaL_error(L, "c# exception:" + gen_e);
-            }
-            
-        }
-        
-        [MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
-        static int _m_InitHero(RealStatePtr L)
+        static int _m_InitAll(RealStatePtr L)
         {
 		    try {
             
@@ -128,9 +100,9 @@ namespace XLua.CSObjectWrap
                 
                 {
                     System.Collections.Generic.List<GameProtocol.BattleHeroData> _battleHeroDatas = (System.Collections.Generic.List<GameProtocol.BattleHeroData>)translator.GetObject(L, 2, typeof(System.Collections.Generic.List<GameProtocol.BattleHeroData>));
-                    MapConfig _mapCfg = (MapConfig)translator.GetObject(L, 3, typeof(MapConfig));
+                    MapConfig _config = (MapConfig)translator.GetObject(L, 3, typeof(MapConfig));
                     
-                    gen_to_be_invoked.InitHero( _battleHeroDatas, _mapCfg );
+                    gen_to_be_invoked.InitAll( _battleHeroDatas, _config );
                     
                     
                     

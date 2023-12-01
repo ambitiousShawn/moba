@@ -1,5 +1,5 @@
 ManifestFileVersion: 0
-CRC: 2277074865
+CRC: 2404041503
 AssetBundleManifest:
   AssetBundleInfos:
     Info_0:
@@ -16,4 +16,7 @@ AssetBundleManifest:
       Dependencies: {}
     Info_4:
       Name: minimap
+      Dependencies: {}
+    Info_5:
+      Name: tower
       Dependencies: {}

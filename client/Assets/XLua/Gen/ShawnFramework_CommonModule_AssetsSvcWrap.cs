@@ -30,7 +30,7 @@ namespace XLua.CSObjectWrap
 			Utils.RegisterFunc(L, Utils.METHOD_IDX, "LoadPrefab", _m_LoadPrefab);
 			Utils.RegisterFunc(L, Utils.METHOD_IDX, "LoadAudioClip", _m_LoadAudioClip);
 			Utils.RegisterFunc(L, Utils.METHOD_IDX, "GetMapConfigByID", _m_GetMapConfigByID);
-			Utils.RegisterFunc(L, Utils.METHOD_IDX, "GetHeroConfigByID", _m_GetHeroConfigByID);
+			Utils.RegisterFunc(L, Utils.METHOD_IDX, "GetUnitConfigByID", _m_GetUnitConfigByID);
 			Utils.RegisterFunc(L, Utils.METHOD_IDX, "GetSkillConfigByID", _m_GetSkillConfigByID);
 			
 			
@@ -345,7 +345,7 @@ namespace XLua.CSObjectWrap
         }
         
         [MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
-        static int _m_GetHeroConfigByID(RealStatePtr L)
+        static int _m_GetUnitConfigByID(RealStatePtr L)
         {
 		    try {
             
@@ -357,9 +357,9 @@ namespace XLua.CSObjectWrap
             
                 
                 {
-                    int _heroID = LuaAPI.xlua_tointeger(L, 2);
+                    int _unitID = LuaAPI.xlua_tointeger(L, 2);
                     
-                        var gen_ret = gen_to_be_invoked.GetHeroConfigByID( _heroID );
+                        var gen_ret = gen_to_be_invoked.GetUnitConfigByID( _unitID );
                         translator.Push(L, gen_ret);
                     
                     

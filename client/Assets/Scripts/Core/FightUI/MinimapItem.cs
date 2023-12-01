@@ -37,6 +37,50 @@ public class MinimapItem : WindowRoot
                 }
                 imgFrame.SetNativeSize();
                 break;
+            case EUnitType.Soldier:
+                if (unit.IsTeam(ETeamType.Blue))
+                {
+                    sprite = AssetsSvc.Instance.LoadSprite("minimap", "blueSoldier_mapIcon", 1);
+                    imgIcon.sprite = sprite;
+                }
+                else
+                {
+                    sprite = AssetsSvc.Instance.LoadSprite("minimap", "redSoldier_mapIcon", 1);
+                    imgIcon.sprite = sprite;
+                }
+                imgIcon.SetNativeSize();
+                break;
+            case EUnitType.Tower:
+                if (unit.IsTeam(ETeamType.Blue))
+                {
+                    switch (unit.unitData.unitCfg.unitID)
+                    {
+                        case 1001:
+                            sprite = AssetsSvc.Instance.LoadSprite("minimap", "blueTower", 1);
+                            imgIcon.sprite = sprite;
+                            break;
+                        case 1002:
+                            sprite = AssetsSvc.Instance.LoadSprite("minimap", "blueCrystal", 1);
+                            imgIcon.sprite = sprite;
+                            break;
+                    }
+                }
+                else
+                {
+                    switch (unit.unitData.unitCfg.unitID)
+                    {
+                        case 2001:
+                            sprite = AssetsSvc.Instance.LoadSprite("minimap", "redTower", 1);
+                            imgIcon.sprite = sprite;
+                            break;
+                        case 2002:
+                            sprite = AssetsSvc.Instance.LoadSprite("minimap", "redCrystal", 1);
+                            imgIcon.sprite = sprite;
+                            break;
+                    }
+                }
+                imgIcon.SetNativeSize();
+                break;
             default:
                 LogCore.Error("Unknow unitType.");
                 break;

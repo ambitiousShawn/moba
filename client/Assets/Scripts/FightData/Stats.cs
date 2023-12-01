@@ -10,14 +10,26 @@ public class LogicUnitData
     public UnitConfig unitCfg;
 }
 
-/// <summary>
-/// 英雄与玩家绑定数据
-/// </summary>
 public class HeroData : LogicUnitData
 {
     public int heroID;
     public int posIndex;
     public string userName;
+}
+
+public class SoldierData : LogicUnitData
+{
+    public int soldierID;
+    public int waveIndex;
+    public int orderIndex;
+    public string soldierName;
+}
+
+public class TowerData : LogicUnitData
+{
+    public int towerID;
+    public int towerIndex;
+    public string towerName;
 }
 
 // 队伍类型

@@ -43,8 +43,7 @@ function system:enter_battle()
         
         WindowManager:open('ugui_playpanel', function (window_obj)
             FightManager.playWnd = window_obj:GetComponent('UGUI_PlayPanel')
-            FightManager:InitCollisionEnv()
-            FightManager:InitHero(battleHeroDatas, mapCfg)
+            FightManager:InitAll(battleHeroDatas, mapCfg)
         end)
 
         -- 加载完成后发送请求开始游戏

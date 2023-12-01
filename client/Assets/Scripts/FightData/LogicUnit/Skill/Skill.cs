@@ -43,6 +43,7 @@ public class Skill
 
 public enum ESkillState
 {
+    None,
     Before, // Before
     SpellBefore, // 施法前摇
     SpellAfter, // 施法后摇

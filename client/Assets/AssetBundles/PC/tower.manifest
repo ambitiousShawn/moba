@@ -1,15 +1,15 @@
 ManifestFileVersion: 0
-CRC: 260817645
+CRC: 2405703673
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: 7520ef22d92f9712c636442f97631d2b
+    Hash: 0bc8f207e68ce992cdec2f311ecfd503
   TypeTreeHash:
     serializedVersion: 2
-    Hash: 984cd7aa06d09a7614445c1b3d346dad
+    Hash: 0ff17386bb07ca5f19c8f0dd308235ff
   IncrementalBuildHash:
     serializedVersion: 2
-    Hash: 7520ef22d92f9712c636442f97631d2b
+    Hash: 0bc8f207e68ce992cdec2f311ecfd503
 HashAppended: 0
 ClassTypes:
 - Class: 1
@@ -20,28 +20,20 @@ ClassTypes:
   Script: {instanceID: 0}
 - Class: 23
   Script: {instanceID: 0}
-- Class: 28
-  Script: {instanceID: 0}
 - Class: 33
   Script: {instanceID: 0}
 - Class: 43
   Script: {instanceID: 0}
 - Class: 48
   Script: {instanceID: 0}
-- Class: 65
-  Script: {instanceID: 0}
 - Class: 136
   Script: {instanceID: 0}
 - Class: 212
   Script: {instanceID: 0}
-- Class: 213
-  Script: {instanceID: 0}
 SerializeReferenceClassIdentifiers: []
 Assets:
-- Assets/ArtRes/Charactor/Ashe/Ashe.prefab
-- Assets/ArtRes/Charactor/Soldier/soldier_blue_2.prefab
-- Assets/ArtRes/Charactor/Soldier/soldier_blue_1.prefab
-- Assets/ArtRes/Charactor/Soldier/soldier_red_1.prefab
-- Assets/ArtRes/Charactor/Galen/Galen.prefab
-- Assets/ArtRes/Charactor/Soldier/soldier_red_2.prefab
+- Assets/ArtRes/Charactor/Tower/redTower.prefab
+- Assets/ArtRes/Charactor/Tower/redCrystal.prefab
+- Assets/ArtRes/Charactor/Tower/blueCrystal.prefab
+- Assets/ArtRes/Charactor/Tower/blueTower.prefab
 Dependencies: []

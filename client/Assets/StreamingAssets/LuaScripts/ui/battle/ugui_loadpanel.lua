@@ -14,7 +14,7 @@ function window:awake()
         -- local go = GameObject.Instantiate(self.Item_Player_Loading_Prefab, self.blue_team_root)
         local tran = self.blue_team_root:GetChild(i).transform
         if i < count then
-            local cfg = AssetsSvc:GetHeroConfigByID(battleHeroDatas[i].heroID)
+            local cfg = AssetsSvc:GetUnitConfigByID(battleHeroDatas[i].heroID)
             local module = tran.gameObject:GetComponent('LuaBehavior').Module
             module:set_hero_icon_and_name(nil, cfg.unitName)
             module:set_player_name(battleHeroDatas[i].userName)
@@ -27,7 +27,7 @@ function window:awake()
         -- local go = GameObject.Instantiate(self.Item_Player_Loading_Prefab, self.red_team_root)
         local tran = self.red_team_root:GetChild(i).transform
         if i < count then
-            local cfg = AssetsSvc:GetHeroConfigByID(battleHeroDatas[i + count].heroID)
+            local cfg = AssetsSvc:GetUnitConfigByID(battleHeroDatas[i + count].heroID)
             local module = tran.gameObject:GetComponent('LuaBehavior').Module
             module:set_hero_icon_and_name(nil, cfg.unitName)
             module:set_player_name(battleHeroDatas[i + count].userName)

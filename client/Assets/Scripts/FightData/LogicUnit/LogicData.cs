@@ -3,6 +3,7 @@ using ShawnFramework.CommonModule;
 using ShawnFramework.ShawLog;
 using ShawnFramework.ShawMath;
 using ShawnFramework.ShawnPhysics;
+using System;
 using System.Collections.Generic;
 using System.Numerics;
 using UnityEngine;
@@ -99,8 +100,22 @@ public abstract class MainLogicUnit : BaseLogicUnit
 
         // 表现层初始化
         GameObject go = AssetsSvc.Instance.LoadPrefab(pathPrefix, unitData.unitCfg.resName, 1);
-        mainViewUnit = go.AddComponent<HeroView>();
-        mainViewUnit.skillRange = go.transform.Find("skillRange");
+        if (unitType == EUnitType.Hero)
+        {
+            mainViewUnit = go.AddComponent<HeroView>();
+            mainViewUnit.skillRange = go.transform.Find("skillRange");
+        }
+        else if (unitType == EUnitType.Soldier)
+        {
+            mainViewUnit = go.AddComponent<SoldierView>();
+        }
+        else if (unitType == EUnitType.Tower)
+        {
+            mainViewUnit = go.AddComponent<TowerView>();
+            mainViewUnit.skillRange = go.transform.Find("skillRange");
+            go.transform.SetParent(FightManager.Instance.transEnvRoot);
+        }
+        
         if (mainViewUnit == null )
         {
             LogCore.Error("Get MainViewUnit Error:" + unitName);
@@ -252,6 +267,34 @@ public abstract class MainLogicUnit : BaseLogicUnit
             return skillArr[0];
         }
         return null;
+    }
+
+    /// <summary>
+    /// 是否可以施放技能
+    /// </summary>
+    /// <param name="skillID"></param>
+    /// <returns></returns>
+    public bool CanReleaseSkill(int skillID)
+    {
+        return 
+            // IsSilenced() == false &&
+            // IsStunned() == false &&
+            // IsKnockup() == false &&
+            // IsSkillSpelling() == false &&
+            IsSkillReady(skillID);
+    }
+
+    bool IsSkillReady(int skillID)
+    {
+        for (int i = 0; i < skillArr.Length; i++)
+        {
+            if (skillArr[i].skillID == skillID)
+            {
+                return skillArr[i].skillState == ESkillState.None;
+            }
+        }
+        LogCore.Warn("skill id config error!");
+        return false;
     }
     #endregion
 
