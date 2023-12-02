@@ -401,6 +401,12 @@ public class FightManager : MonoBehaviour
 
         NetSvc.Instance.SendMsg(msg);
     }
+
+    // 某个技能进入CD
+    public void EnterCDState(int skilldID, int cdTime)
+    {
+        playWnd.EnterCDState(skilldID, cdTime);
+    }
     #endregion
 
     #region API Func

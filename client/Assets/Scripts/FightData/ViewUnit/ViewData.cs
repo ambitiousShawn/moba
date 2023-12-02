@@ -1,3 +1,4 @@
+using ShawnFramework.ShawMath;
 using UnityEngine;
 
 /// <summary>
@@ -37,7 +38,7 @@ public abstract class BaseViewUnit : MonoBehaviour
         UpdatePosition();
     }
 
-    Vector3 viewTargetPos = Vector3.zero;
+    protected Vector3 viewTargetPos = Vector3.zero;
     int predictCount; // 当前预测帧数
     // 更新位置
     void UpdatePosition()
@@ -78,7 +79,7 @@ public abstract class BaseViewUnit : MonoBehaviour
         }
     }
 
-    Vector3 viewTargetDir = Vector3.zero; // 表现目标方向(逻辑方向)
+    protected Vector3 viewTargetDir = Vector3.zero; // 表现目标方向(逻辑方向)
     // 更新表现方向
     void UpdateDirection()
     {
@@ -153,5 +154,11 @@ public abstract class MainViewUnit : BaseViewUnit
             skillRange.localScale = new Vector3(range / 2.5f, range / 2.5f);
             skillRange.gameObject.SetActive(state);
         }
+    }
+
+    /// 更新释放技能时的方向
+    public void UpdateSkillRotation(ShawVector3 skillRotation)
+    {
+        viewTargetDir = skillRotation.ConvertViewVector3();
     }
 }

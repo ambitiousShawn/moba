@@ -1,6 +1,7 @@
 
 using ShawnFramework.CommonModule;
 using ShawnFramework.ShawLog;
+using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
@@ -223,5 +224,39 @@ public partial class SkillItem : WindowRoot
     public void SetForbidState(bool state)
     {
         ImgForbid.gameObject.SetActive(state);
+    }
+
+    // 检查是否是当前技能
+    public bool CheckSkillID(int skillID)
+    {
+        return skillConf.skillID == skillID;
+    }
+
+    // 技能进入CD状态
+    public void EnterCDState(int cdTime)
+    {
+        int sec = cdTime / 1000;
+        int ms = cdTime % 1000;
+        CreateMonoTimer(
+            (loopCount) => {
+                Txt_CD.text = (sec - loopCount).ToString();
+            },
+            1000,
+            sec,
+            (isDelay, loopPrg, allPrg) => {
+                ImgCD.fillAmount = 1 - allPrg;
+            },
+            () => {
+                ImgCD.gameObject.SetActive(false);
+                Txt_CD.gameObject.SetActive(false);
+                ShowEffect();
+                ImgSkillIcon.raycastTarget = true;
+            },
+            ms);
+
+        ImgCD.gameObject.SetActive(true);
+        Txt_CD.gameObject.SetActive(true);
+        Txt_CD.text = sec.ToString();
+        ImgSkillIcon.raycastTarget = false;
     }
 }

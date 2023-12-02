@@ -158,6 +158,31 @@ public class UGUI_PlayPanel : WindowRoot
         skillItem2.SetForbidState(state);
         skillItem3.SetForbidState(state);
     }
+
+    // 某个技能进入CD
+    public void EnterCDState(int skillID, int cdTime)
+    {
+        if (skillItemA.CheckSkillID(skillID))
+        {
+            skillItemA.EnterCDState(cdTime);
+        }
+        else if (skillItem1.CheckSkillID(skillID))
+        {
+            skillItem1.EnterCDState(cdTime);
+        }
+        else if (skillItem2.CheckSkillID(skillID))
+        {
+            skillItem2.EnterCDState(cdTime);
+        }
+        else if (skillItem3.CheckSkillID(skillID))
+        {
+            skillItem3.EnterCDState(cdTime);
+        }
+        else
+        {
+            LogCore.Error($"skill id{skillID} enter cd error.");
+        }
+    }
     #endregion
 
     #region 小地图模块

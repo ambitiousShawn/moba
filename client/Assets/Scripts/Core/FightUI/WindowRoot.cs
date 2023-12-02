@@ -1,8 +1,6 @@
-using ShawnFramework.CommonModule;
 using System;
 using UnityEngine;
 using UnityEngine.EventSystems;
-using UnityEngine.UI;
 
 public class WindowRoot : MonoBehaviour
 {
@@ -51,6 +49,27 @@ public class WindowRoot : MonoBehaviour
             t = go.AddComponent<T>();
         }
         return t;
+    }
+
+    // UI¼ÆÊ±Æ÷
+    protected MonoTimer CreateMonoTimer(
+        Action<int> cbAction,
+        float intervelTime,
+        int loopCount = 1,
+        Action<bool, float, float> prgAction = null,
+        Action endAction = null,
+        float delayTime = 0
+        )
+    {
+        MonoTimer timer = new MonoTimer(
+            cbAction,
+            intervelTime,
+            loopCount,
+            prgAction,
+            endAction,
+            delayTime);
+        Launcher.Instance.AddMonoTimer(timer);
+        return timer;
     }
 }
 

@@ -18,6 +18,10 @@ public class Launcher : MonoBehaviour
     [Header("开启游戏资源热更新(确保资源服务器顺利运行！！！)")]
     public bool EnableHotUpdate;
 
+    // 定时器
+    List<MonoTimer> tempTimerLst;
+    List<MonoTimer> timerLst;
+
     #region 数据区域
     UserData userData;
     public UserData UserData
@@ -59,7 +63,7 @@ public class Launcher : MonoBehaviour
     {
         Instance = this;
 
-        Screen.SetResolution(960, 540, false);
+         // Screen.SetResolution(960, 540, false);
 
         // 初始化日志
         LogConfig config = new LogConfig()
@@ -98,7 +102,32 @@ public class Launcher : MonoBehaviour
 
     private void Start()
     {
+        //计时器
+        timerLst = new List<MonoTimer>();
+        tempTimerLst = new List<MonoTimer>();
         InitService();
+    }
+
+    private void Update()
+    {
+        if (tempTimerLst.Count > 0)
+        {
+            timerLst.AddRange(tempTimerLst);
+            tempTimerLst.Clear();
+        }
+
+        for (int i = timerLst.Count - 1; i >= 0; --i)
+        {
+            MonoTimer timer = timerLst[i];
+            if (timer.IsActive)
+            {
+                timer.TickTimer(Time.deltaTime * 1000);
+            }
+            else
+            {
+                timerLst.RemoveAt(i);
+            }
+        }
     }
 
     private AssetsSvc _assetsSvc;
@@ -125,5 +154,14 @@ public class Launcher : MonoBehaviour
     public void AddTips(string info)
     {
         TipPanel.AddTipToQueue(info);
+    }
+
+    /// <summary>
+    /// 添加Mono定时器
+    /// </summary>
+    /// <param name="timer"></param>
+    public void AddMonoTimer(MonoTimer timer)
+    {
+        tempTimerLst.Add(timer);
     }
 }

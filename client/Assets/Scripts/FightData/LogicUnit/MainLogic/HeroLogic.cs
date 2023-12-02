@@ -17,4 +17,9 @@ public class HeroLogic : MainLogicUnit
         unitName = ud.unitCfg.unitName + "_" + userName;
         pathPrefix = "charactor";
     }
+
+    public override bool IsPlayerSelf()
+    {
+        return posIndex == Launcher.Instance.SelfIndex;
+    }
 }

@@ -217,6 +217,7 @@ public abstract class MainLogicUnit : BaseLogicUnit
 
     #region 技能模块
     protected Skill[] skillArr;
+    List<LogicTimer> timerLst;
 
     void InitSkill()
     {
@@ -226,11 +227,24 @@ public abstract class MainLogicUnit : BaseLogicUnit
         {
             skillArr[i] = new Skill(unitData.unitCfg.skillArr[i], this);
         }
+        timerLst = new List<LogicTimer>();
     }
 
     void TickSkill()
     {
-
+        //timer tick
+        for (int i = timerLst.Count - 1; i >= 0; --i)
+        {
+            LogicTimer timer = timerLst[i];
+            if (timer.Enable)
+            {
+                timer.TickTimer();
+            }
+            else
+            {
+                timerLst.RemoveAt(i);
+            }
+        }
     }
 
     void UnInitSkill()
@@ -254,6 +268,12 @@ public abstract class MainLogicUnit : BaseLogicUnit
             }
         }
         LogCore.Error($"skillID:{key.skillID} is not exist.");
+    }
+
+    public void CreateLogicTimer(Action cb, ShawInt waitTime)
+    {
+        LogicTimer timer = new LogicTimer(cb, waitTime);
+        timerLst.Add(timer);
     }
 
     /// <summary>
@@ -364,6 +384,12 @@ public abstract class MainLogicUnit : BaseLogicUnit
     public bool IsTeam(ETeamType type)
     {
         return unitData.teamType == type;
+    }
+
+    // 当前posIndex是否为该客户端玩家
+    public virtual bool IsPlayerSelf()
+    {
+        return false;
     }
     #endregion
 }
