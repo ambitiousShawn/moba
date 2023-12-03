@@ -53,7 +53,7 @@ public class GMSys : MonoBehaviour
                 {
                     new BattleHeroData
                     {
-                        heroID = 102,
+                        heroID = 101,
                         userName = "Bot1"
                     },
                     new BattleHeroData

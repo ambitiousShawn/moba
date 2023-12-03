@@ -56,7 +56,9 @@ public class Skill
                 void SkillWork()
                 {
                     // 技能释放过程
-                    SkillSpellAfter();
+                    SkillTakeEffect(lockTarget);  // 创建子弹Buff实体
+                    AttachSkillBuffToCaster();
+                    SkillSpellAfter();            // 施法后摇 
                 }
 
                 if (spellTime == 0)
@@ -92,38 +94,38 @@ public class Skill
         else
         {
             SkillSpellBefore(skillArgs);
-            // void DirectionBullet()
-            // {
-            //     //非目标弹道技能
-            //     DirectionBullet bullet = owner.CreateSkillBullet(owner, null, this) as DirectionBullet;
-            //     bullet.hitTargetCB = (MainLogicUnit target, object[] args) => {
-            //         this.Log("路径上击中目标：" + target.unitName);
-            //         HitTarget(target, args);
-            //     };
-            //     bullet.ReachPosCB = () => {
-            //         this.Log("子弹达到最终位置");
-            //     };
-            // }
-            // if (spellTime == 0)
-            // {
-            //     if (cfg.bulletCfg != null)
-            //     {
-            //         DirectionBullet();
-            //     }
-            //     AttachSkillBuffToCaster();
-            //     SkillSpellAfter();
-            // }
-            // else
-            // {
-            //     owner.CreateLogicTimer(() => {
-            //         if (cfg.bulletCfg != null)
-            //         {
-            //             DirectionBullet();
-            //         }
-            //         AttachSkillBuffToCaster();
-            //         SkillSpellAfter();
-            //     }, spellTime);
-            // }
+            void DirectionBullet()
+            {
+                //非目标弹道技能
+               // DirectionBullet bullet = owner.CreateSkillBullet(owner, null, this) as DirectionBullet;
+               // bullet.hitTargetCB = (MainLogicUnit target, object[] args) => {
+               //     this.Log("路径上击中目标：" + target.unitName);
+               //     HitTarget(target, args);
+               // };
+               // bullet.ReachPosCB = () => {
+               //     this.Log("子弹达到最终位置");
+               // };
+            }
+            if (spellTime == 0)
+            {
+                if (config.bulletConf != null)
+                {
+                    DirectionBullet();
+                }
+                AttachSkillBuffToCaster();
+                SkillSpellAfter();
+            }
+            else
+            {
+                owner.CreateLogicTimer(() => {
+                    if (config.bulletConf != null)
+                    {
+                        DirectionBullet();
+                    }
+                    AttachSkillBuffToCaster();
+                    SkillSpellAfter();
+                }, spellTime);
+            }
         }
     }
 
@@ -135,7 +137,80 @@ public class Skill
         {
             owner.mainViewUnit.UpdateSkillRotation(dir);
         }
+        // TODO:播放动画
+        if (config.animName != null)
+        {
+            owner.InputDir = dir;
+        }
+    }
 
+    // 技能生效
+    void SkillTakeEffect(MainLogicUnit lockTarget)
+    {
+        if (config.bulletConf != null)
+        {
+            // 存在弹道信息
+            TargetBullet bullet = owner.CreateSkillBullet(owner, lockTarget, this) as TargetBullet;
+            bullet.HitTargetCB = HitTarget;
+        }
+        else
+        {
+            // 不存在弹道信息就直接击中目标
+            HitTarget(lockTarget);
+        }
+    }
+
+    // 击中目标的逻辑
+    void HitTarget(MainLogicUnit lockTarget, object[] args = null)
+    {
+        if (config.damage != 0)
+        {
+            ShawInt damage = config.damage;
+            lockTarget.GetDamageBySkill(damage, this);
+        }
+        // 附加Buff处理
+        if (config.buffIDArr == null)
+        {
+            return;
+        }
+        for (int i = 0; i <  config.buffIDArr.Length; i++)
+        {
+            int buffID = config.buffIDArr[i];
+            if (buffID == 0)
+            {
+                LogCore.Warn($"SkillID:{config.skillID} exist buffID == 0,check your buffID Configs");
+                continue;
+            }
+            BuffConfig buffConfig = AssetsSvc.Instance.GetBuffConfigByID(buffID);
+            if (buffConfig.attacher == EAttachType.Target || buffConfig.attacher == EAttachType.Bullet)
+            {
+                lockTarget.CreateSkillBuff(owner, this, buffID, args);
+            }
+        }
+    }
+
+    void AttachSkillBuffToCaster()
+    {
+        if (config.buffIDArr == null)
+        {
+            return;
+        }
+
+        for (int i = 0; i < config.buffIDArr.Length; i++)
+        {
+            int buffID = config.buffIDArr[i];
+            if (buffID == 0)
+            {
+                LogCore.Warn(string.Format("SkillID:{0} exist: buffID ==0,Check your buffID Configs.", config.skillID));
+                continue;
+            }
+
+            BuffConfig buffCfg = AssetsSvc.Instance.GetBuffConfigByID(buffID);
+            if (buffCfg.attacher == EAttachType.Caster || buffCfg.attacher == EAttachType.Indie)
+            {
+                owner.CreateSkillBuff(owner, this, buffID);
+            }
+        }
     }
 
     // 进入施法后摇
@@ -174,14 +249,14 @@ public class Skill
                     && config.targetConf.skillTargetType == ESkillTargetType.Enemy
                     && config.targetConf.searchDis > 0)
                 {
-                    // Buff mf = owner.GetBuffByID(ClientConfig.CommonMoveAttackBuffID);
-                    // if (mf != null)
-                    // {
-                    //     mf.unitState = SubUnitState.End;
-                    // }
+                    BuffLogic mf = owner.GetBuffByID(ClientConfig.CommonMoveAttackBuffID);
+                    if (mf != null)
+                    {
+                        mf.state = SubUnitState.End;
+                    }
 
                     LogCore.Log("技能未施放成功，添加通用移动攻击buff.");
-                    // owner.CreateSkillBuff(owner, this, ClientConfig.CommonMoveAttackBuffID);
+                    owner.CreateSkillBuff(owner, this, ClientConfig.CommonMoveAttackBuffID);
                 }
             }
         }
@@ -193,6 +268,35 @@ public class Skill
         // }
         skillState = ESkillState.None;
         lockTarget = null;
+    }
+
+    int tempSkillID;
+    public int TempSkillID
+    {
+        set
+        {
+            tempSkillID = value;
+            LogCore.Log("Set TempSkillID:" + value);
+        }
+        get
+        {
+            return tempSkillID;
+        }
+    }
+
+    //技能替换
+    public void ReplaceSkillConfig(int replaceID)
+    {
+        if (skillID == replaceID)
+        {
+            TempSkillID = 0;
+        }
+        else
+        {
+            TempSkillID = replaceID;
+        }
+
+        config = AssetsSvc.Instance.GetSkillConfigByID(replaceID);
     }
 }
 

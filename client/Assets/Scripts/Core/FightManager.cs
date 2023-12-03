@@ -35,6 +35,7 @@ public class FightManager : MonoBehaviour
     List<TowerLogic> towerList;
     List<SoldierLogic> soldierList;
     List<LogicTimer> timerList;
+    List<BulletLogic> bulletList;
     /// <summary>
     /// 给 BattleSystem 调用，初始化 碰撞环境，英雄，塔，小兵，UI等
     /// </summary>
@@ -44,6 +45,7 @@ public class FightManager : MonoBehaviour
         towerList = new List<TowerLogic>();
         soldierList = new List<SoldierLogic>();
         timerList = new List<LogicTimer>();
+        bulletList = new List<BulletLogic>();
 
         // 碰撞环境
         InitCollisionEnv();
@@ -277,6 +279,20 @@ public class FightManager : MonoBehaviour
     #region 游戏运行过程中
     public void Tick()
     {
+        // 子弹
+        for (int i = bulletList.Count - 1; i >= 0; --i)
+        {
+            if (bulletList[i].state == SubUnitState.None)
+            {
+                bulletList[i].LogicUninit();
+                bulletList.RemoveAt(i);
+            }
+            else
+            {
+                bulletList[i].LogicTick();
+            }
+        }
+
         // 英雄
         for (int i = 0; i < heroList.Count; ++i)
         {
@@ -409,6 +425,16 @@ public class FightManager : MonoBehaviour
     }
     #endregion
 
+    public void UnInit()
+    {
+        heroList.Clear();
+        towerList.Clear();
+        soldierList.Clear();
+        bulletList.Clear();
+        CalcSkillSelectTarget.blueTeamSoldier.Clear();
+        CalcSkillSelectTarget.redTeamSoldier.Clear();
+    }
+
     #region API Func
     /// <summary>
     /// 获取当前客户端的逻辑实体
@@ -427,6 +453,15 @@ public class FightManager : MonoBehaviour
     public List<ShawColliderBase> GetAllEnvColliders()
     {
         return colliderLst;
+    }
+
+    /// <summary>
+    /// 加入子弹到容器，参与帧更新等操作
+    /// </summary>
+    /// <param name="bullet"></param>
+    public void AddBullet(BulletLogic bullet)
+    {
+        bulletList.Add(bullet);
     }
     #endregion
 }

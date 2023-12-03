@@ -15,6 +15,8 @@ public static class ClientConfig
     public const int ScreenOPDis = 135;
     public const int SkillOPDis = 125;
     public const int SkillCancelDis = 500;
+
+    public const int CommonMoveAttackBuffID = 90000;
 }
 
 /// <summary>
@@ -26,6 +28,7 @@ public class UnitConfig
     public int unitID;
     public string unitName;
     public string resName;
+    public ShawInt hitHeight;
 
     // core
     public int hp;
@@ -37,6 +40,7 @@ public class UnitConfig
     public ColliderConfig colliCfg;
 
     // 技能ID数组
+    public int[] pasvBuff;
     public int[] skillArr;
 }
 
@@ -79,9 +83,16 @@ public class SkillConfig
     public int spellTime; // 施法前摇（引导时间 ：ms）
     public int skillTime; // 技能全长时间（前摇 + 释放 + 后摇）
     public int damage; // 基础伤害值
-    public int[] buffIDArr;
 
     public bool isNormalAttack; // 是否未普通攻击
+
+    public BulletConfig bulletConf; // 弹道设置
+    public int[] buffIDArr; // 添加Buff
+
+    //音效相关
+    public string audio_start;//施法开始
+    public string audio_work;//施法成功
+    public string audio_hit;//施法命中
 }
 
 #region 技能释放相关
@@ -135,5 +146,105 @@ public enum ESkillTargetType
     Dynamic, // 非指向性
     Friend, // 对友军释放
     Enemy, // 对敌方释放
+}
+#endregion
+
+#region 弹道配置与Buff
+
+// 弹道配置
+public class BulletConfig
+{
+    public EBulletType bulletType;
+    public string bulletName;
+    public string resPath;
+    public float bulletSpeed;
+    public float bulletSize;
+    public float bulletHeight;
+    public float bulletOffset;
+    public int bulletDelay;//ms
+    public bool canBlock;
+
+    public TargetConfig impacter;
+    public int bulletDuration;
+}
+
+public enum EBulletType
+{
+    UIDirection,//ui指定方向
+    UIPosition,//ui指定位置
+    SkillTarget,//当前技能目标
+    BuffSearch,
+    //TODO
+}
+
+public class BuffConfig
+{
+    public int buffID;
+    public string buffName;
+    public EBuffType buffType;
+    public EAttachType attacher; // buff附着目标
+    public TargetConfig impacter; // buff作用目标
+
+    public int buffDelay;
+    public int buffInterval;
+    public int buffDuration;//（不包含delay）0：生效1次，-1：永久生效
+    public EStaticPosType staticPosType;
+
+    public string buffAudio;
+    public string buffEffect;
+    public string hitTickAudio;
+}
+
+public enum EBuffType
+{
+    None,
+    HPCure,//治疗
+
+    ModifySkill,
+    MoveSpeedUp,//单体加速buff
+    ArthurMark,//Arthur1技能的标记伤害Buff
+    Silense,//沉默
+    TargetFlashMove,
+    DirectionFlashMove,//TODO
+    ExecuteDamage,
+    Knockup_Group,//群体击飞
+
+    Stun_Single_DynamicTime,
+
+    //houyi专区buff
+    HouyiActiveSkillModify,//Houyi主动技能修改buff
+    Scatter,
+
+    HouyiPasvAttackSpeed,//Houyi被动攻速加成buff
+    HouyiPasvSkillModify,//Houyi被动技能修改Buff
+    HouyiPasvMultiArrow,//Houyi被动技能多重射击Buff
+    HouyiMixedMultiScatter,//混合多重射击与散射
+
+
+    MoveSpeed_DynamicGroup,//动态群体移速Buff
+    MoveSpeed_StaticGroup,//静态群体移速buff
+    Damage_DynamicGroup,//动态群体伤害
+    Damage_StaticGroup,
+    MoveAttack,//移动攻击
+}
+
+public enum EStaticPosType
+{
+    None,
+    SkillCasterPos,//Buff所属技能施放者的位置
+    SkillLockTargetPos,//Buff所属技能锁定目标的位置
+    BulletHitTargetPos,//子弹命中目标的位置
+    UIInputPos,//UI输入位置信息
+}
+
+public enum EAttachType
+{
+    None,
+    Caster,//Arthur的1技能加速buff
+    Target,//Arthur的1技能沉默buff
+
+    Indie,//Arthur大招产生的持续范围伤害
+
+    Bullet,//Houyi大招命中目标时产生的范围伤害
 }
 #endregion

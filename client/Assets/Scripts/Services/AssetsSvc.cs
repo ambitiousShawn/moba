@@ -1,4 +1,5 @@
 using ShawnFramework.ShawHotUpdate;
+using ShawnFramework.ShawLog;
 using ShawnFramework.ShawMath;
 using ShawnFramework.ShawnPhysics;
 using System;
@@ -478,7 +479,13 @@ namespace ShawnFramework.CommonModule
                             },
                             selectRange = 2f,
                             searchDis = 10f,
-                        }
+                        },
+                        bulletConf = null,
+
+                        buffIDArr = null,
+                        audio_start = "arthur_ska_rls",
+                        audio_work = null,
+                        audio_hit = "arthur_ska_hit"
                     };
                 case 1011:
                     /// <summary>
@@ -500,6 +507,8 @@ namespace ShawnFramework.CommonModule
 
                         releaseModeType = EReleaseModeType.Click,
                         targetConf = null,
+
+                        buffIDArr = new int[] { 10110, 10111 },
                     };
                 case 1012:
                     return new SkillConfig
@@ -515,6 +524,8 @@ namespace ShawnFramework.CommonModule
 
                         releaseModeType = EReleaseModeType.Click,
                         targetConf = null,
+
+                        buffIDArr = new int[] { 10120 },
                     };
                 case 1013:
                     // 德玛西亚正义
@@ -540,7 +551,43 @@ namespace ShawnFramework.CommonModule
                             },
                             selectRange = 4f,
                             searchDis = 4f,
-                        }
+                        },
+
+                        buffIDArr = new int[] { 10130, 10131, 10132, 10133 },
+                    };
+                case 1014:
+                    return new SkillConfig
+                    {
+                        skillID = 1010,
+                        animName = "sk1_atk",
+                        releaseModeType = EReleaseModeType.None,
+                        //最近的敌方目标
+                        targetConf = new TargetConfig
+                        {
+                            skillTargetType = ESkillTargetType.Enemy,
+                            selectRuleType = ESelectRuleType.TargetClosestSingle,
+                            targetUnits = new EUnitType[] 
+                            {
+                                EUnitType.Hero,
+                                EUnitType.Soldier,
+                                EUnitType.Tower
+            },
+                            selectRange = 2f,
+                            searchDis = 10f,
+                        },
+                        bulletConf = null,
+                        cdTime = 0,
+                        spellTime = 800,//施法时间（技能前摇）
+                        isNormalAttack = true,
+                        skillTime = 1400,
+                        damage = 90,
+                        //沉默buff
+                        buffIDArr = new int[] { 10140, 10141, 10142 },
+
+                        //audio
+                        audio_start = null,
+                        audio_work = null,
+                        audio_hit = "arthur_sk1_hit",
                     };
                 // 艾希
                 case 1020:
@@ -909,6 +956,199 @@ namespace ShawnFramework.CommonModule
                     
             }
             return null;
+        }
+
+        /// <summary>
+        /// 根据buffID获取到对应的Buff数据
+        /// </summary>
+        /// <param name="buffID"></param>
+        /// <returns></returns>
+        public BuffConfig GetBuffConfigByID(int buffID)
+        {
+            switch (buffID)
+            {
+                case 10100:
+                    return new HPCureBuffConfig
+                    {
+                        //通用buff属性
+                        buffID = 10100,
+                        buffName = "被动治疗",
+                        buffType = EBuffType.HPCure,
+
+                        attacher = EAttachType.Caster,
+                        impacter = null,
+
+                        buffDelay = 0,
+                        buffInterval = 2000,
+                        buffDuration = -1,
+
+                        //专有属性
+                        cureHPpercent = 2,
+                    };
+                //Arthur1技能
+                case 10110://移速加速
+                    return new MoveSpeedBuffConfig
+                    {
+                        //通用buff属性
+                        buffID = 10110,
+                        buffName = "加速",
+                        buffType = EBuffType.MoveSpeedUp,
+
+                        attacher = EAttachType.Caster,
+                        impacter = null,
+
+                        buffDelay = 0,
+                        buffInterval = 0,
+                        buffDuration = 3000,
+
+                        //专有属性，提速30%
+                        amount = 30,
+                    };
+                case 10111:
+                    return new CommonModifySkillBuffConfig
+                    {
+                        //通用buff属性
+                        buffID = 10111,
+                        buffName = "替换普攻",
+                        buffType = EBuffType.ModifySkill,
+
+                        attacher = EAttachType.Caster,
+                        impacter = null,
+
+                        buffDelay = 0,
+                        buffInterval = 0,
+                        buffDuration = 3000,
+
+                        //专有属性
+                        originalID = 1010,
+                        replaceID = 1014
+                    };
+                // case 10140:
+                //     return ResBuffConfigs.buff_10140;
+                // case 10141:
+                //     return ResBuffConfigs.buff_10141;
+                // case 10142:
+                //     return ResBuffConfigs.buff_10142;
+                // //Arthur2技能
+                // case 10120:
+                //     return ResBuffConfigs.buff_10120;
+                // //Arthur3技能
+                // case 10130:
+                //     return ResBuffConfigs.buff_10130;
+                // case 10131:
+                //     return ResBuffConfigs.buff_10131;
+                // case 10132:
+                //     return ResBuffConfigs.buff_10132;
+                // case 10133:
+                //     return ResBuffConfigs.buff_10133;
+                // //Houyi被动技能
+                // case 10200:
+                //     return ResBuffConfigs.buff_10200;
+                // case 10201:
+                //     return ResBuffConfigs.buff_10201;
+                // case 10250:
+                //     return ResBuffConfigs.buff_10250;
+                // //Houyi1技能
+                // case 10210://技能替换
+                //     return ResBuffConfigs.buff_10210;
+                // case 10240://scatter
+                //     return ResBuffConfigs.buff_10240;
+                // case 10260://mixed
+                //     return ResBuffConfigs.buff_10260;
+                // //Houyi2技能
+                // case 10220:
+                //     return ResBuffConfigs.buff_10220;
+                // case 10221:
+                //     return ResBuffConfigs.buff_10221;
+                // case 10222:
+                //     return ResBuffConfigs.buff_10222;
+                // case 10223:
+                //     return ResBuffConfigs.buff_10223;
+                // //Houyi3技能
+                // case 10230:
+                //     return ResBuffConfigs.buff_10230;
+                // case 10231:
+                //     return ResBuffConfigs.buff_10231;
+                // //通用
+                // case 90000:
+                //     return ResBuffConfigs.buff_90000;
+                default:
+                    break;
+            }
+            LogCore.Error("Get Buff Config Failed,buffID:" + buffID);
+            return null;
+        }
+
+        public BuffLogic CreateBuff(MainLogicUnit source, MainLogicUnit owner, Skill skill, int buffID, object[] args)
+        {
+            BuffConfig cfg = GetBuffConfigByID(buffID);
+            switch (cfg.buffType)
+            {
+                // case EBuffType.MoveAttack:
+                //     return new MoveAttackBuff(source, owner, skill, buffID, args);
+                case EBuffType.MoveSpeedUp:
+                     return new MoveSpeedUpBuff(source, owner, skill, buffID, args);
+                // case EBuffType.MoveSpeed_DynamicGroup:
+                //     return new MoveSpeedBuff_DynamicGroup(source, owner, skill, buffID, args);
+                case EBuffType.ModifySkill:
+                     return new CommonModifySkillBuff(source, owner, skill, buffID, args);
+                // case EBuffType.Silense:
+                //     return new SilenseBuff_Single(source, owner, skill, buffID, args);
+                // case EBuffType.ArthurMark:
+                //     return new ArthurMarkBuff(source, owner, skill, buffID, args);
+                case EBuffType.HPCure:
+                    return new HPCureBuff(source, owner, skill, buffID, args);
+                // case EBuffType.Knockup_Group:
+                //     return new KnockUpBuff_Group(source, owner, skill, buffID, args);
+                // 
+                // case EBuffType.Damage_DynamicGroup:
+                //     return new DamageBuff_DynamicGroup(source, owner, skill, buffID, args);
+                // case EBuffType.TargetFlashMove:
+                //     return new TargetFlashMoveBuff(source, owner, skill, buffID, args);
+                // case EBuffType.ExecuteDamage:
+                //     return new ExecuteDamageBuff(source, owner, skill, buffID, args);
+                // case EBuffType.Damage_StaticGroup:
+                //     return new DamageBuff_StaticGroup(source, owner, skill, buffID, args);
+                // 
+                // case EBuffType.HouyiPasvAttackSpeed:
+                //     return new HouyiPasvAttackSpeedBuff(source, owner, skill, buffID, args);
+                // case EBuffType.HouyiPasvSkillModify:
+                //     return new HouyiMultipleSkillModifyBuff(source, owner, skill, buffID, args);
+                // case EBuffType.HouyiPasvMultiArrow:
+                //     return new HouyiMultipleArrowBuff(source, owner, skill, buffID, args);
+                // case EBuffType.HouyiActiveSkillModify:
+                //     return new HouyiScatterSkillModifyBuff(source, owner, skill, buffID, args);
+                // case EBuffType.Scatter:
+                //     return new HouyiScatterArrowBuff(source, owner, skill, buffID, args);
+                // case EBuffType.HouyiMixedMultiScatter:
+                //     return new HouyiMixedMultiScatterBuff(source, owner, skill, buffID, args);
+                // case EBuffType.MoveSpeed_StaticGroup:
+                //     return new MoveSpeedBuff_StaticGroup(source, owner, skill, buffID, args);
+                // 
+                // case EBuffType.Stun_Single_DynamicTime:
+                //     return new StunBuff_DynamicTime(source, owner, skill, buffID, args);
+                // //TOADD
+                // case EBuffType.None:
+                default:
+                    LogCore.Error("Create Buff Failed,BuffID:" + buffID);
+                    return null;
+            }
+        }
+
+        public BulletLogic CreateBullet(MainLogicUnit source, MainLogicUnit target, Skill skill)
+        {
+            switch (skill.config.bulletConf.bulletType)
+            {
+                case EBulletType.SkillTarget:
+                    return new TargetBullet(source, target, skill);
+                case EBulletType.UIDirection:
+                    // return new DirectionBullet(source, skill);
+                case EBulletType.UIPosition:
+                case EBulletType.BuffSearch:
+                default:
+                    LogCore.Error("Create Bullet Error.");
+                    return null;
+            }
         }
     }
 }

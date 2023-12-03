@@ -60,7 +60,11 @@ public abstract class BaseLogicUnit : ILogic
     public ShawInt LogicMoveSpeed
     {
         get { return logicMoveSpeed; }
-        set { logicMoveSpeed = value; }
+        set
+        {
+            logicMoveSpeed = value;
+            LogCore.Log($"Speed has Changed:{logicMoveSpeed}");
+        }
     }
     // 基础速度
     public ShawInt baseMoveSpeed;
@@ -154,6 +158,10 @@ public abstract class MainLogicUnit : BaseLogicUnit
     }
 
     #region 属性模块
+    // 一些事件监听
+    public Action OnHurt;                 // 受到伤害时的回调
+    public Action<MainLogicUnit> OnDeath; // 死亡时的回调
+
     // 生命值
     private ShawInt hp;
     public ShawInt Hp
@@ -218,6 +226,7 @@ public abstract class MainLogicUnit : BaseLogicUnit
     #region 技能模块
     protected Skill[] skillArr;
     List<LogicTimer> timerLst;
+    List<BuffLogic> buffLst;
 
     void InitSkill()
     {
@@ -228,10 +237,36 @@ public abstract class MainLogicUnit : BaseLogicUnit
             skillArr[i] = new Skill(unitData.unitCfg.skillArr[i], this);
         }
         timerLst = new List<LogicTimer>();
+        buffLst = new List<BuffLogic>();
+
+        // 添加被动Buff
+        int[] pasvBuffArr = unitData.unitCfg.pasvBuff;
+        if (pasvBuffArr != null)
+        {
+            for (int i = 0;i < pasvBuffArr.Length;i++)
+            {
+                CreateSkillBuff(this, null, pasvBuffArr[i], null);
+            }
+        }
     }
 
     void TickSkill()
     {
+
+        //Buff tick
+        for (int i = buffLst.Count - 1; i >= 0; --i)
+        {
+            if (buffLst[i].state == SubUnitState.None)
+            {
+                buffLst[i].LogicUninit();
+                buffLst.RemoveAt(i);
+            }
+            else
+            {
+                buffLst[i].LogicTick();
+            }
+        }
+
         //timer tick
         for (int i = timerLst.Count - 1; i >= 0; --i)
         {
@@ -269,11 +304,29 @@ public abstract class MainLogicUnit : BaseLogicUnit
         }
         LogCore.Error($"skillID:{key.skillID} is not exist.");
     }
-
+    // 创建一个逻辑帧计时器
     public void CreateLogicTimer(Action cb, ShawInt waitTime)
     {
         LogicTimer timer = new LogicTimer(cb, waitTime);
         timerLst.Add(timer);
+    }
+
+    // 创建技能子弹
+    public BulletLogic CreateSkillBullet(MainLogicUnit source, MainLogicUnit target, Skill skill)
+    {
+        BulletLogic bullet = AssetsSvc.Instance.CreateBullet(source, target, skill);
+        bullet.LogicInit();
+        FightManager.Instance.AddBullet(bullet);
+        return bullet ;
+    }
+
+    // 创建技能Buff
+    public BuffLogic CreateSkillBuff(MainLogicUnit source, Skill skill, int buffID, object[] args = null)
+    {
+        BuffLogic buff = AssetsSvc.Instance.CreateBuff(source, this, skill, buffID, args);
+        buff.LogicInit();
+        buffLst.Add(buff);
+        return buff;
     }
 
     /// <summary>
@@ -390,6 +443,76 @@ public abstract class MainLogicUnit : BaseLogicUnit
     public virtual bool IsPlayerSelf()
     {
         return false;
+    }
+
+    // 受到来自技能的伤害
+    public void GetDamageBySkill(ShawInt damage, Skill skill)
+    {
+        OnHurt?.Invoke();
+        ShawInt hurt = damage - defense;    // 实际受到的伤害
+        if (hurt > 0)
+        {
+            Hp -= hurt;
+            if (Hp <= 0)
+            {
+                // 逻辑单元死亡
+                Hp = 0;
+                stateType = EUnitStateType.Dead;
+                InputDir = ShawVector3.zero;
+                OnDeath?.Invoke(skill.owner);
+                LogCore.Log($"{unitName} hp = 0,Died.");
+            }
+        }
+    }
+
+    // 受到来自Buff的治疗效果
+    public void GetCureByBuff(ShawInt cure, BuffLogic buff)
+    {
+        if (Hp >= unitData.unitCfg.hp)
+        {
+            return;
+        }
+
+        Hp += cure;
+        ShawInt trueCure = cure;
+        if (Hp > unitData.unitCfg.hp)
+        {
+            // 治疗溢出
+            trueCure -= (Hp - unitData.unitCfg.hp);
+            Hp = unitData.unitCfg .hp;
+        }
+    }
+
+    // 通过ID获得当前逻辑实体身上的Buff
+    public BuffLogic GetBuffByID(int buffID)
+    {
+        for (int i = 0; i < buffLst.Count; i++)
+        {
+            if (buffLst[i].config.buffID == buffID)
+            {
+                return buffLst[i];
+            }
+        }
+        return null;
+    }
+    
+    // 更改逻辑实体的移动速度
+    public void ModifyMoveSpeed(ShawInt value, MoveSpeedUpBuff buff, bool jumpInfo)
+    {
+        LogicMoveSpeed += value;
+    }
+
+    public Skill GetSkillByID(int skillID)
+    {
+        for (int i = 0; i < skillArr.Length; i++)
+        {
+            if (skillArr[i].skillID == skillID)
+            {
+                return skillArr[i];
+            }
+        }
+        LogCore.Error($"SkillID:{skillID} is not exist");
+        return null;
     }
     #endregion
 }
