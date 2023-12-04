@@ -1,5 +1,4 @@
 local window_base = require "system.window_base"
-local popup_tip = require 'ui.common.popup_tip'
 local check_input_isvalid = require 'ui.login.check_input_isvalid'
 local game_message = require 'system.game_message'
 
@@ -18,8 +17,7 @@ function window:awake()
         -- 检测合法性
         if check_input_isvalid.check_Email(account) == false 
         and check_input_isvalid.check_name_all_letters_or_alpha(account) == false then
-            popup_tip:popup_tip_panel('用户名/邮箱不合法')
-            return
+           return
         end
         
         local userdata = {

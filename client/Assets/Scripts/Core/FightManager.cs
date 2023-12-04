@@ -463,5 +463,14 @@ public class FightManager : MonoBehaviour
     {
         bulletList.Add(bullet);
     }
+
+    /// <summary>
+    /// 检测是否有玩家UI输入
+    /// </summary>
+    /// <returns></returns>
+    public bool CheckUIInput()
+    {
+        return playWnd.IsUIInput();
+    }
     #endregion
 }

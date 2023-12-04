@@ -1,6 +1,5 @@
 using ShawnFramework.ShawLog;
 using ShawnFramework.ShawMath;
-using ShawnFramework.ShawnPhysics;
 using System.Collections.Generic;
 
 namespace ShawnFramework.ShawnPhysics
@@ -49,6 +48,7 @@ namespace ShawnFramework.ShawnPhysics
         public override bool SphereCollisionDetect(ShawCylinderCollider collider, ref ShawVector3 normal, ref ShawVector3 borderAdjust)
         {
             ShawVector3 disOffset = mPos - collider.mPos;
+            // LogCore.Log("两圆相碰");
             if (ShawVector3.SqrMagnitude(disOffset) > (mRadius + collider.mRadius) * (mRadius + collider.mRadius))
             {
                 return false;
@@ -100,7 +100,7 @@ namespace ShawnFramework.ShawnPhysics
                 CollisionInfo info = collisionInfoLst[0];
                 velocity = CorrectVelocity(velocity, info.normal);
                 borderAdjust = info.borderAdjust;
-                LogCore.ColorLog("发生碰撞，速度矫正:" + velocity.ConvertViewVector3().ToString(), ELogColor.Orange);
+                // LogCore.ColorLog("发生碰撞，速度矫正:" + velocity.ConvertViewVector3().ToString(), ELogColor.Orange);
             }
             else
             {
@@ -112,7 +112,7 @@ namespace ShawnFramework.ShawnPhysics
                 if (angle > borderNormalAngle)
                 {
                     velocity = CorrectVelocity(velocity, info.normal);
-                    LogCore.ColorLog("多个碰撞体，校正速度：" + velocity.ConvertViewVector3(), ELogColor.Orange);
+                    // LogCore.ColorLog("多个碰撞体，校正速度：" + velocity.ConvertViewVector3(), ELogColor.Orange);
                     ShawVector3 adjSum = ShawVector3.zero;
                     for (int i = 0; i < collisionInfoLst.Count; i++)
                     {
@@ -123,7 +123,7 @@ namespace ShawnFramework.ShawnPhysics
                 else
                 {
                     velocity = ShawVector3.zero;
-                    LogCore.ColorLog("速度方向反向量在校正法线夹角内，无法移动：" + angle, ELogColor.Orange);
+                    // LogCore.ColorLog("速度方向反向量在校正法线夹角内，无法移动：" + angle, ELogColor.Orange);
                 }
 
             }

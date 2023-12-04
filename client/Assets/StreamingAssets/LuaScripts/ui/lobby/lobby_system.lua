@@ -1,6 +1,5 @@
 local ugui_lobbypanel = require 'ui.lobby.ugui_lobbypanel'
 local ugui_matchconfirmpanel = require 'ui.lobby.ugui_matchconfirmpanel'
-local popup_tip = require 'ui.common.popup_tip'
 local ugui_selectpanel = require 'ui.lobby.ugui_selectpanel'
 
 local system = {}
@@ -24,7 +23,6 @@ function NtfConfirmCallBack(msg)
         -- 房间解散
         ugui_matchconfirmpanel:close_self(true)
         WindowManager:open('ugui_lobbypanel')
-        popup_tip:popup_tip_panel('队伍已解散')
     else
         Launcher.RoomID = ntf.roomID
         local table = WindowManager:find_window_in_stack('ugui_matchconfirmpanel')

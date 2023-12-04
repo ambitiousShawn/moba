@@ -2,6 +2,8 @@ using ShawnFramework.ShawLog;
 using ShawnFramework.ShawMath;
 using System;
 using System.Collections.Generic;
+using Unity.VisualScripting;
+using UnityEngine.SocialPlatforms;
 
 public static class CalcSkillSelectTarget
 {
@@ -18,7 +20,7 @@ public static class CalcSkillSelectTarget
     /// <param name="self"></param>
     /// <param name="config"></param>
     /// <returns></returns>
-    public static MainLogicUnit FindMinDisEnemyTarget(MainLogicUnit self, TargetConfig config)
+    public static MainLogicUnit FindMinDistanceEnemyTarget(MainLogicUnit self, TargetConfig config)
     {
         MainLogicUnit target = null;
         List<MainLogicUnit> targetTeam = GetTargetTeam(self, config);
@@ -39,6 +41,36 @@ public static class CalcSkillSelectTarget
         return target;
     }
 
+    /// <summary>
+    /// 查找某个区域内最小距离逻辑实体
+    /// </summary>
+    /// <param name="pos"></param>
+    /// <param name="searchUnits"></param>
+    /// <returns></returns>
+    public static MainLogicUnit FindMinDistanceTargetInPos(ShawVector3 pos, MainLogicUnit[] searchUnits)
+    {
+        if (searchUnits == null)
+        {
+            return null;
+        }
+
+        MainLogicUnit target = null;
+        int count = searchUnits.Length;
+        ShawInt len = 0;
+        for (int i = 0; i < count; i++)
+        {
+            ShawInt radius = searchUnits[i].unitData.unitCfg.colliCfg.mRadius;
+            ShawInt tempLen = (searchUnits[i].LogicPos - pos).magnitude - radius;
+            if (len == 0 || tempLen < len)
+            {
+                len = tempLen;
+                target = searchUnits[i];
+            }
+        }
+        return target;
+    }
+
+    #region 单个目标单位
     /// <summary>
     /// 通过技能选择配置规则选择单个目标单位
     /// </summary>
@@ -234,4 +266,74 @@ public static class CalcSkillSelectTarget
         }
         return null;
     }
+    #endregion
+
+    #region 多个目标单位
+    /// <summary>
+    /// 查找多个目标
+    /// </summary>
+    /// <param name="self"></param>
+    /// <param name="config"></param>
+    /// <param name="pos"></param>
+    /// <returns></returns>
+    public static List<MainLogicUnit> FindMultipleTargetByConfig(MainLogicUnit self, TargetConfig config, ShawVector3 pos)
+    {
+        List<MainLogicUnit> searchUnits = GetTargetTeam(self,config);
+        List<MainLogicUnit> targetLst = null;
+        switch (config.selectRuleType)
+        {
+            case ESelectRuleType.TargetClosestMultiple:
+                targetLst = FindRangeDistanceTargetInUnits(self, searchUnits,(ShawInt)config.selectRange);
+                break;
+            case ESelectRuleType.PositionClosestMultiple:
+                targetLst = FindRangeDistanceTargetInPos(pos, searchUnits, (ShawInt)config.selectRange);
+                break;
+            case ESelectRuleType.AllHero:
+                break;
+        }
+        return targetLst;
+    }
+
+    static List<MainLogicUnit> FindRangeDistanceTargetInUnits(MainLogicUnit self, List<MainLogicUnit> searchUnits, ShawInt range)
+    {
+        if (searchUnits == null || range < 0)
+        {
+            return null;
+        }
+        List<MainLogicUnit> targetLst = new List<MainLogicUnit>();
+        int count = searchUnits.Count;
+        ShawVector3 selfPos = self.LogicPos;
+        for (int i = 0; i < count; i++)
+        {
+            ShawInt sumRadius = searchUnits[i].unitData.unitCfg.colliCfg.mRadius + self.unitData.unitCfg.colliCfg.mRadius;
+            ShawInt sqrLen = (searchUnits[i].LogicPos - selfPos).sqrMagnitude;
+            if (sqrLen < (range + sumRadius) * (range + sumRadius))
+            {
+                targetLst.Add(searchUnits[i]);
+            }
+        }
+        return targetLst;
+    }
+
+    static List<MainLogicUnit> FindRangeDistanceTargetInPos(ShawVector3 pos, List<MainLogicUnit> searchUnits, ShawInt range)
+    {
+        if (searchUnits == null || range < 0)
+        {
+            return null;
+        }
+
+        List<MainLogicUnit> targetLst = new List<MainLogicUnit>();
+        int count = searchUnits.Count;
+        for (int i = 0; i < count; i++)
+        {
+            ShawInt radius = searchUnits[i].unitData.unitCfg.colliCfg.mRadius;
+            ShawInt sqrLen = (searchUnits[i].LogicPos - pos).sqrMagnitude;
+            if (sqrLen < (range + radius) * (range + radius))
+            {
+                targetLst.Add(searchUnits[i]);
+            }
+        }
+        return targetLst;
+    }
+    #endregion
 }

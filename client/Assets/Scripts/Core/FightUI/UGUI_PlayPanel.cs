@@ -111,9 +111,14 @@ public class UGUI_PlayPanel : WindowRoot
             ShawVector3 logicDir = ShawVector3.zero;
             if (dir != Vector2.zero)
             {
+                isUIInput = true;
                 logicDir.x = (ShawInt)dirVector3.x;
                 logicDir.y = (ShawInt)dirVector3.y;
                 logicDir.z = (ShawInt)dirVector3.z;
+            }
+            else
+            {
+                isUIInput = false;
             }
 
             // Action<ShawVector3> snd_opkey = LuaManager.Instance.GlobalLuaEnv.Global.Get<Action<ShawVector3>>("SendMoveOperation"); // 调用lua的全局响应函数
@@ -257,4 +262,10 @@ public class UGUI_PlayPanel : WindowRoot
         }
     }
     #endregion
+
+    bool isUIInput = false;
+    public bool IsUIInput()
+    {
+        return isUIInput;
+    }
 }

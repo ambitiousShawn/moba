@@ -21,7 +21,7 @@ namespace XLua.CSObjectWrap
         {
 			ObjectTranslator translator = ObjectTranslatorPool.Instance.Find(L);
 			System.Type type = typeof(ShawnFramework.CommonModule.AssetsSvc);
-			Utils.BeginObjectRegister(type, L, translator, 0, 9, 0, 0);
+			Utils.BeginObjectRegister(type, L, translator, 0, 12, 0, 0);
 			
 			Utils.RegisterFunc(L, Utils.METHOD_IDX, "InitService", _m_InitService);
 			Utils.RegisterFunc(L, Utils.METHOD_IDX, "LoadUIPrefab", _m_LoadUIPrefab);
@@ -32,6 +32,9 @@ namespace XLua.CSObjectWrap
 			Utils.RegisterFunc(L, Utils.METHOD_IDX, "GetMapConfigByID", _m_GetMapConfigByID);
 			Utils.RegisterFunc(L, Utils.METHOD_IDX, "GetUnitConfigByID", _m_GetUnitConfigByID);
 			Utils.RegisterFunc(L, Utils.METHOD_IDX, "GetSkillConfigByID", _m_GetSkillConfigByID);
+			Utils.RegisterFunc(L, Utils.METHOD_IDX, "GetBuffConfigByID", _m_GetBuffConfigByID);
+			Utils.RegisterFunc(L, Utils.METHOD_IDX, "CreateBuff", _m_CreateBuff);
+			Utils.RegisterFunc(L, Utils.METHOD_IDX, "CreateBullet", _m_CreateBullet);
 			
 			
 			
@@ -389,6 +392,99 @@ namespace XLua.CSObjectWrap
                     int _skillID = LuaAPI.xlua_tointeger(L, 2);
                     
                         var gen_ret = gen_to_be_invoked.GetSkillConfigByID( _skillID );
+                        translator.Push(L, gen_ret);
+                    
+                    
+                    
+                    return 1;
+                }
+                
+            } catch(System.Exception gen_e) {
+                return LuaAPI.luaL_error(L, "c# exception:" + gen_e);
+            }
+            
+        }
+        
+        [MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
+        static int _m_GetBuffConfigByID(RealStatePtr L)
+        {
+		    try {
+            
+                ObjectTranslator translator = ObjectTranslatorPool.Instance.Find(L);
+            
+            
+                ShawnFramework.CommonModule.AssetsSvc gen_to_be_invoked = (ShawnFramework.CommonModule.AssetsSvc)translator.FastGetCSObj(L, 1);
+            
+            
+                
+                {
+                    int _buffID = LuaAPI.xlua_tointeger(L, 2);
+                    
+                        var gen_ret = gen_to_be_invoked.GetBuffConfigByID( _buffID );
+                        translator.Push(L, gen_ret);
+                    
+                    
+                    
+                    return 1;
+                }
+                
+            } catch(System.Exception gen_e) {
+                return LuaAPI.luaL_error(L, "c# exception:" + gen_e);
+            }
+            
+        }
+        
+        [MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
+        static int _m_CreateBuff(RealStatePtr L)
+        {
+		    try {
+            
+                ObjectTranslator translator = ObjectTranslatorPool.Instance.Find(L);
+            
+            
+                ShawnFramework.CommonModule.AssetsSvc gen_to_be_invoked = (ShawnFramework.CommonModule.AssetsSvc)translator.FastGetCSObj(L, 1);
+            
+            
+                
+                {
+                    MainLogicUnit _source = (MainLogicUnit)translator.GetObject(L, 2, typeof(MainLogicUnit));
+                    MainLogicUnit _owner = (MainLogicUnit)translator.GetObject(L, 3, typeof(MainLogicUnit));
+                    Skill _skill = (Skill)translator.GetObject(L, 4, typeof(Skill));
+                    int _buffID = LuaAPI.xlua_tointeger(L, 5);
+                    object[] _args = (object[])translator.GetObject(L, 6, typeof(object[]));
+                    
+                        var gen_ret = gen_to_be_invoked.CreateBuff( _source, _owner, _skill, _buffID, _args );
+                        translator.Push(L, gen_ret);
+                    
+                    
+                    
+                    return 1;
+                }
+                
+            } catch(System.Exception gen_e) {
+                return LuaAPI.luaL_error(L, "c# exception:" + gen_e);
+            }
+            
+        }
+        
+        [MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
+        static int _m_CreateBullet(RealStatePtr L)
+        {
+		    try {
+            
+                ObjectTranslator translator = ObjectTranslatorPool.Instance.Find(L);
+            
+            
+                ShawnFramework.CommonModule.AssetsSvc gen_to_be_invoked = (ShawnFramework.CommonModule.AssetsSvc)translator.FastGetCSObj(L, 1);
+            
+            
+                
+                {
+                    MainLogicUnit _source = (MainLogicUnit)translator.GetObject(L, 2, typeof(MainLogicUnit));
+                    MainLogicUnit _target = (MainLogicUnit)translator.GetObject(L, 3, typeof(MainLogicUnit));
+                    Skill _skill = (Skill)translator.GetObject(L, 4, typeof(Skill));
+                    
+                        var gen_ret = gen_to_be_invoked.CreateBullet( _source, _target, _skill );
                         translator.Push(L, gen_ret);
                     
                     

@@ -55,7 +55,6 @@ namespace ShawnFramework.CommonModule
                     if (reconnectedCount > 4)
                     {
                         LogCore.Error(string.Format("Connect Failed {0} Times, Check Your Network Connection.", reconnectedCount));
-                        Launcher.Instance.AddTips("无法连接服务器，请检查网络状况");
                         checkTask = null;
                     }
                     else
@@ -109,7 +108,6 @@ namespace ShawnFramework.CommonModule
             }
             else
             {
-                Launcher.Instance.AddTips("服务器未连接!");
                 LogCore.ColorLog("服务器未连接！", ELogColor.Red);
                 callback?.Invoke(false);
             }
@@ -126,7 +124,6 @@ namespace ShawnFramework.CommonModule
                 switch (msg.errorCode)
                 {
                     case ErrorCode.AccountIsOnLine:
-                        Launcher.Instance.AddTips("当前账号已经上线！");
                         break;
                     default:
                         break;
@@ -183,12 +180,10 @@ namespace ShawnFramework.CommonModule
     {
         protected override void OnConnected()
         {
-            Launcher.Instance.AddTips("连接服务器成功！");
         }
 
         protected override void OnDisConnected()
         {
-            Launcher.Instance.AddTips("断开服务器连接。");
         }
 
         protected override void OnReciveMsg(GameMsg msg)

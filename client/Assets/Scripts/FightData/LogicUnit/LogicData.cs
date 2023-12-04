@@ -102,6 +102,12 @@ public abstract class MainLogicUnit : BaseLogicUnit
         InitSkill();      // 技能初始化
         InitMove();       // 移动初始化
 
+        // 关闭小兵生成
+        if (!Launcher.Instance.EnableSoldier && unitType == EUnitType.Soldier)
+        {
+            return;
+        }
+
         // 表现层初始化
         GameObject go = AssetsSvc.Instance.LoadPrefab(pathPrefix, unitData.unitCfg.resName, 1);
         if (unitType == EUnitType.Hero)
@@ -167,7 +173,11 @@ public abstract class MainLogicUnit : BaseLogicUnit
     public ShawInt Hp
     {
         get { return hp; }
-        private set { hp = value; }
+        private set
+        {
+            hp = value;
+            // LogCore.ColorLog($"{unitData.unitCfg.unitName}血量变动，当前血量:{hp}", ELogColor.Yellow);
+        }
     }
 
     // 防御力
@@ -321,12 +331,12 @@ public abstract class MainLogicUnit : BaseLogicUnit
     }
 
     // 创建技能Buff
-    public BuffLogic CreateSkillBuff(MainLogicUnit source, Skill skill, int buffID, object[] args = null)
+    public void CreateSkillBuff(MainLogicUnit source, Skill skill, int buffID, object[] args = null)
     {
         BuffLogic buff = AssetsSvc.Instance.CreateBuff(source, this, skill, buffID, args);
         buff.LogicInit();
         buffLst.Add(buff);
-        return buff;
+        LogCore.ColorLog($"{source.unitData.unitCfg.unitName}被施加了Buff:{buff.config.buffName}", ELogColor.Yellow);
     }
 
     /// <summary>
@@ -394,6 +404,7 @@ public abstract class MainLogicUnit : BaseLogicUnit
         {
             mPos = LogicPos,
         };
+        // LogCore.ColorLog($"{unitData.unitCfg.unitName}碰撞体已初始化,位置:{LogicPos},宽高:{selfCollider.mRadius}", ELogColor.Cyan);
     }
 
     void TickMove()
@@ -461,6 +472,27 @@ public abstract class MainLogicUnit : BaseLogicUnit
                 InputDir = ShawVector3.zero;
                 OnDeath?.Invoke(skill.owner);
                 LogCore.Log($"{unitName} hp = 0,Died.");
+            }
+        }
+    }
+
+    // 受到来自Buff的伤害
+    public void GetDamageByBuff(ShawInt damage, BuffLogic buff, bool calcCB = true)
+    {
+        if (calcCB)
+        {
+            OnHurt?.Invoke();
+        }
+        ShawInt hurt = damage - defense;
+        if (hurt > 0)
+        {
+            Hp -= hurt;
+            if (Hp <= 0)
+            {
+                Hp = 0;
+                stateType = EUnitStateType.Dead;
+                InputDir = ShawVector3.zero;
+                OnDeath?.Invoke(buff.source);
             }
         }
     }

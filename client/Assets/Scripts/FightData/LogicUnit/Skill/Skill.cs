@@ -12,7 +12,7 @@ public class Skill
     public SkillConfig config;
     public ShawVector3 skillArgs;
     public MainLogicUnit lockTarget;
-    public ESkillState skillState = ESkillState.Before;
+    public ESkillState skillState = ESkillState.None;
 
     public ShawInt spellTime; // 前摇时间
     public ShawInt skillTime; // 技能总时间
@@ -97,14 +97,14 @@ public class Skill
             void DirectionBullet()
             {
                 //非目标弹道技能
-               // DirectionBullet bullet = owner.CreateSkillBullet(owner, null, this) as DirectionBullet;
-               // bullet.hitTargetCB = (MainLogicUnit target, object[] args) => {
-               //     this.Log("路径上击中目标：" + target.unitName);
-               //     HitTarget(target, args);
-               // };
-               // bullet.ReachPosCB = () => {
-               //     this.Log("子弹达到最终位置");
-               // };
+               DirectionBullet bullet = owner.CreateSkillBullet(owner, null, this) as DirectionBullet;
+               bullet.hitTargetCB = (MainLogicUnit target, object[] args) => {
+                   LogCore.Log("路径上击中目标：" + target.unitName);
+                   HitTarget(target, args);
+               };
+               bullet.ReachPosCB = () => {
+                   LogCore.Log("子弹达到最终位置");
+               };
             }
             if (spellTime == 0)
             {

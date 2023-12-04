@@ -23,7 +23,7 @@ namespace XLua.CSObjectWrap
 			System.Type type = typeof(Launcher);
 			Utils.BeginObjectRegister(type, L, translator, 0, 1, 9, 8);
 			
-			Utils.RegisterFunc(L, Utils.METHOD_IDX, "AddTips", _m_AddTips);
+			Utils.RegisterFunc(L, Utils.METHOD_IDX, "AddMonoTimer", _m_AddMonoTimer);
 			
 			
 			Utils.RegisterFunc(L, Utils.GETTER_IDX, "UserData", _g_get_UserData);
@@ -33,8 +33,8 @@ namespace XLua.CSObjectWrap
             Utils.RegisterFunc(L, Utils.GETTER_IDX, "SelfIndex", _g_get_SelfIndex);
             Utils.RegisterFunc(L, Utils.GETTER_IDX, "AssetsSvc", _g_get_AssetsSvc);
             Utils.RegisterFunc(L, Utils.GETTER_IDX, "UIRoot", _g_get_UIRoot);
-            Utils.RegisterFunc(L, Utils.GETTER_IDX, "TipPanel", _g_get_TipPanel);
             Utils.RegisterFunc(L, Utils.GETTER_IDX, "EnableHotUpdate", _g_get_EnableHotUpdate);
+            Utils.RegisterFunc(L, Utils.GETTER_IDX, "EnableSoldier", _g_get_EnableSoldier);
             
 			Utils.RegisterFunc(L, Utils.SETTER_IDX, "UserData", _s_set_UserData);
             Utils.RegisterFunc(L, Utils.SETTER_IDX, "RoomID", _s_set_RoomID);
@@ -42,8 +42,8 @@ namespace XLua.CSObjectWrap
             Utils.RegisterFunc(L, Utils.SETTER_IDX, "BattleHeroDatas", _s_set_BattleHeroDatas);
             Utils.RegisterFunc(L, Utils.SETTER_IDX, "SelfIndex", _s_set_SelfIndex);
             Utils.RegisterFunc(L, Utils.SETTER_IDX, "UIRoot", _s_set_UIRoot);
-            Utils.RegisterFunc(L, Utils.SETTER_IDX, "TipPanel", _s_set_TipPanel);
             Utils.RegisterFunc(L, Utils.SETTER_IDX, "EnableHotUpdate", _s_set_EnableHotUpdate);
+            Utils.RegisterFunc(L, Utils.SETTER_IDX, "EnableSoldier", _s_set_EnableSoldier);
             
 			
 			Utils.EndObjectRegister(type, L, translator, null, null,
@@ -92,7 +92,7 @@ namespace XLua.CSObjectWrap
         
         
         [MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
-        static int _m_AddTips(RealStatePtr L)
+        static int _m_AddMonoTimer(RealStatePtr L)
         {
 		    try {
             
@@ -104,9 +104,9 @@ namespace XLua.CSObjectWrap
             
                 
                 {
-                    string _info = LuaAPI.lua_tostring(L, 2);
+                    MonoTimer _timer = (MonoTimer)translator.GetObject(L, 2, typeof(MonoTimer));
                     
-                    gen_to_be_invoked.AddTips( _info );
+                    gen_to_be_invoked.AddMonoTimer( _timer );
                     
                     
                     
@@ -233,20 +233,6 @@ namespace XLua.CSObjectWrap
         }
         
         [MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
-        static int _g_get_TipPanel(RealStatePtr L)
-        {
-		    try {
-                ObjectTranslator translator = ObjectTranslatorPool.Instance.Find(L);
-			
-                Launcher gen_to_be_invoked = (Launcher)translator.FastGetCSObj(L, 1);
-                translator.Push(L, gen_to_be_invoked.TipPanel);
-            } catch(System.Exception gen_e) {
-                return LuaAPI.luaL_error(L, "c# exception:" + gen_e);
-            }
-            return 1;
-        }
-        
-        [MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
         static int _g_get_EnableHotUpdate(RealStatePtr L)
         {
 		    try {
@@ -254,6 +240,20 @@ namespace XLua.CSObjectWrap
 			
                 Launcher gen_to_be_invoked = (Launcher)translator.FastGetCSObj(L, 1);
                 LuaAPI.lua_pushboolean(L, gen_to_be_invoked.EnableHotUpdate);
+            } catch(System.Exception gen_e) {
+                return LuaAPI.luaL_error(L, "c# exception:" + gen_e);
+            }
+            return 1;
+        }
+        
+        [MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
+        static int _g_get_EnableSoldier(RealStatePtr L)
+        {
+		    try {
+                ObjectTranslator translator = ObjectTranslatorPool.Instance.Find(L);
+			
+                Launcher gen_to_be_invoked = (Launcher)translator.FastGetCSObj(L, 1);
+                LuaAPI.lua_pushboolean(L, gen_to_be_invoked.EnableSoldier);
             } catch(System.Exception gen_e) {
                 return LuaAPI.luaL_error(L, "c# exception:" + gen_e);
             }
@@ -366,13 +366,13 @@ namespace XLua.CSObjectWrap
         }
         
         [MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
-        static int _s_set_TipPanel(RealStatePtr L)
+        static int _s_set_EnableHotUpdate(RealStatePtr L)
         {
 		    try {
                 ObjectTranslator translator = ObjectTranslatorPool.Instance.Find(L);
 			
                 Launcher gen_to_be_invoked = (Launcher)translator.FastGetCSObj(L, 1);
-                gen_to_be_invoked.TipPanel = (Popup_Tip)translator.GetObject(L, 2, typeof(Popup_Tip));
+                gen_to_be_invoked.EnableHotUpdate = LuaAPI.lua_toboolean(L, 2);
             
             } catch(System.Exception gen_e) {
                 return LuaAPI.luaL_error(L, "c# exception:" + gen_e);
@@ -381,13 +381,13 @@ namespace XLua.CSObjectWrap
         }
         
         [MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
-        static int _s_set_EnableHotUpdate(RealStatePtr L)
+        static int _s_set_EnableSoldier(RealStatePtr L)
         {
 		    try {
                 ObjectTranslator translator = ObjectTranslatorPool.Instance.Find(L);
 			
                 Launcher gen_to_be_invoked = (Launcher)translator.FastGetCSObj(L, 1);
-                gen_to_be_invoked.EnableHotUpdate = LuaAPI.lua_toboolean(L, 2);
+                gen_to_be_invoked.EnableSoldier = LuaAPI.lua_toboolean(L, 2);
             
             } catch(System.Exception gen_e) {
                 return LuaAPI.luaL_error(L, "c# exception:" + gen_e);

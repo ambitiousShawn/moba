@@ -1,5 +1,5 @@
 ManifestFileVersion: 0
-CRC: 2404041503
+CRC: 45361738
 AssetBundleManifest:
   AssetBundleInfos:
     Info_0:
@@ -19,4 +19,10 @@ AssetBundleManifest:
       Dependencies: {}
     Info_5:
       Name: tower
+      Dependencies: {}
+    Info_6:
+      Name: bullet
+      Dependencies: {}
+    Info_7:
+      Name: effect
       Dependencies: {}

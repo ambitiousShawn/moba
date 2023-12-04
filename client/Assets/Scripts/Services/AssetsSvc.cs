@@ -4,12 +4,9 @@ using ShawnFramework.ShawMath;
 using ShawnFramework.ShawnPhysics;
 using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Numerics;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using XLua;
-using XLua.CSObjectWrap;
 
 namespace ShawnFramework.CommonModule
 {
@@ -514,18 +511,20 @@ namespace ShawnFramework.CommonModule
                     return new SkillConfig
                     {
                         skillID = 1012,
-                        iconName = "arther_sk2",
+                        iconName = "arthur_sk2",
                         animName = null,
-                        cdTime = 5000,
+                        releaseModeType = EReleaseModeType.Click,
+                        targetConf = null,
                         spellTime = 0,
+                        cdTime = 5000,
                         isNormalAttack = false,
                         skillTime = 0,
                         damage = 0,
 
-                        releaseModeType = EReleaseModeType.Click,
-                        targetConf = null,
-
+                        //1.范围伤害buff
                         buffIDArr = new int[] { 10120 },
+
+                        audio_start = "arthur_sk2_rls",
                     };
                 case 1013:
                     // 德玛西亚正义
@@ -764,17 +763,17 @@ namespace ShawnFramework.CommonModule
                             selectRange = 6f,
                             searchDis = 0f,
                         },
-                        // bulletCfg = new BulletCfg
-                        // {
-                        //     bulletType = BulletTypeEnum.SkillTarget,//技能锁定的目标
-                        //     bulletName = "蓝方防御塔攻击子弹",
-                        //     resPath = "tower_ska_bullet",
-                        //     bulletSpeed = 1f,
-                        //     bulletSize = 0.1f,
-                        //     bulletHeight = 4f,//子弹出发点高度，如果是方向指向技能，则子弹一直保持这个高度
-                        //     bulletOffset = 0,
-                        //     bulletDelay = 0,
-                        // },
+                        bulletConf = new BulletConfig
+                        {
+                            bulletType = EBulletType.SkillTarget,//技能锁定的目标
+                            bulletName = "蓝方防御塔攻击子弹",
+                            resPath = "tower_ska_bullet",
+                            bulletSpeed = 1f,
+                            bulletSize = 0.1f,
+                            bulletHeight = 4f,//子弹出发点高度，如果是方向指向技能，则子弹一直保持这个高度
+                            bulletOffset = 0,
+                            bulletDelay = 0,
+                        },
                         cdTime = 0,
                         spellTime = 1000,//施法时间（技能前摇）
                         isNormalAttack = true,
@@ -967,6 +966,21 @@ namespace ShawnFramework.CommonModule
         {
             switch (buffID)
             {
+                case 90000:
+                    return new BuffConfig
+                    {
+                        //通用buff属性
+                        buffID = 90000,
+                        buffName = "移动攻击",
+                        buffType = EBuffType.MoveAttack,
+
+                        attacher = EAttachType.Caster,
+                        impacter = null,
+
+                        buffDelay = 0,
+                        buffInterval = 66,
+                        buffDuration = 5000
+                    };
                 case 10100:
                     return new HPCureBuffConfig
                     {
@@ -1023,15 +1037,100 @@ namespace ShawnFramework.CommonModule
                         originalID = 1010,
                         replaceID = 1014
                     };
-                // case 10140:
-                //     return ResBuffConfigs.buff_10140;
-                // case 10141:
-                //     return ResBuffConfigs.buff_10141;
-                // case 10142:
-                //     return ResBuffConfigs.buff_10142;
-                // //Arthur2技能
-                // case 10120:
-                //     return ResBuffConfigs.buff_10120;
+                // 沉默
+                case 10140:
+                    return new BuffConfig
+                    {
+                        //通用buff属性
+                        buffID = 10140,
+                        buffName = "沉默",
+                        buffType = EBuffType.Silense,
+
+                        attacher = EAttachType.Target,
+                        impacter = null,
+
+                        buffDelay = 0,
+                        buffInterval = 0,
+                        buffDuration = 1000,
+                    };
+                // 易损
+                case 10141:
+                    return new VulnerableBuffConfig
+                    {
+                        //通用buff属性
+                        buffID = 10141,
+                        buffName = "标记易损增伤Buff",
+                        buffType = EBuffType.ArthurMark,
+
+                        attacher = EAttachType.Target,
+                        impacter = null,
+
+                        buffDelay = 0,
+                        buffInterval = 0,
+                        buffDuration = 5000,
+
+                        damagePct = 1
+                    };
+                // 增加移动速度
+                case 10142:
+                    return new MoveSpeedBuffConfig
+                    {
+                        //通用buff属性
+                        buffID = 10142,
+                        buffName = "范围友军加速",
+                        buffType = EBuffType.MoveSpeed_DynamicGroup,
+
+                        attacher = EAttachType.Target,
+                        impacter = new TargetConfig
+                        {
+                            skillTargetType = ESkillTargetType.Enemy,
+                            selectRuleType = ESelectRuleType.TargetClosestMultiple,
+                            targetUnits = new EUnitType[] 
+                            {
+                                EUnitType.Hero
+                            },
+                            selectRange = 5f
+                        },
+
+                        buffDelay = 0,
+                        buffInterval = 66,
+                        buffDuration = 5000,
+
+                        amount = 10
+                    };
+                // 审判
+                case 10120:
+                    return new DynamicDamageBuffConfig
+                    {
+                        //通用buff属性
+                        buffID = 10120,
+                        buffName = "范围伤害",
+                        buffType = EBuffType.Damage_DynamicGroup,
+
+                        attacher = EAttachType.Caster,
+                        impacter = new TargetConfig
+                        {
+                            skillTargetType = ESkillTargetType.Enemy,
+                            selectRuleType = ESelectRuleType.TargetClosestMultiple,
+                            targetUnits = new EUnitType[] 
+                            {
+                                EUnitType.Hero,
+                                EUnitType.Soldier
+                            },
+                            selectRange = 2f
+                        },
+
+                        buffDelay = 0,
+                        buffInterval = 1000,
+                        buffDuration = 5000,
+                        staticPosType = EStaticPosType.None,
+
+                        hitTickAudio = "com_hit1",
+                        buffEffect = "Effect_sk2",
+
+                        //专有参数
+                        damage = 100
+                    };
                 // //Arthur3技能
                 // case 10130:
                 //     return ResBuffConfigs.buff_10130;
@@ -1084,8 +1183,8 @@ namespace ShawnFramework.CommonModule
             BuffConfig cfg = GetBuffConfigByID(buffID);
             switch (cfg.buffType)
             {
-                // case EBuffType.MoveAttack:
-                //     return new MoveAttackBuff(source, owner, skill, buffID, args);
+                case EBuffType.MoveAttack:
+                    return new MoveAttackBuff(source, owner, skill, buffID, args);
                 case EBuffType.MoveSpeedUp:
                      return new MoveSpeedUpBuff(source, owner, skill, buffID, args);
                 // case EBuffType.MoveSpeed_DynamicGroup:
@@ -1094,15 +1193,15 @@ namespace ShawnFramework.CommonModule
                      return new CommonModifySkillBuff(source, owner, skill, buffID, args);
                 // case EBuffType.Silense:
                 //     return new SilenseBuff_Single(source, owner, skill, buffID, args);
-                // case EBuffType.ArthurMark:
-                //     return new ArthurMarkBuff(source, owner, skill, buffID, args);
+                case EBuffType.ArthurMark:
+                    return new VulnerableBuff(source, owner, skill, buffID, args);
                 case EBuffType.HPCure:
                     return new HPCureBuff(source, owner, skill, buffID, args);
                 // case EBuffType.Knockup_Group:
                 //     return new KnockUpBuff_Group(source, owner, skill, buffID, args);
                 // 
-                // case EBuffType.Damage_DynamicGroup:
-                //     return new DamageBuff_DynamicGroup(source, owner, skill, buffID, args);
+                case EBuffType.Damage_DynamicGroup:
+                    return new DynamicDamageBuff(source, owner, skill, buffID, args);
                 // case EBuffType.TargetFlashMove:
                 //     return new TargetFlashMoveBuff(source, owner, skill, buffID, args);
                 // case EBuffType.ExecuteDamage:

@@ -21,7 +21,7 @@ namespace XLua.CSObjectWrap
         {
 			ObjectTranslator translator = ObjectTranslatorPool.Instance.Find(L);
 			System.Type type = typeof(FightManager);
-			Utils.BeginObjectRegister(type, L, translator, 0, 8, 3, 2);
+			Utils.BeginObjectRegister(type, L, translator, 0, 11, 4, 3);
 			
 			Utils.RegisterFunc(L, Utils.METHOD_IDX, "InitAll", _m_InitAll);
 			Utils.RegisterFunc(L, Utils.METHOD_IDX, "InitCamera", _m_InitCamera);
@@ -29,16 +29,21 @@ namespace XLua.CSObjectWrap
 			Utils.RegisterFunc(L, Utils.METHOD_IDX, "InputKey", _m_InputKey);
 			Utils.RegisterFunc(L, Utils.METHOD_IDX, "SendMoveOperation", _m_SendMoveOperation);
 			Utils.RegisterFunc(L, Utils.METHOD_IDX, "SendSkillOperation", _m_SendSkillOperation);
+			Utils.RegisterFunc(L, Utils.METHOD_IDX, "EnterCDState", _m_EnterCDState);
+			Utils.RegisterFunc(L, Utils.METHOD_IDX, "UnInit", _m_UnInit);
 			Utils.RegisterFunc(L, Utils.METHOD_IDX, "GetSelfHero", _m_GetSelfHero);
 			Utils.RegisterFunc(L, Utils.METHOD_IDX, "GetAllEnvColliders", _m_GetAllEnvColliders);
+			Utils.RegisterFunc(L, Utils.METHOD_IDX, "AddBullet", _m_AddBullet);
 			
 			
 			Utils.RegisterFunc(L, Utils.GETTER_IDX, "KeyID", _g_get_KeyID);
             Utils.RegisterFunc(L, Utils.GETTER_IDX, "playWnd", _g_get_playWnd);
             Utils.RegisterFunc(L, Utils.GETTER_IDX, "SkillDisMultipler", _g_get_SkillDisMultipler);
+            Utils.RegisterFunc(L, Utils.GETTER_IDX, "transEnvRoot", _g_get_transEnvRoot);
             
 			Utils.RegisterFunc(L, Utils.SETTER_IDX, "playWnd", _s_set_playWnd);
             Utils.RegisterFunc(L, Utils.SETTER_IDX, "SkillDisMultipler", _s_set_SkillDisMultipler);
+            Utils.RegisterFunc(L, Utils.SETTER_IDX, "transEnvRoot", _s_set_transEnvRoot);
             
 			
 			Utils.EndObjectRegister(type, L, translator, null, null,
@@ -256,6 +261,62 @@ namespace XLua.CSObjectWrap
         }
         
         [MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
+        static int _m_EnterCDState(RealStatePtr L)
+        {
+		    try {
+            
+                ObjectTranslator translator = ObjectTranslatorPool.Instance.Find(L);
+            
+            
+                FightManager gen_to_be_invoked = (FightManager)translator.FastGetCSObj(L, 1);
+            
+            
+                
+                {
+                    int _skilldID = LuaAPI.xlua_tointeger(L, 2);
+                    int _cdTime = LuaAPI.xlua_tointeger(L, 3);
+                    
+                    gen_to_be_invoked.EnterCDState( _skilldID, _cdTime );
+                    
+                    
+                    
+                    return 0;
+                }
+                
+            } catch(System.Exception gen_e) {
+                return LuaAPI.luaL_error(L, "c# exception:" + gen_e);
+            }
+            
+        }
+        
+        [MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
+        static int _m_UnInit(RealStatePtr L)
+        {
+		    try {
+            
+                ObjectTranslator translator = ObjectTranslatorPool.Instance.Find(L);
+            
+            
+                FightManager gen_to_be_invoked = (FightManager)translator.FastGetCSObj(L, 1);
+            
+            
+                
+                {
+                    
+                    gen_to_be_invoked.UnInit(  );
+                    
+                    
+                    
+                    return 0;
+                }
+                
+            } catch(System.Exception gen_e) {
+                return LuaAPI.luaL_error(L, "c# exception:" + gen_e);
+            }
+            
+        }
+        
+        [MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
         static int _m_GetSelfHero(RealStatePtr L)
         {
 		    try {
@@ -304,6 +365,34 @@ namespace XLua.CSObjectWrap
                     
                     
                     return 1;
+                }
+                
+            } catch(System.Exception gen_e) {
+                return LuaAPI.luaL_error(L, "c# exception:" + gen_e);
+            }
+            
+        }
+        
+        [MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
+        static int _m_AddBullet(RealStatePtr L)
+        {
+		    try {
+            
+                ObjectTranslator translator = ObjectTranslatorPool.Instance.Find(L);
+            
+            
+                FightManager gen_to_be_invoked = (FightManager)translator.FastGetCSObj(L, 1);
+            
+            
+                
+                {
+                    BulletLogic _bullet = (BulletLogic)translator.GetObject(L, 2, typeof(BulletLogic));
+                    
+                    gen_to_be_invoked.AddBullet( _bullet );
+                    
+                    
+                    
+                    return 0;
                 }
                 
             } catch(System.Exception gen_e) {
@@ -369,6 +458,20 @@ namespace XLua.CSObjectWrap
             return 1;
         }
         
+        [MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
+        static int _g_get_transEnvRoot(RealStatePtr L)
+        {
+		    try {
+                ObjectTranslator translator = ObjectTranslatorPool.Instance.Find(L);
+			
+                FightManager gen_to_be_invoked = (FightManager)translator.FastGetCSObj(L, 1);
+                translator.Push(L, gen_to_be_invoked.transEnvRoot);
+            } catch(System.Exception gen_e) {
+                return LuaAPI.luaL_error(L, "c# exception:" + gen_e);
+            }
+            return 1;
+        }
+        
         
         
         [MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
@@ -407,6 +510,21 @@ namespace XLua.CSObjectWrap
 			
                 FightManager gen_to_be_invoked = (FightManager)translator.FastGetCSObj(L, 1);
                 gen_to_be_invoked.SkillDisMultipler = (float)LuaAPI.lua_tonumber(L, 2);
+            
+            } catch(System.Exception gen_e) {
+                return LuaAPI.luaL_error(L, "c# exception:" + gen_e);
+            }
+            return 0;
+        }
+        
+        [MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
+        static int _s_set_transEnvRoot(RealStatePtr L)
+        {
+		    try {
+                ObjectTranslator translator = ObjectTranslatorPool.Instance.Find(L);
+			
+                FightManager gen_to_be_invoked = (FightManager)translator.FastGetCSObj(L, 1);
+                gen_to_be_invoked.transEnvRoot = (UnityEngine.Transform)translator.GetObject(L, 2, typeof(UnityEngine.Transform));
             
             } catch(System.Exception gen_e) {
                 return LuaAPI.luaL_error(L, "c# exception:" + gen_e);

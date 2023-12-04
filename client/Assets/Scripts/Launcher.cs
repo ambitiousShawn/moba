@@ -13,10 +13,12 @@ public class Launcher : MonoBehaviour
     public static Launcher Instance;
 
     public Transform UIRoot;
-    public Popup_Tip TipPanel;
 
     [Header("开启游戏资源热更新(确保资源服务器顺利运行！！！)")]
     public bool EnableHotUpdate;
+
+    [Header("开启小兵的生成")]
+    public bool EnableSoldier = false;
 
     // 定时器
     List<MonoTimer> tempTimerLst;
@@ -144,16 +146,6 @@ public class Launcher : MonoBehaviour
         _assetsSvc.InitService();
         _audioSvc.InitService();
         _netSvc.InitService();
-    }
-
-    /// <summary>
-    /// 唤起提示框
-    /// </summary>
-    /// <param name="info"></param>
-    /// 
-    public void AddTips(string info)
-    {
-        TipPanel.AddTipToQueue(info);
     }
 
     /// <summary>
