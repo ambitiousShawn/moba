@@ -85,6 +85,7 @@ public class HeroView : MainViewUnit
                 }
                 break;
             case 2:
+                if (sk2 == null) return;
                 sk2.gameObject.SetActive(state);
                 if (state)
                 {

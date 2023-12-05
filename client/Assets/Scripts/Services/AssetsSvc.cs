@@ -234,10 +234,11 @@ namespace ShawnFramework.CommonModule
                         },
 
                         // 小兵生成
-                        soldierBornDelay = 15000,
+                        soldierBornDelay = 1000,
                         soldierBornInterval = 2000,
                         soldierWaveInterval = 50000,
                         blueSoldierIDArr = new int[] { 1003, 1003, 1004, 1004 },
+                        // blueSoldierIDArr = new int[] { 1004 },
                         blueSoldierPosArr = new ShawVector3[]
                         {
                             new ShawVector3(-22,0,-(ShawInt)1.7f),
@@ -246,6 +247,7 @@ namespace ShawnFramework.CommonModule
                             new ShawVector3(-22,0,(ShawInt)1.7f),
                         },
                         redSoldierIDArr = new int[] { 2003, 2003, 2004, 2004 },
+                        // redSoldierIDArr = new int[] { 2004 },
                         redSoldierPosArr = new ShawVector3[]
                         {
                             new ShawVector3(22,0,-(ShawInt)1.7f),
@@ -580,8 +582,8 @@ namespace ShawnFramework.CommonModule
                         isNormalAttack = true,
                         skillTime = 1400,
                         damage = 90,
-                        //沉默buff
-                        buffIDArr = new int[] { 10140, 10141, 10142 },
+                        //沉默buff + 易损
+                        buffIDArr = new int[] { 10140, 10141 },
 
                         //audio
                         audio_start = null,
@@ -610,7 +612,18 @@ namespace ShawnFramework.CommonModule
                             selectRange = 5f,
                             searchDis = 15f,
                         },
-                        cdTime = 0,
+                        bulletConf = new BulletConfig
+                        {
+                            bulletType = EBulletType.SkillTarget,
+                            bulletName = "艾希普攻子弹",
+                            resPath = "ashe_ska_bullet",
+                            bulletSpeed = 1f,
+                            bulletSize = 0.1f,
+                            bulletHeight = 1.5f,
+                            bulletOffset = 0.5f,
+                            bulletDelay = 0,
+                        },
+                        cdTime = 1000,
                         spellTime = 550,
                         isNormalAttack = true,
                         skillTime = 1400,
@@ -630,6 +643,8 @@ namespace ShawnFramework.CommonModule
                         isNormalAttack = false,
                         skillTime = 0,
                         damage = 0,
+
+                        buffIDArr = null,
                     };
                 case 1022:
                     return new SkillConfig
@@ -649,6 +664,8 @@ namespace ShawnFramework.CommonModule
                         isNormalAttack = false,
                         skillTime = 1200,
                         damage = 0,
+
+                        buffIDArr = new int[] { 10220, 10221, 10222, 10223 },
                     };
                 case 1023:
                     return new SkillConfig
@@ -801,17 +818,17 @@ namespace ShawnFramework.CommonModule
                             selectRange = 6f,
                             searchDis = 0f,
                         },
-                        // bulletCfg = new BulletCfg
-                        // {
-                        //     bulletType = BulletTypeEnum.SkillTarget,//技能锁定的目标
-                        //     bulletName = "蓝方水晶攻击子弹",
-                        //     resPath = "tower_ska_bullet",
-                        //     bulletSpeed = 1f,
-                        //     bulletSize = 0.1f,
-                        //     bulletHeight = 2.5f,
-                        //     bulletOffset = 0,
-                        //     bulletDelay = 0,
-                        // },
+                        bulletConf = new BulletConfig
+                        {
+                            bulletType = EBulletType.SkillTarget,//技能锁定的目标
+                            bulletName = "蓝方水晶攻击子弹",
+                            resPath = "tower_ska_bullet",
+                            bulletSpeed = 1f,
+                            bulletSize = 0.1f,
+                            bulletHeight = 2.5f,
+                            bulletOffset = 0,
+                            bulletDelay = 0,
+                        },
                         cdTime = 0,
                         spellTime = 1000,//施法时间（技能前摇）
                         isNormalAttack = true,
@@ -868,17 +885,17 @@ namespace ShawnFramework.CommonModule
                             selectRange = 4f,
                             searchDis = 7f,
                         },
-                        // bulletCfg = new BulletCfg
-                        // {
-                        //     bulletType = BulletTypeEnum.SkillTarget,//技能锁定的目标
-                        //     bulletName = "蓝方防远程小兵攻击子弹",
-                        //     resPath = "bluesoldier_ska_bullet",
-                        //     bulletSpeed = 0.5f,
-                        //     bulletSize = 0.1f,
-                        //     bulletHeight = 0.6f,//子弹出发点高度，如果是方向指向技能，则子弹一直保持这个高度
-                        //     bulletOffset = 0,
-                        //     bulletDelay = 0,
-                        // },
+                        bulletConf = new BulletConfig
+                        {
+                            bulletType = EBulletType.SkillTarget,//技能锁定的目标
+                            bulletName = "蓝方防远程小兵攻击子弹",
+                            resPath = "bluesoldier_ska_bullet",
+                            bulletSpeed = 0.5f,
+                            bulletSize = 0.1f,
+                            bulletHeight = 0.6f,//子弹出发点高度，如果是方向指向技能，则子弹一直保持这个高度
+                            bulletOffset = 0,
+                            bulletDelay = 0,
+                        },
                         cdTime = 0,
                         spellTime = 400,//施法时间（技能前摇）
                         isNormalAttack = true,
@@ -935,17 +952,17 @@ namespace ShawnFramework.CommonModule
                             selectRange = 4f,
                             searchDis = 7f,
                         },
-                        // bulletCfg = new BulletCfg
-                        // {
-                        //     bulletType = BulletTypeEnum.SkillTarget,//技能锁定的目标
-                        //     bulletName = "蓝方防远程小兵攻击子弹",
-                        //     resPath = "bluesoldier_ska_bullet",
-                        //     bulletSpeed = 0.5f,
-                        //     bulletSize = 0.1f,
-                        //     bulletHeight = 0.6f,//子弹出发点高度，如果是方向指向技能，则子弹一直保持这个高度
-                        //     bulletOffset = 0,
-                        //     bulletDelay = 0,
-                        // },
+                        bulletConf = new BulletConfig
+                        {
+                            bulletType = EBulletType.SkillTarget,//技能锁定的目标
+                            bulletName = "蓝方防远程小兵攻击子弹",
+                            resPath = "bluesoldier_ska_bullet",
+                            bulletSpeed = 0.5f,
+                            bulletSize = 0.1f,
+                            bulletHeight = 0.6f,//子弹出发点高度，如果是方向指向技能，则子弹一直保持这个高度
+                            bulletOffset = 0,
+                            bulletDelay = 0,
+                        },
                         cdTime = 0,
                         spellTime = 400,//施法时间（技能前摇）
                         isNormalAttack = true,
@@ -1071,33 +1088,6 @@ namespace ShawnFramework.CommonModule
 
                         damagePct = 1
                     };
-                // 增加移动速度
-                case 10142:
-                    return new MoveSpeedBuffConfig
-                    {
-                        //通用buff属性
-                        buffID = 10142,
-                        buffName = "范围友军加速",
-                        buffType = EBuffType.MoveSpeed_DynamicGroup,
-
-                        attacher = EAttachType.Target,
-                        impacter = new TargetConfig
-                        {
-                            skillTargetType = ESkillTargetType.Enemy,
-                            selectRuleType = ESelectRuleType.TargetClosestMultiple,
-                            targetUnits = new EUnitType[] 
-                            {
-                                EUnitType.Hero
-                            },
-                            selectRange = 5f
-                        },
-
-                        buffDelay = 0,
-                        buffInterval = 66,
-                        buffDuration = 5000,
-
-                        amount = 10
-                    };
                 // 审判
                 case 10120:
                     return new DynamicDamageBuffConfig
@@ -1126,7 +1116,7 @@ namespace ShawnFramework.CommonModule
                         staticPosType = EStaticPosType.None,
 
                         hitTickAudio = "com_hit1",
-                        buffEffect = "Effect_sk2",
+                        buffEffect = "galen_sk2_effect",
 
                         //专有参数
                         damage = 100
@@ -1154,15 +1144,123 @@ namespace ShawnFramework.CommonModule
                 //     return ResBuffConfigs.buff_10240;
                 // case 10260://mixed
                 //     return ResBuffConfigs.buff_10260;
-                // //Houyi2技能
-                // case 10220:
-                //     return ResBuffConfigs.buff_10220;
-                // case 10221:
-                //     return ResBuffConfigs.buff_10221;
-                // case 10222:
-                //     return ResBuffConfigs.buff_10222;
-                // case 10223:
-                //     return ResBuffConfigs.buff_10223;
+                // 天降正义外圈伤害
+                case 10220:
+                    return new StaticGroup_DamageBuffConfig
+                    {
+                        //通用buff属性
+                        buffID = 10220,
+                        buffName = "ashe2技能范围伤害1",
+                        buffType = EBuffType.Damage_StaticGroup,
+
+                        attacher = EAttachType.Indie,
+                        impacter = new TargetConfig
+                        {
+                            skillTargetType = ESkillTargetType.Enemy,
+                            selectRuleType = ESelectRuleType.PositionClosestMultiple,
+                            targetUnits = new EUnitType[] 
+                            {
+                                EUnitType.Hero,
+                                EUnitType.Soldier,
+                            },
+                            selectRange = 2f
+                        },
+
+                        buffDelay = 0,
+                        buffInterval = 0,
+                        buffDuration = 2000,
+                        staticPosType = EStaticPosType.UIInputPos,
+
+                        damage = 50,
+                        buffEffect = "ashe_sk2_effect",
+                    };
+                // 天降正义内圈伤害
+                case 10221:
+                    return new StaticGroup_DamageBuffConfig
+                    {
+                        //通用buff属性
+                        buffID = 10221,
+                        buffName = "ashe2技能范围伤害2",
+                        buffType = EBuffType.Damage_StaticGroup,
+
+                        attacher = EAttachType.Indie,
+                        impacter = new TargetConfig
+                        {
+                            skillTargetType = ESkillTargetType.Enemy,
+                            selectRuleType = ESelectRuleType.PositionClosestMultiple,
+                            targetUnits = new EUnitType[]
+                            {
+                                EUnitType.Hero,
+                                EUnitType.Soldier,
+                            },
+                            selectRange = 1f
+                        },
+
+                        buffDelay = 0,
+                        buffInterval = 0,
+                        buffDuration = 0,
+                        staticPosType = EStaticPosType.UIInputPos,
+
+                        damage = 50,
+                    };
+                // 外圈范围减速
+                case 10222:
+                    return new MoveSpeedBuffConfig
+                    {
+                        //通用buff属性
+                        buffID = 10222,
+                        buffName = "2技能动态范围减速",
+                        buffType = EBuffType.MoveSpeed_StaticGroup,
+                        //施法时候释放的独立buff
+                        attacher = EAttachType.Indie,
+                        impacter = new TargetConfig
+                        {
+                            skillTargetType = ESkillTargetType.Enemy,
+                            selectRuleType = ESelectRuleType.PositionClosestMultiple,
+                            targetUnits = new EUnitType[] 
+                            {
+                                EUnitType.Hero,
+                                EUnitType.Soldier,
+                            },
+                            selectRange = 2f
+                        },
+                        buffDelay = 0,
+                        buffInterval = 0,
+                        buffDuration = 2000,//减速2秒
+                        staticPosType = EStaticPosType.UIInputPos,
+
+                        //专用参数
+                        amount = -30,
+                    };
+                    // 内圈额外减速
+                case 10223:
+                    return new MoveSpeedBuffConfig
+                    {
+                        //通用buff属性
+                        buffID = 10223,
+                        buffName = "2技能动态范围减速",
+                        buffType = EBuffType.MoveSpeed_StaticGroup,
+                        //施法时候释放的独立buff
+                        attacher = EAttachType.Indie,
+                        impacter = new TargetConfig
+                        {
+                            skillTargetType = ESkillTargetType.Enemy,
+                            selectRuleType = ESelectRuleType.PositionClosestMultiple,
+                            targetUnits = new EUnitType[]
+                            {
+                                EUnitType.Hero,
+                                EUnitType.Soldier,
+                            },
+                            selectRange = 1f
+                        },
+                        buffDelay = 0,
+                        buffInterval = 0,
+                        buffDuration = 2000,//减速2秒
+                        staticPosType = EStaticPosType.UIInputPos,
+
+                        //专用参数
+                        amount = -20,
+                    };
                 // //Houyi3技能
                 // case 10230:
                 //     return ResBuffConfigs.buff_10230;
@@ -1191,8 +1289,8 @@ namespace ShawnFramework.CommonModule
                 //     return new MoveSpeedBuff_DynamicGroup(source, owner, skill, buffID, args);
                 case EBuffType.ModifySkill:
                      return new CommonModifySkillBuff(source, owner, skill, buffID, args);
-                // case EBuffType.Silense:
-                //     return new SilenseBuff_Single(source, owner, skill, buffID, args);
+                case EBuffType.Silense:
+                    return new SingleSilenseBuff(source, owner, skill, buffID, args);
                 case EBuffType.ArthurMark:
                     return new VulnerableBuff(source, owner, skill, buffID, args);
                 case EBuffType.HPCure:
@@ -1206,8 +1304,8 @@ namespace ShawnFramework.CommonModule
                 //     return new TargetFlashMoveBuff(source, owner, skill, buffID, args);
                 // case EBuffType.ExecuteDamage:
                 //     return new ExecuteDamageBuff(source, owner, skill, buffID, args);
-                // case EBuffType.Damage_StaticGroup:
-                //     return new DamageBuff_StaticGroup(source, owner, skill, buffID, args);
+                case EBuffType.Damage_StaticGroup:
+                     return new StaticGroup_DamageBuff(source, owner, skill, buffID, args);
                 // 
                 // case EBuffType.HouyiPasvAttackSpeed:
                 //     return new HouyiPasvAttackSpeedBuff(source, owner, skill, buffID, args);
@@ -1221,8 +1319,8 @@ namespace ShawnFramework.CommonModule
                 //     return new HouyiScatterArrowBuff(source, owner, skill, buffID, args);
                 // case EBuffType.HouyiMixedMultiScatter:
                 //     return new HouyiMixedMultiScatterBuff(source, owner, skill, buffID, args);
-                // case EBuffType.MoveSpeed_StaticGroup:
-                //     return new MoveSpeedBuff_StaticGroup(source, owner, skill, buffID, args);
+                case EBuffType.MoveSpeed_StaticGroup:
+                    return new StaticGroup_MoveSpeedBuff(source, owner, skill, buffID, args);
                 // 
                 // case EBuffType.Stun_Single_DynamicTime:
                 //     return new StunBuff_DynamicTime(source, owner, skill, buffID, args);
@@ -1241,7 +1339,7 @@ namespace ShawnFramework.CommonModule
                 case EBulletType.SkillTarget:
                     return new TargetBullet(source, target, skill);
                 case EBulletType.UIDirection:
-                    // return new DirectionBullet(source, skill);
+                    return new DirectionBullet(source, skill);
                 case EBulletType.UIPosition:
                 case EBulletType.BuffSearch:
                 default:

@@ -3,11 +3,7 @@ using ShawnFramework.CommonModule;
 using ShawnFramework.ShawLog;
 using ShawnFramework.ShawMath;
 using ShawnFramework.ShawnPhysics;
-using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Numerics;
-using Tutorial;
 using UnityEngine;
 using XLua;
 
@@ -16,7 +12,7 @@ public class FightManager : MonoBehaviour
 {
     public static FightManager Instance;
 
-    public UGUI_PlayPanel playWnd; // Lua中赋值
+    public PlayPanel playWnd; // Lua中赋值
 
     public float SkillDisMultipler = 0.03f; // 技能距离的乘法系数
 
@@ -471,6 +467,19 @@ public class FightManager : MonoBehaviour
     public bool CheckUIInput()
     {
         return playWnd.IsUIInput();
+    }
+
+    public ETeamType GetCurrentUserTeam()
+    {
+        int sep = heroList.Count / 2;
+        if (Launcher.Instance.SelfIndex < sep)
+        {
+            return ETeamType.Blue;
+        }
+        else
+        {
+            return ETeamType.Red;
+        }
     }
     #endregion
 }

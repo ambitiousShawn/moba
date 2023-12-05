@@ -42,7 +42,7 @@ function system:enter_battle()
         end
         
         WindowManager:open('ugui_playpanel', function (window_obj)
-            FightManager.playWnd = window_obj:GetComponent('UGUI_PlayPanel')
+            FightManager.playWnd = window_obj:GetComponent('PlayPanel')
             FightManager:InitAll(battleHeroDatas, mapCfg)
         end)
 

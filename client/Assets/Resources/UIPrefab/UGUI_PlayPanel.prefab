@@ -280,7 +280,7 @@ MonoBehaviour:
   ImgCycle: {fileID: 3756935620068974938}
   ImgSkillIcon: {fileID: 5034287192584659853}
   ImgCD: {fileID: 4946196359603626835}
-  Txt_CD: {fileID: 2368353292436363782}
+  TextCD: {fileID: 2368353292436363782}
   ImgPoint: {fileID: 6670780560832539862}
   ImgForbid: {fileID: 1551324698393888247}
   EffectRoot: {fileID: 5360633223693976777}
@@ -2863,7 +2863,7 @@ MonoBehaviour:
   ImgCycle: {fileID: 2527147054511092318}
   ImgSkillIcon: {fileID: 1517801553554218234}
   ImgCD: {fileID: 1094336850240920452}
-  Txt_CD: {fileID: 1274173698209506806}
+  TextCD: {fileID: 1274173698209506806}
   ImgPoint: {fileID: 6609231801306665064}
   ImgForbid: {fileID: 2635619093058908290}
   EffectRoot: {fileID: 3790928110794434986}
@@ -3227,7 +3227,7 @@ MonoBehaviour:
   ImgCycle: {fileID: 0}
   ImgSkillIcon: {fileID: 8984213480895449814}
   ImgCD: {fileID: 0}
-  Txt_CD: {fileID: 0}
+  TextCD: {fileID: 0}
   ImgPoint: {fileID: 0}
   ImgForbid: {fileID: 0}
   EffectRoot: {fileID: 5446166002656676973}
@@ -4946,7 +4946,7 @@ MonoBehaviour:
   ImgCycle: {fileID: 3023898942453193105}
   ImgSkillIcon: {fileID: 3632193134279887217}
   ImgCD: {fileID: 4448282233685942507}
-  Txt_CD: {fileID: 494725063263161567}
+  TextCD: {fileID: 494725063263161567}
   ImgPoint: {fileID: 6357162326865533363}
   ImgForbid: {fileID: 7902797079597830}
   EffectRoot: {fileID: 1403915221880602313}

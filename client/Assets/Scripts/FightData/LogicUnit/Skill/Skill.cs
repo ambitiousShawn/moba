@@ -140,7 +140,7 @@ public class Skill
         // TODO:²¥·Å¶¯»­
         if (config.animName != null)
         {
-            owner.InputDir = dir;
+            // owner.InputDir = dir;
         }
     }
 

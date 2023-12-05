@@ -57,3 +57,14 @@ public enum EUnitStateType
     Alive,  // 活跃
     Dead,   // 阵亡
 }
+
+public enum EAbnormalState
+{
+    None,
+    Silenced,       // 沉默
+    Knockup,        // 击飞
+    Stunned,        // 眩晕
+
+    Invincible,     //
+    Restricted,
+}

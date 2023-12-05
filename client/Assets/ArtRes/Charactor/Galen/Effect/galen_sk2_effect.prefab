@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 2359198176235965265}
   - component: {fileID: 7939313724088488680}
   m_Layer: 8
-  m_Name: Effect_sk2
+  m_Name: galen_sk2_effect
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

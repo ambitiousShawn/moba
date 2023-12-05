@@ -2,13 +2,12 @@ using GameProtocol;
 using ShawnFramework.CommonModule;
 using ShawnFramework.ShawLog;
 using ShawnFramework.ShawMath;
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class UGUI_PlayPanel : WindowRoot
+public class PlayPanel : WindowRoot
 {
     private void OnEnable()
     {

@@ -167,6 +167,7 @@ public abstract class MainLogicUnit : BaseLogicUnit
     // 一些事件监听
     public Action OnHurt;                 // 受到伤害时的回调
     public Action<MainLogicUnit> OnDeath; // 死亡时的回调
+    public Action<EAbnormalState, bool> OnStateChanged; // 异常状态修改的回调
 
     // 生命值
     private ShawInt hp;
@@ -194,6 +195,26 @@ public abstract class MainLogicUnit : BaseLogicUnit
     {
         get { return attack; }
         private set { attack = value; }
+    }
+
+    // 一些异常状态
+    int silenceCount;   // 沉默计数
+    public int SilenceCount
+    {
+        get
+        {
+            return silenceCount;
+        }
+        set
+        {
+            silenceCount = value;
+            OnStateChanged?.Invoke(EAbnormalState.Silenced, IsSilenced());
+        }
+    }
+    // 是否被沉默
+    bool IsSilenced()
+    {
+        return silenceCount != 0;
     }
 
     void InitProperties()
@@ -336,7 +357,7 @@ public abstract class MainLogicUnit : BaseLogicUnit
         BuffLogic buff = AssetsSvc.Instance.CreateBuff(source, this, skill, buffID, args);
         buff.LogicInit();
         buffLst.Add(buff);
-        LogCore.ColorLog($"{source.unitData.unitCfg.unitName}被施加了Buff:{buff.config.buffName}", ELogColor.Yellow);
+        LogCore.ColorLog($"{source.unitData.unitCfg.unitName}对{this.unitData.unitCfg.unitName}施加了Buff:{buff.config.buffName}", ELogColor.Yellow);
     }
 
     /// <summary>
@@ -529,7 +550,7 @@ public abstract class MainLogicUnit : BaseLogicUnit
     }
     
     // 更改逻辑实体的移动速度
-    public void ModifyMoveSpeed(ShawInt value, MoveSpeedUpBuff buff, bool jumpInfo)
+    public void ModifyMoveSpeed(ShawInt value, BuffLogic buff, bool jumpInfo)
     {
         LogicMoveSpeed += value;
     }

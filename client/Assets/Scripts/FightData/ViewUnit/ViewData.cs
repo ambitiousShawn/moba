@@ -1,4 +1,6 @@
 using ShawnFramework.ShawMath;
+using System;
+using System.Data;
 using UnityEngine;
 
 /// <summary>
@@ -139,6 +141,8 @@ public abstract class MainViewUnit : BaseViewUnit
 
         // 将该表现单元加入小地图
         FightManager.Instance.playWnd.AddMiniIconItemInfo(mainLogicUnit);
+
+        mainLogicUnit.OnStateChanged += UpdateState;
     }
 
     /// <summary>
@@ -168,5 +172,10 @@ public abstract class MainViewUnit : BaseViewUnit
         buffView.transform.SetParent(transform);
         buffView.transform.localPosition = Vector3.zero;
         buffView.transform.localScale = Vector3.one;
+    }
+
+    private void UpdateState(EAbnormalState state, bool show)
+    {
+
     }
 }

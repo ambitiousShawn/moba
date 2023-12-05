@@ -13,7 +13,7 @@ public partial class SkillItem : WindowRoot
     public Image ImgCycle;
     public Image ImgSkillIcon;
     public Image ImgCD;
-    public Text Txt_CD;
+    public Text TextCD;
 
     public Image ImgPoint;
     public Image ImgForbid;
@@ -22,7 +22,7 @@ public partial class SkillItem : WindowRoot
     int skillIndex; // 技能序号
     SkillConfig skillConf; // 技能配置
     float pointDis; // 限制拖动位移
-    Vector2 startPos; // 开始拖拽位置
+    Vector2 startPos = Vector2.zero; // 开始拖拽位置
 
     HeroView heroView;
 
@@ -38,9 +38,9 @@ public partial class SkillItem : WindowRoot
         if (!skillConf.isNormalAttack)
         {
             // 不是普通攻击，开启小轮盘
-            // ImgSkillIcon.sprite = AssetsSvc.Instance.LoadSprite("ResImages/PlayWnd/" + skillConf.iconName);
+            ImgSkillIcon.sprite = null;
             ImgCD.gameObject.SetActive(false);
-            Txt_CD.gameObject.SetActive(false);
+            TextCD.gameObject.SetActive(false);
 
             OnClickDown(ImgSkillIcon.gameObject, (evt, args) =>
             {
@@ -77,7 +77,6 @@ public partial class SkillItem : WindowRoot
 
                 if (skillConf.releaseModeType == EReleaseModeType.Position)
                 {
-                    // 范围技能指引
                     if (dir == Vector2.zero)
                     {
                         return;
@@ -88,9 +87,8 @@ public partial class SkillItem : WindowRoot
                     clampDirVector3 = Quaternion.Euler(0, 45, 0) * clampDirVector3;
                     heroView.SetSkillGuide(skillIndex, true, EReleaseModeType.Position, clampDirVector3);
                 }
-                else if (skillConf.releaseModeType == EReleaseModeType.Direction)
+                else if (skillConf.releaseModeType== EReleaseModeType.Direction)
                 {
-                    // 方向技能指引
                     Vector3 dirVector3 = new Vector3(dir.x, 0, dir.y);
                     dirVector3 = Quaternion.Euler(0, 45, 0) * dirVector3;
                     heroView.SetSkillGuide(skillIndex, true, EReleaseModeType.Direction, dirVector3.normalized);
@@ -106,7 +104,7 @@ public partial class SkillItem : WindowRoot
                 }
                 else
                 {
-                    FightManager.Instance.playWnd.imgCancelSkill.gameObject.SetActive(false);
+                    FightManager.Instance.playWnd.imgCancelSkill.gameObject.SetActive(false) ;
                 }
             });
 
@@ -239,7 +237,7 @@ public partial class SkillItem : WindowRoot
         int ms = cdTime % 1000;
         CreateMonoTimer(
             (loopCount) => {
-                Txt_CD.text = (sec - loopCount).ToString();
+                TextCD.text = (sec - loopCount).ToString();
             },
             1000,
             sec,
@@ -248,15 +246,15 @@ public partial class SkillItem : WindowRoot
             },
             () => {
                 ImgCD.gameObject.SetActive(false);
-                Txt_CD.gameObject.SetActive(false);
+                TextCD.gameObject.SetActive(false);
                 ShowEffect();
                 ImgSkillIcon.raycastTarget = true;
             },
             ms);
 
         ImgCD.gameObject.SetActive(true);
-        Txt_CD.gameObject.SetActive(true);
-        Txt_CD.text = sec.ToString();
+        TextCD.gameObject.SetActive(true);
+        TextCD.text = sec.ToString();
         ImgSkillIcon.raycastTarget = false;
     }
 }
