@@ -2,8 +2,6 @@ using ShawnFramework.ShawLog;
 using ShawnFramework.ShawMath;
 using System;
 using System.Collections.Generic;
-using Unity.VisualScripting;
-using UnityEngine.SocialPlatforms;
 
 public static class CalcSkillSelectTarget
 {
