@@ -1,15 +1,15 @@
 ManifestFileVersion: 0
-CRC: 1768213441
+CRC: 3122229866
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: de48a429f8bbcd0b28ec70818b663d2a
+    Hash: 3d356a4b7df5b61439f0125ba9a3b41e
   TypeTreeHash:
     serializedVersion: 2
     Hash: 18337b8b86bc31581615036eacd59b69
   IncrementalBuildHash:
     serializedVersion: 2
-    Hash: de48a429f8bbcd0b28ec70818b663d2a
+    Hash: 3d356a4b7df5b61439f0125ba9a3b41e
 HashAppended: 0
 ClassTypes:
 - Class: 1
@@ -39,5 +39,7 @@ Assets:
 - Assets/ArtRes/Charactor/Tower/redTower.prefab
 - Assets/ArtRes/Charactor/Tower/redCrystal.prefab
 - Assets/ArtRes/Charactor/Tower/blueCrystal.prefab
+- Assets/ArtRes/PlayWndRes/enemytowerhpfg.png
 - Assets/ArtRes/Charactor/Tower/blueTower.prefab
+- Assets/ArtRes/PlayWndRes/selftowerhpfg.png
 Dependencies: []

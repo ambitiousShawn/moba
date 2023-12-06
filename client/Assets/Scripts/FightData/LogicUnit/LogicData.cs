@@ -102,12 +102,6 @@ public abstract class MainLogicUnit : BaseLogicUnit
         InitSkill();      // 技能初始化
         InitMove();       // 移动初始化
 
-        // 关闭小兵生成
-        if (!Launcher.Instance.EnableSoldier && unitType == EUnitType.Soldier)
-        {
-            return;
-        }
-
         // 表现层初始化
         GameObject go = AssetsSvc.Instance.LoadPrefab(pathPrefix, unitData.unitCfg.resName, 1);
         if (unitType == EUnitType.Hero)
@@ -125,12 +119,13 @@ public abstract class MainLogicUnit : BaseLogicUnit
             mainViewUnit.skillRange = go.transform.Find("skillRange");
             go.transform.SetParent(FightManager.Instance.transEnvRoot);
         }
-        
+        mainViewUnit.hpRoot = go.transform.Find("HPRoot");  // 英雄，塔，小兵都有血条
+
         if (mainViewUnit == null )
         {
             LogCore.Error("Get MainViewUnit Error:" + unitName);
         }
-        mainViewUnit.Init(this);
+        mainViewUnit.ViewInit(this);
         stateType = EUnitStateType.Alive;
     }
 
@@ -165,6 +160,7 @@ public abstract class MainLogicUnit : BaseLogicUnit
 
     #region 属性模块
     // 一些事件监听
+    public Action<int> OnHPChanged;
     public Action OnHurt;                 // 受到伤害时的回调
     public Action<MainLogicUnit> OnDeath; // 死亡时的回调
     public Action<EAbnormalState, bool> OnStateChanged; // 异常状态修改的回调
@@ -176,8 +172,11 @@ public abstract class MainLogicUnit : BaseLogicUnit
         get { return hp; }
         private set
         {
-            hp = value;
-            // LogCore.ColorLog($"{unitData.unitCfg.unitName}血量变动，当前血量:{hp}", ELogColor.Yellow);
+            if (hp != value) 
+            {
+                hp = value;
+                SceneHPItem.OnHPChangedViewEvent(this, hp.RawInt);
+            }
         }
     }
 

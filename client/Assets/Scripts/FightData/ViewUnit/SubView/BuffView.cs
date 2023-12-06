@@ -2,9 +2,9 @@
 {
     BuffLogic buff;
 
-    public override void Init(BaseLogicUnit logicUnit)
+    public override void ViewInit(BaseLogicUnit logicUnit)
     {
-        base.Init(logicUnit);
+        base.ViewInit(logicUnit);
         this.buff = logicUnit as BuffLogic;
 
         if (buff.config.staticPosType != EStaticPosType.None )

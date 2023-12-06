@@ -1,0 +1,48 @@
+ManifestFileVersion: 0
+CRC: 3930197520
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: 2ff5806057e8ffcef29405690a6ee2ff
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: 0a7b158eeccbc03366a7670a0358deb8
+  IncrementalBuildHash:
+    serializedVersion: 2
+    Hash: 2ff5806057e8ffcef29405690a6ee2ff
+HashAppended: 0
+ClassTypes:
+- Class: 1
+  Script: {instanceID: 0}
+- Class: 4
+  Script: {instanceID: 0}
+- Class: 21
+  Script: {instanceID: 0}
+- Class: 23
+  Script: {instanceID: 0}
+- Class: 28
+  Script: {instanceID: 0}
+- Class: 33
+  Script: {instanceID: 0}
+- Class: 43
+  Script: {instanceID: 0}
+- Class: 48
+  Script: {instanceID: 0}
+- Class: 65
+  Script: {instanceID: 0}
+- Class: 212
+  Script: {instanceID: 0}
+- Class: 213
+  Script: {instanceID: 0}
+SerializeReferenceClassIdentifiers: []
+Assets:
+- Assets/ArtRes/PlayWndRes/knockState.png
+- Assets/ArtRes/Charactor/Ashe/Ashe.prefab
+- Assets/ArtRes/PlayWndRes/silenceIcon.png
+- Assets/ArtRes/PlayWndRes/stunIcon.png
+- Assets/ArtRes/PlayWndRes/silenceState.png
+- Assets/ArtRes/PlayWndRes/selfteamhpfg.png
+- Assets/ArtRes/Charactor/Galen/Galen.prefab
+- Assets/ArtRes/PlayWndRes/stunState.png
+- Assets/ArtRes/PlayWndRes/enemyteamhpfg.png
+Dependencies: []

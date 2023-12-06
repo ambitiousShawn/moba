@@ -19,7 +19,7 @@ LoginSystem = require 'ui.login.login_system'
 LobbySystem = require 'ui.lobby.lobby_system'
 BattleSystem = require 'ui.battle.battle_system'
 
--- 流程进入
+-- 进入登录流程
 LoginSystem:enter_login()
 -- 启动测试1:直接进入匹配成功
 -- WindowManager:open('ugui_matchconfirmpanel')

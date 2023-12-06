@@ -57,7 +57,7 @@ public abstract class BulletLogic : SubLogicUnit
         }
         else
         {
-            bulletView.Init(this);
+            bulletView.ViewInit(this);
         }
     }
 

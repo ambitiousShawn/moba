@@ -17,7 +17,7 @@ public class SoldierLogic : MainLogicUnit
 
         unitType = EUnitType.Soldier;
         unitName = $"{ud.unitCfg.unitName}_w:{waveIndex}_o:{orderIndex}";
-        pathPrefix = "charactor";
+        pathPrefix = "soldier";
     }
 
 

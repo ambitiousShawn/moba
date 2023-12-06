@@ -15,7 +15,7 @@ public class HeroLogic : MainLogicUnit
 
         unitType = EUnitType.Hero;
         unitName = ud.unitCfg.unitName + "_" + userName;
-        pathPrefix = "charactor";
+        pathPrefix = "hero";
     }
 
     public override bool IsPlayerSelf()

@@ -5,7 +5,12 @@ local system = {}
 -- 进入登录系统
 function system:enter_login()
     WindowManager:close_all()
-    WindowManager:open('ugui_loginpanel')
+    
+    WindowManager:open('ugui_resultpanel', function (window_obj)
+        local module = window_obj:GetComponent('LuaBehavior').Module
+        module:show_result(true)
+    end)
+    -- WindowManager:open('ugui_loginpanel')
 end
 
 -- 登录响应回调(响应信息lua表)

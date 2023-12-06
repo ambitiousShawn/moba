@@ -1,5 +1,5 @@
 ManifestFileVersion: 0
-CRC: 2699598203
+CRC: 2654485385
 AssetBundleManifest:
   AssetBundleInfos:
     Info_0:
@@ -18,11 +18,14 @@ AssetBundleManifest:
       Name: battle
       Dependencies: {}
     Info_5:
-      Name: charactor
-      Dependencies: {}
-    Info_6:
       Name: tower
       Dependencies: {}
-    Info_7:
+    Info_6:
       Name: effect
+      Dependencies: {}
+    Info_7:
+      Name: soldier
+      Dependencies: {}
+    Info_8:
+      Name: hero
       Dependencies: {}

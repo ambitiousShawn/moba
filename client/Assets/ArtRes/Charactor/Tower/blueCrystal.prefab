@@ -319,7 +319,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4969740131723423030}
   m_Layer: 0
-  m_Name: hpRoot
+  m_Name: HPRoot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

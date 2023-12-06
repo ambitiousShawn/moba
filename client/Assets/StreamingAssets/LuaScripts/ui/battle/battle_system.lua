@@ -1,6 +1,9 @@
 local ugui_loadpanel = require 'ui.battle.ugui_loadpanel'
-local ugui_playpanel = require 'ui.battle.ugui_playpanel'
 local game_message   = require 'system.game_message'
+local ugui_playpanel = require 'ui.battle.ugui_playpanel'
+require 'ui.battle.ugui_hppanel'
+local ugui_resultpanel = require 'ui.battle.ugui_resultpanel'
+
 local EKeyType = CS.GameProtocol.EKeyType
 
 local system = {}
@@ -41,8 +44,13 @@ function system:enter_battle()
             FightManager = CS.FightManager.Instance    
         end
         
+        -- hp一定要在play先打开，InitAll存在对hp的依赖
+        WindowManager:open('ugui_hppanel', function (window_obj)
+            FightManager.hpPanel = window_obj:GetComponent('HPPanel')
+        end)
+
         WindowManager:open('ugui_playpanel', function (window_obj)
-            FightManager.playWnd = window_obj:GetComponent('PlayPanel')
+            FightManager.playPanel = window_obj:GetComponent('PlayPanel')
             FightManager:InitAll(battleHeroDatas, mapCfg)
         end)
 
@@ -72,7 +80,7 @@ function RspBattleStartCallBack (msg)
     FightManager:InitCamera(Launcher.SelfIndex)
     -- UI管理(创建游戏UI)
     ugui_loadpanel:close_self(true)
-    FightManager.playWnd:InitSkillInfo() 
+    FightManager.playPanel:InitSkillInfo() 
     IsFightTick = true -- 战斗开始
 end
 
@@ -106,6 +114,29 @@ function NtfOpKeyCallBack (msg)
         FightManager:InputKey(msg.ntfOpKey.keyList)
         FightManager:Tick()
     end
+end
+
+-- 战斗结束(由C#的水晶塔被摧毁时调用)
+function EndBattle (result)
+    ugui_playpanel:close_self(true)
+    -- TODO:可使用协程暂停
+    -- 开启结果面板并设置结果
+    WindowManager:open('ugui_resultpanel', function (window_obj)
+        local module = window_obj:GetComponent('LuaBehavior').Module
+        module:show_result(result)
+    end)
+    -- 关闭FightManager
+    IsFightTick = false
+end
+
+-- 结果显示完毕的回调
+function RspBattleEndCallBack()
+    print('haha')
+    -- 关闭所有UI
+    WindowManager:close_all()
+    FightManager:UnInit()
+    -- 进入大厅阶段
+    LobbySystem:enter_lobby()
 end
 
 return system

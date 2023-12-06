@@ -22,7 +22,8 @@ public abstract class BaseViewUnit : MonoBehaviour
 
     Transform RotationRoot; // 旋转根节点
     BaseLogicUnit logicUnit = null; // 逻辑实体
-    public virtual void Init(BaseLogicUnit logicUnit)
+    public virtual void ViewInit
+        (BaseLogicUnit logicUnit)
     {
         this.logicUnit = logicUnit;
         gameObject.name = logicUnit.unitName + "_" + gameObject.name;
@@ -129,18 +130,28 @@ public abstract class BaseViewUnit : MonoBehaviour
 public abstract class MainViewUnit : BaseViewUnit
 {
     public Transform skillRange; // 普攻技能范围
+    public Transform hpRoot;     // 血条存在的根节点
 
     float animMoveSpeedBase;
     MainLogicUnit mainLogicUnit = null;
-    public override void Init(BaseLogicUnit logicUnit)
+
+    // UI面板
+    PlayPanel playPanel = null;
+    HPPanel hpPanel = null;     
+
+    public override void ViewInit(BaseLogicUnit logicUnit)
     {
-        base.Init(logicUnit);
+        base.ViewInit(logicUnit);
         mainLogicUnit = logicUnit as MainLogicUnit;
         // 基础移速
         animMoveSpeedBase = mainLogicUnit.LogicMoveSpeed.RawFloat;
 
         // 将该表现单元加入小地图
-        FightManager.Instance.playWnd.AddMiniIconItemInfo(mainLogicUnit);
+        playPanel = FightManager.Instance.playPanel;
+        playPanel.AddMiniIconItemInfo(mainLogicUnit);
+        // 血条面板初始化
+        hpPanel = FightManager.Instance.hpPanel;
+        hpPanel.AddHPItemInfo(mainLogicUnit, hpRoot, mainLogicUnit.Hp.RawInt);
 
         mainLogicUnit.OnStateChanged += UpdateState;
     }
@@ -177,5 +188,12 @@ public abstract class MainViewUnit : BaseViewUnit
     private void UpdateState(EAbnormalState state, bool show)
     {
 
+    }
+
+    // 移除与该单位相关的UIItem
+    public void RemoveUIItem()
+    {
+        hpPanel.RemoveHPItem(mainLogicUnit);
+        playPanel.RemoveMinimapItem(mainLogicUnit);
     }
 }

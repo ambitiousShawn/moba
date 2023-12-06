@@ -90,7 +90,7 @@ public class BuffLogic : SubLogicUnit
                 // buff所属设置与跟随
                 owner.mainViewUnit.SetBuffFollower(buffView);
             }
-            buffView.Init(this) ;
+            buffView.ViewInit(this) ;
 
             // TODO:音效
         }

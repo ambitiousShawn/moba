@@ -1,9 +1,11 @@
+using System;
+
 public class SoldierView : MainViewUnit
 {
     SoldierLogic soldier;
-    public override void Init(BaseLogicUnit logicUnit)
+    public override void ViewInit(BaseLogicUnit logicUnit)
     {
-        base.Init(logicUnit);
+        base.ViewInit(logicUnit);
         soldier = logicUnit as SoldierLogic;
     }
 
@@ -13,7 +15,8 @@ public class SoldierView : MainViewUnit
 
         if (soldier.stateType == EUnitStateType.Dead)
         {
-            Destroy(gameObject, 3f);
+            Destroy(gameObject, 1f);
+            RemoveUIItem();
         }
     }
 }

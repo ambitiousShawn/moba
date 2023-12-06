@@ -10,9 +10,9 @@ public class HeroView : MainViewUnit
     public Transform sk3;
 
     HeroLogic heroLogic; // 表现所对逻辑实体
-    public override void Init(BaseLogicUnit logicUnit)
+    public override void ViewInit(BaseLogicUnit logicUnit)
      {
-        base.Init(logicUnit);
+        base.ViewInit(logicUnit);
 
         heroLogic = logicUnit as HeroLogic;
 

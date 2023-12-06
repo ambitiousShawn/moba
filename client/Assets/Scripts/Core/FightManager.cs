@@ -12,7 +12,9 @@ public class FightManager : MonoBehaviour
 {
     public static FightManager Instance;
 
-    public PlayPanel playWnd; // Lua中赋值
+    // 持有的UI面板
+    public PlayPanel playPanel; // Lua中赋值
+    public HPPanel hpPanel;     // Lua中赋值
 
     public float SkillDisMultipler = 0.03f; // 技能距离的乘法系数
 
@@ -303,11 +305,11 @@ public class FightManager : MonoBehaviour
             {
                 tower.LogicTick();
             }
-            // else
-            // {
-            //     towerList[i].LogicUnInit();
-            //     towerList.RemoveAt(i);
-            // }
+            else
+            {
+                towerList[i].LogicUninit();
+                towerList.RemoveAt(i);
+            }
         }
 
         // 小兵
@@ -417,7 +419,7 @@ public class FightManager : MonoBehaviour
     // 某个技能进入CD
     public void EnterCDState(int skilldID, int cdTime)
     {
-        playWnd.EnterCDState(skilldID, cdTime);
+        playPanel.EnterCDState(skilldID, cdTime);
     }
     #endregion
 
@@ -466,7 +468,7 @@ public class FightManager : MonoBehaviour
     /// <returns></returns>
     public bool CheckUIInput()
     {
-        return playWnd.IsUIInput();
+        return playPanel.IsUIInput();
     }
 
     public ETeamType GetCurrentUserTeam()

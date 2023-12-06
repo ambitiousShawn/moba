@@ -1,8 +1,8 @@
 ﻿public class BulletView : BaseViewUnit
 {
-    public override void Init(BaseLogicUnit logicUnit)
+    public override void ViewInit(BaseLogicUnit logicUnit)
     {
-        base.Init(logicUnit);
+        base.ViewInit(logicUnit);
     }
 
 

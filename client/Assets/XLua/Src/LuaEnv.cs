@@ -80,7 +80,7 @@ namespace XLua
                 // Create State
                 rawL = LuaAPI.luaL_newstate();
 
-                //Init Base Libs
+                //ViewInit Base Libs
                 LuaAPI.luaopen_xlua(rawL);
                 LuaAPI.luaopen_i64lib(rawL);
 
@@ -108,7 +108,7 @@ namespace XLua
                 AddSearcher(StaticLuaCallbacks.LoadFromResource, 4);
                 AddSearcher(StaticLuaCallbacks.LoadFromStreamingAssetsPath, -1);
 #endif
-                DoString(init_xlua, "Init");
+                DoString(init_xlua, "ViewInit");
                 init_xlua = null;
 
 #if (!UNITY_SWITCH && !UNITY_WEBGL) || UNITY_EDITOR

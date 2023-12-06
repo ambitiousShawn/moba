@@ -17,9 +17,6 @@ public class Launcher : MonoBehaviour
     [Header("开启游戏资源热更新(确保资源服务器顺利运行！！！)")]
     public bool EnableHotUpdate;
 
-    [Header("开启小兵的生成")]
-    public bool EnableSoldier = false;
-
     // 定时器
     List<MonoTimer> tempTimerLst;
     List<MonoTimer> timerLst;

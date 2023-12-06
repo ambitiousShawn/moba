@@ -16,6 +16,7 @@ function msg:new_msg(command, data)
         sndLoadPrg = {},
         reqBattleStart = {},
         sndOpKey = {},
+        reqBattleEnd = {},
     }
 
     if command == 'reqLogin' then
@@ -49,6 +50,10 @@ function msg:new_msg(command, data)
         instance.cmd = MsgType.SndOpKey
         instance.sndOpKey.roomID = data.roomID
         instance.sndOpKey.opKey = data.opKey
+    end
+    if command == 'reqBattleEnd' then
+        instance.cmd = MsgType.ReqBattleEnd
+        instance.reqBattleEnd.roomID = data.roomID
     end
     
     setmetatable(instance, self)
