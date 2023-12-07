@@ -1,8 +1,8 @@
 ﻿
 
 using GameProtocol;
-using ShawnFramework.ShawKCPNet;
-using ShawnFramework.ShawLog;
+using PENet;
+using PEUtils;
 
 namespace GameServer
 {
@@ -32,7 +32,7 @@ namespace GameServer
 
             server.StartAsServer(ServerConfig.LocalDevInnerIP, ServerConfig.UdpPort);
 
-            LogCore.ColorLog("[Net] 网络服务初始化完成！", ELogColor.Cyan);
+            PELog.ColorLog(LogColor.Cyan, "[Net] 网络服务初始化完成！");
         }
 
         private Queue<MsgPack> msgPackQueue = new Queue<MsgPack>();
@@ -86,6 +86,12 @@ namespace GameServer
                     break;
                 case CMD.SndOpKey:
                     RoomSys.Instance.SndOpKey(pack);
+                    break;
+                case CMD.ReqBattleEnd:
+                    RoomSys.Instance.ReqBattleEnd(pack);
+                    break;
+                case CMD.SndChat:
+                    RoomSys.Instance.SndChat(pack);
                     break;
                 default:
                     break;

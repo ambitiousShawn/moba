@@ -1,4 +1,4 @@
-﻿using ShawnFramework.ShawLog;
+﻿using PEUtils;
 
 namespace GameServer
 {
@@ -9,7 +9,20 @@ namespace GameServer
         {
             base.Init();
 
-            LogCore.InitSettings();
+            LogConfig config = new LogConfig
+            {
+                enableLog = true,
+                logPrefix = "#",
+                enableTime = true,
+                logSeparate = ">>",
+                enableThreadID = false,
+                enableTrace = false,
+                enableSave = false,
+                enableCover = false,
+                loggerType = LoggerType.Console,
+            };
+
+            PELog.InitSettings(config);
 
             // 服务
             CacheSvc.Instance.Init();

@@ -165,7 +165,6 @@ namespace ShawnFramework.CommonModule
                     ntf_opkey?.Invoke(msg);
                     break;
                 case CMD.RspBattleEnd:
-                    print("hahaha");
                     Action<GameMsg> rsp_battleend = LuaManager.Instance.GlobalLuaEnv.Global.Get<Action<GameMsg>>("RspBattleEndCallBack"); // 调用lua的全局响应函数
                     rsp_battleend?.Invoke(msg);
                     break;

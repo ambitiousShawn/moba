@@ -91,6 +91,10 @@ public class GMSys : MonoBehaviour
                 // 仅处理一帧的最后一次操作，前面的会被覆盖
                 UpdateOpKey(msg.sndOpKey.opKey);
                 break;
+            case CMD.ReqBattleEnd:
+                Action<GameMsg> rsp_battleend = LuaManager.Instance.GlobalLuaEnv.Global.Get<Action<GameMsg>>("RspBattleEndCallBack"); // 调用lua的全局响应函数
+                rsp_battleend?.Invoke(msg);
+                break;
             default:
                 break;
         }

@@ -1,5 +1,5 @@
 ﻿using GameProtocol;
-using ShawnFramework.ShawLog;
+using PEUtils;
 
 namespace GameServer
 {
@@ -52,7 +52,7 @@ namespace GameServer
             }
             else
             {
-                LogCore.ColorLog($"RoomID:{room.roomID} 所有玩家加载完成", ELogColor.Yellow);
+                PELog.ColorLog(LogColor.Yellow, $"RoomID:{room.roomID} 所有玩家加载完成");
                 GameMsg msg = new GameMsg
                 {
                     cmd = CMD.NtfConfirm,
@@ -92,11 +92,11 @@ namespace GameServer
                // 已经全部确认
                if (TimerSvc.Instance.RemoveTask(checkTastID))
                {
-                   LogCore.ColorLog($"RoomID:{room.roomID} 所有玩家加载完成", ELogColor.Green);
+                   PELog.ColorLog(LogColor.Green, $"RoomID:{room.roomID} 所有玩家加载完成");
                }
                else
                {
-                   LogCore.Warn("Remove CheckTaskID Failed.");
+                   PELog.Warn("Remove CheckTaskID Failed.");
                }
                 room.SwitchRoomState(ERoomStateType.Select);
             }

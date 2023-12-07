@@ -1,5 +1,5 @@
 ﻿using GameProtocol;
-using ShawnFramework.ShawLog;
+using PEUtils;
 
 namespace GameServer
 {
@@ -8,7 +8,7 @@ namespace GameServer
         public override void Init()
         {
             base.Init();
-            LogCore.ColorLog("[Cache] 缓存服务初始化完成！", ELogColor.Cyan);
+            PELog.ColorLog(LogColor.Cyan, "[Cache] 缓存服务初始化完成！");
         }
 
         public override void Update()

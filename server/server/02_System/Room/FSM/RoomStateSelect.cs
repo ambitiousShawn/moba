@@ -1,5 +1,5 @@
 ﻿using GameProtocol;
-using ShawnFramework.ShawLog;
+using PEUtils;
 
 namespace GameServer
 {
@@ -43,7 +43,7 @@ namespace GameServer
             }
             else
             {
-                LogCore.Warn($"RoomID:{room.roomID} 玩家超时未确认选择");
+                PELog.Warn($"RoomID:{room.roomID} 玩家超时未确认选择");
                 for (int i = 0;i < selectArr.Length;i++)
                 {
                     if (!selectArr[i].selectDone)
@@ -91,11 +91,11 @@ namespace GameServer
                 // 进入Load状态
                 if (TimerSvc.Instance.RemoveTask(checkTaskID))
                 {
-                    LogCore.ColorLog($"RoomID:{room.roomID} 所有玩家加载完成", ELogColor.Green);
+                    PELog.ColorLog(LogColor.Green, $"RoomID:{room.roomID} 所有玩家加载完成");
                 }
                 else
                 {
-                    LogCore.Warn("Remove CheckTaskID Failed!");
+                    PELog.Warn("Remove CheckTaskID Failed!");
                 }
 
                 room.SelectHeroArr = selectArr;

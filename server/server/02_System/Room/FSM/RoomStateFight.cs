@@ -1,5 +1,5 @@
 ﻿using GameProtocol;
-using ShawnFramework.ShawLog;
+using PEUtils;
 
 namespace GameServer
 {
@@ -73,11 +73,11 @@ namespace GameServer
 
             if (TimerSvc.Instance.RemoveTask(checkTaskID))
             {
-                LogCore.ColorLog("Delete Sync Task Success.", ELogColor.Green);
+                PELog.ColorLog(LogColor.Green, "Delete Sync Task Success.");
             }
             else
             {
-                LogCore.Warn("Delete Sync Task Failed.");
+                PELog.Warn("Delete Sync Task Failed.");
             }
             room.SwitchRoomState(ERoomStateType.End);
         }

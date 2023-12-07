@@ -1,7 +1,7 @@
 ﻿
 
 using GameProtocol;
-using ShawnFramework.ShawLog;
+using PEUtils;
 
 namespace GameServer
 {
@@ -10,7 +10,7 @@ namespace GameServer
         public override void Init()
         {
             base.Init();
-            LogCore.ColorLog("[Login] 登录系统初始化完成！", ELogColor.Cyan);
+            PELog.ColorLog(LogColor.Cyan, "[Login] 登录系统初始化完成！");
         }
         public override void Update()
         {

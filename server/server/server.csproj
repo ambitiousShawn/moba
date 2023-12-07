@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
@@ -9,5 +9,14 @@
 
   <ItemGroup>
     <ProjectReference Include="..\protocol\protocol.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="KCPNet">
+      <HintPath>..\protocol\CommonTools\dll\KCPNet.dll</HintPath>
+    </Reference>
+    <Reference Include="PEUtils">
+      <HintPath>..\protocol\CommonTools\dll\PEUtils.dll</HintPath>
+    </Reference>
   </ItemGroup>
 </Project>

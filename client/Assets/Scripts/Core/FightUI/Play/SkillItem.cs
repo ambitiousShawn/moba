@@ -237,11 +237,16 @@ public partial class SkillItem : WindowRoot
         int ms = cdTime % 1000;
         CreateMonoTimer(
             (loopCount) => {
-                TextCD.text = (sec - loopCount).ToString();
+                if (TextCD != null)
+                {
+                    // BUG:游戏结束如果有技能在CD状态会造成，计时器仍在运行，但TextCD已经销毁，特此判空
+                    TextCD.text = (sec - loopCount).ToString();
+                }
             },
             1000,
             sec,
             (isDelay, loopPrg, allPrg) => {
+                // BUG:游戏结束如果有技能在CD状态会造成，计时器仍在运行，但ImgCD已经销毁，特此判空
                 ImgCD.fillAmount = 1 - allPrg;
             },
             () => {

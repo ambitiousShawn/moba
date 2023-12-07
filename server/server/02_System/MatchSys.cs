@@ -1,7 +1,7 @@
 ﻿
 
 using GameProtocol;
-using ShawnFramework.ShawLog;
+using PEUtils;
 
 namespace GameServer
 {
@@ -15,7 +15,7 @@ namespace GameServer
             que2v2 = new Queue<ServerSession>();
             que5v5 = new Queue<ServerSession>();
 
-            LogCore.ColorLog("[Match] 匹配系统初始化完成！", ELogColor.Cyan);
+            PELog.ColorLog(LogColor.Cyan, "[Match] 匹配系统初始化完成！");
         }
         public override void Update()
         {

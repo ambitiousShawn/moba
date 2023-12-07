@@ -1,5 +1,5 @@
 ﻿// using PETimer;
-using ShawnFramework.ShawLog;
+using PEUtils;
 using ShawnFramework.ShawTimer;
 
 namespace GameServer
@@ -11,7 +11,7 @@ namespace GameServer
         {
             base.Init();
 
-            LogCore.ColorLog("[Timer] 定时器服务初始化完成！", ELogColor.Cyan);
+            PELog.ColorLog(LogColor.Cyan, "[Timer] 定时器服务初始化完成！");
         }
 
         public override void Update()
