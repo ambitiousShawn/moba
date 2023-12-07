@@ -1,4 +1,4 @@
-﻿using ShawnFramework.ShawLog;
+﻿using PEUtils;
 using System.Collections.Concurrent;
 
 namespace ShawnFramework.ShawTimer
@@ -50,7 +50,7 @@ namespace ShawnFramework.ShawTimer
                     }
                     catch (ThreadAbortException e)
                     {
-                        LogCore.Warn($"Tick Thread Abort:{e}");
+                        PELog.Warn($"Tick Thread Abort:{e}");
                     }
                 }));
                 timerThread.Start();
@@ -82,7 +82,7 @@ namespace ShawnFramework.ShawTimer
                         }
                         else
                         {
-                            LogCore.Warn($"Remove tid:{tid} task in Dic Failed!");
+                            PELog.Warn($"Remove tid:{tid} task in Dic Failed!");
                         }
                     }
                     else
@@ -113,7 +113,7 @@ namespace ShawnFramework.ShawTimer
             }
             else
             {
-                LogCore.Warn($"KEY:{tid} already exist!");
+                PELog.Warn($"KEY:{tid} already exist!");
                 return -1;
             }
         }
@@ -134,7 +134,7 @@ namespace ShawnFramework.ShawTimer
             }
             else
             {
-                LogCore.Warn($"tid:{tid} remove failed.");
+                PELog.Warn($"tid:{tid} remove failed.");
                 return false;
             }
         }
@@ -143,7 +143,7 @@ namespace ShawnFramework.ShawTimer
         {
             if (!packQue.IsEmpty)
             {
-                LogCore.Warn($"Callback Queue is not Empty!");
+                PELog.Warn($"Callback Queue is not Empty!");
             }
             taskDic.Clear();
             if (timerThread != null)
@@ -162,7 +162,7 @@ namespace ShawnFramework.ShawTimer
                 }
                 else 
                 {
-                    LogCore.Error($"packQue Dequeue Data Error!");
+                    PELog.Error($"packQue Dequeue Data Error!");
                 }
             }
         }
