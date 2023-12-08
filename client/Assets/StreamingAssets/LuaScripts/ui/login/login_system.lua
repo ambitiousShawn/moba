@@ -15,6 +15,11 @@ end
 
 -- 登录响应回调(响应信息lua表)
 function RspLoginCallBack(msg)
+    if msg.error ~= 0 then
+        error('账号不存在或密码错误！')
+        return
+    end
+    -- 正常登录
     Launcher.UserData = msg.rspLogin.userData -- TODO
     ugui_loginpanel:close_self(true)
     LobbySystem:enter_lobby()

@@ -15,10 +15,10 @@ function window:awake()
         print(account .. ' ' .. pwd)
 
         -- 检测合法性
-        if check_input_isvalid.check_Email(account) == false 
-        and check_input_isvalid.check_name_all_letters_or_alpha(account) == false then
-           return
-        end
+     --    if check_input_isvalid.check_Email(account) == false 
+     --    and check_input_isvalid.check_name_all_letters_or_alpha(account) == false then
+     --       return
+     --    end
         
         local userdata = {
             account = account,
@@ -44,8 +44,8 @@ end
 
 function window:start()
     -- 输入框设置初始值
-    LuaHelper.SetInputFieldInitValue(self.input_username)
-    LuaHelper.SetInputFieldInitValue(self.input_password)
+    self.input_username.text = 'admin'
+    self.input_password.text = 'admin'
 end
 
 return window

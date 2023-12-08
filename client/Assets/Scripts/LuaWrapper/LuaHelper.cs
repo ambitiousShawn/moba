@@ -44,17 +44,6 @@ public class LuaHelper
         });
         return true;
     }
-
-    public static void SetInputFieldInitValue(InputField inputField, int cnt = 6)
-    {
-        if (inputField == null) 
-            return;
-
-        System.Random rd = new System.Random();
-        int minVal = (int)Math.Pow(10, cnt - 1);
-        int maxVal = (int)Math.Pow(10, cnt) - 1;
-        inputField.text = rd.Next(minVal, maxVal).ToString();
-    }
     #endregion
 
     #region ÎÄ¼þ²Ù×÷

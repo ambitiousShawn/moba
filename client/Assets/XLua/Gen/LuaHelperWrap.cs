@@ -31,11 +31,10 @@ namespace XLua.CSObjectWrap
 			Utils.EndObjectRegister(type, L, translator, null, null,
 			    null, null, null);
 
-		    Utils.BeginClassRegister(type, L, __CreateInstance, 12, 0, 0);
+		    Utils.BeginClassRegister(type, L, __CreateInstance, 11, 0, 0);
 			Utils.RegisterFunc(L, Utils.CLS_IDX, "IsGameObjectNull", _m_IsGameObjectNull_xlua_st_);
             Utils.RegisterFunc(L, Utils.CLS_IDX, "IsTransformNull", _m_IsTransformNull_xlua_st_);
             Utils.RegisterFunc(L, Utils.CLS_IDX, "BindClick", _m_BindClick_xlua_st_);
-            Utils.RegisterFunc(L, Utils.CLS_IDX, "SetInputFieldInitValue", _m_SetInputFieldInitValue_xlua_st_);
             Utils.RegisterFunc(L, Utils.CLS_IDX, "WriteToFile", _m_WriteToFile_xlua_st_);
             Utils.RegisterFunc(L, Utils.CLS_IDX, "ReadFromFile", _m_ReadFromFile_xlua_st_);
             Utils.RegisterFunc(L, Utils.CLS_IDX, "AppendToFile", _m_AppendToFile_xlua_st_);
@@ -178,47 +177,6 @@ namespace XLua.CSObjectWrap
             }
             
             return LuaAPI.luaL_error(L, "invalid arguments to LuaHelper.BindClick!");
-            
-        }
-        
-        [MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
-        static int _m_SetInputFieldInitValue_xlua_st_(RealStatePtr L)
-        {
-		    try {
-            
-                ObjectTranslator translator = ObjectTranslatorPool.Instance.Find(L);
-            
-            
-            
-			    int gen_param_count = LuaAPI.lua_gettop(L);
-            
-                if(gen_param_count == 2&& translator.Assignable<UnityEngine.UI.InputField>(L, 1)&& LuaTypes.LUA_TNUMBER == LuaAPI.lua_type(L, 2)) 
-                {
-                    UnityEngine.UI.InputField _inputField = (UnityEngine.UI.InputField)translator.GetObject(L, 1, typeof(UnityEngine.UI.InputField));
-                    int _cnt = LuaAPI.xlua_tointeger(L, 2);
-                    
-                    LuaHelper.SetInputFieldInitValue( _inputField, _cnt );
-                    
-                    
-                    
-                    return 0;
-                }
-                if(gen_param_count == 1&& translator.Assignable<UnityEngine.UI.InputField>(L, 1)) 
-                {
-                    UnityEngine.UI.InputField _inputField = (UnityEngine.UI.InputField)translator.GetObject(L, 1, typeof(UnityEngine.UI.InputField));
-                    
-                    LuaHelper.SetInputFieldInitValue( _inputField );
-                    
-                    
-                    
-                    return 0;
-                }
-                
-            } catch(System.Exception gen_e) {
-                return LuaAPI.luaL_error(L, "c# exception:" + gen_e);
-            }
-            
-            return LuaAPI.luaL_error(L, "invalid arguments to LuaHelper.SetInputFieldInitValue!");
             
         }
         

@@ -1,31 +1,31 @@
 ManifestFileVersion: 0
-CRC: 2654485385
+CRC: 1924304257
 AssetBundleManifest:
   AssetBundleInfos:
     Info_0:
-      Name: bullet
+      Name: hero
       Dependencies: {}
     Info_1:
-      Name: login
-      Dependencies: {}
-    Info_2:
-      Name: minimap
-      Dependencies: {}
-    Info_3:
-      Name: lobby
-      Dependencies: {}
-    Info_4:
       Name: battle
       Dependencies: {}
+    Info_2:
+      Name: bullet
+      Dependencies: {}
+    Info_3:
+      Name: minimap
+      Dependencies: {}
+    Info_4:
+      Name: lobby
+      Dependencies: {}
     Info_5:
-      Name: tower
+      Name: login
       Dependencies: {}
     Info_6:
-      Name: effect
-      Dependencies: {}
-    Info_7:
       Name: soldier
       Dependencies: {}
+    Info_7:
+      Name: tower
+      Dependencies: {}
     Info_8:
-      Name: hero
+      Name: effect
       Dependencies: {}
