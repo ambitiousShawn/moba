@@ -67,12 +67,14 @@ namespace GameProtocol
     {
         None,
         AccountIsOnLine, // 账号已经在线
+        ErrorActOrPsd,   // 账号或密码输入错误
     }
     [Serializable]
     public class GameMsg : KCPMsg
     {
         public CMD cmd;
         public ErrorCode errorCode;
+        public int error;
         public bool isEmpty;
         public ReqLogin reqLogin;
         public RspLogin rspLogin;
