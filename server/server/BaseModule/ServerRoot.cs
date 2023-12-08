@@ -28,6 +28,7 @@ namespace GameServer
             CacheSvc.Instance.Init();
             TimerSvc.Instance.Init();
             NetSvc.Instance.Init();
+            DBSvc.Instance.Init();
 
             // 业务
             LoginSys.Instance.Init();

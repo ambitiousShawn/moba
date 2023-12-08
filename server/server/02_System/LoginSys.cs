@@ -1,6 +1,7 @@
 ﻿
 
 using GameProtocol;
+using MySql.Data.MySqlClient;
 using PEUtils;
 
 namespace GameServer
@@ -32,7 +33,7 @@ namespace GameServer
             }
             else
             {
-                // 上线相关操作，增加缓存
+                // // 上线相关操作，增加缓存
                 uint sid = msgPack.session.GetSessionID();
                 UserData ud = new UserData
                 {
@@ -59,9 +60,25 @@ namespace GameServer
                 {
                     userData = ud,
                 };
-                cacheSvc.AccountOnline(data.account, msgPack.session, ud); 
+
+                MySqlDataReader reader = null;
+                DBSvc.Instance.QueryCommandBySingleCondition("select * from account_table where account=\"admin\" and password=\"admin\"", out reader);
+                if (reader.FieldCount > 0)
+                {
+                    // 登录成功
+                    msg.error = 0;
+                    cacheSvc.AccountOnline(data.account, msgPack.session, ud);
+                    msgPack.session.SendMsg(msg);
+                    PELog.ColorLog(LogColor.Cyan, "登录成功！");
+                }
+                else
+                {
+                    // 登录失败
+                    msg.error = 1;
+                    PELog.Warn("账户不存在或密码错误!");
+                }
+                reader.Close();
             }
-            msgPack.session.SendMsg(msg);
         }
     }
 }

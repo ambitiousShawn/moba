@@ -19,13 +19,13 @@ namespace GameServer
 
             PELog.ColorLog(LogColor.Cyan, "[Room] 房间系统初始化完成！");
 
-            TimerSvc.Instance.AddTask(5000, CheckStatus, null, 0);
+            // TimerSvc.Instance.AddTask(5000, CheckStatus, null, 0);
         }
 
-        void CheckStatus(int id)
-        {
-            PELog.ColorLog(LogColor.Magenta, $"对战房间负载：{pvpRoomList.Count}个");
-        }
+        // void CheckStatus(int id)
+        // {
+        //     PELog.ColorLog(LogColor.Magenta, $"对战房间负载：{pvpRoomList.Count}个");
+        // }
 
         public void AddPVPRoom(ServerSession[] serverSessions, PVPType type)
         {
